@@ -240,6 +240,11 @@
   resolved "https://registry.yarnpkg.com/@types/scheduler/-/scheduler-0.16.2.tgz#1a62f89525723dde24ba1b01b092bf5df8ad4d39"
   integrity sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==
 
+"@types/uikit@^3.3.2":
+  version "3.3.2"
+  resolved "https://registry.yarnpkg.com/@types/uikit/-/uikit-3.3.2.tgz#8a1d279a46e4dd0c9dd74c5fd11a591f4f9eb223"
+  integrity sha512-Sa2d+Ari4S0IP7X3+Y+zhwu9nlhv07Jr3XQgeFVkvME3mGZQr8iTkifHCU3Jz4Z7c8/SQ8Ve0OFb0UAovnzb4Q==
+
 "@typescript-eslint/parser@^4.20.0":
   version "4.31.1"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/parser/-/parser-4.31.1.tgz#8f9a2672033e6f6d33b1c0260eebdc0ddf539064"
@@ -3088,6 +3093,11 @@ typescript@4.4.3:
   version "4.4.3"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.4.3.tgz#bdc5407caa2b109efd4f82fe130656f977a29324"
   integrity sha512-4xfscpisVgqqDfPaJo5vkd+Qd/ItkoagnHpufr+i2QCHBsNYp+G7UAoyFl8aPtx879u38wPV65rZ8qbGZijalA==
+
+uikit@^3.7.3:
+  version "3.7.3"
+  resolved "https://registry.yarnpkg.com/uikit/-/uikit-3.7.3.tgz#6f5b6e51710ad3b2c19c9a96911ff4673289a580"
+  integrity sha512-Ce4ua7ae8/hLdIr02Mbe/Pb0jmj9G9ik5pxOiTr/ALpHqO7TWm03oyubKrNwzscLx54a7GMxJzEFXcwhtyh3sg==
 
 unbox-primitive@^1.0.1:
   version "1.0.1"
