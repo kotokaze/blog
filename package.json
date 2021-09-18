@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint:style": "stylelint \"**/*.{css,scss,less}\" --ignore-path .gitignore",
+    "lint": "next lint && yarn lint:style"
   },
   "dependencies": {
     "next": "11.1.2",
@@ -18,6 +19,10 @@
     "@types/uikit": "^3.3.2",
     "eslint": "7.32.0",
     "eslint-config-next": "11.1.2",
+    "eslint-config-prettier": "^8.3.0",
+    "stylelint": "^13.13.1",
+    "stylelint-config-prettier": "^8.0.2",
+    "stylelint-config-standard": "^22.0.0",
     "typescript": "4.4.3",
     "uikit": "^3.7.3"
   }
