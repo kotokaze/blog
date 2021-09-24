@@ -1,8 +1,9 @@
+import UIkit from '../components/uikit'; UIkit
 import Navbar from '../components/navbar'; Navbar
 import OffCanvases from '../components/offcanvases'; OffCanvases
 
 const Layout = ({ children }) => pug`
-  div
+  UIkit/
     header
       Navbar/
     main
