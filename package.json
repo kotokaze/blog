@@ -7,8 +7,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "lint:script": "eslint --ext \"**/*.{ts,tsx}\" --ignore-path .gitignore",
     "lint:style": "stylelint \"**/*.scss\" --ignore-path .gitignore",
-    "lint": "next lint && yarn lint:style"
+    "lint": "yarn lint:script && yarn lint:style"
   },
   "dependencies": {
     "next": "11.1.2",

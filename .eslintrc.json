@@ -1,7 +1,15 @@
 {
   "root": true,
+  "plugins": [
+    "react-pug"
+  ],
   "extends": [
     "next/core-web-vitals",
+    "plugin:react-pug/all",
     "prettier"
-  ]
+  ],
+  "rules": {
+    "react-pug/empty-lines": "off",
+    "react-pug/quotes": "off"
+  }
 }
