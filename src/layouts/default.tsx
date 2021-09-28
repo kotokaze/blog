@@ -1,5 +1,6 @@
 import UIkit from '../components/uikit'; UIkit
 import Navbar from '../components/navbar'; Navbar
+import Footer from '../components/footer'; Footer
 import OffCanvases from '../components/offcanvases'; OffCanvases
 
 interface Props {
@@ -13,6 +14,7 @@ const Layout: React.VFC<Props> = ({ children }) => pug`
     main
       = children
     footer
+      Footer/
     OffCanvases/
 `
 
