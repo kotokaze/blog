@@ -10,6 +10,7 @@
   ],
   "rules": {
     "react-pug/empty-lines": "off",
-    "react-pug/quotes": "off"
+    "react-pug/quotes": "off",
+    "react-pug/prop-types": "off"
   }
 }
