@@ -1,0 +1,33 @@
+@use 'sass:math';
+
+/* Base */
+@mixin hook-base-body() {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Card */
+@mixin hook-card() {
+  border-radius: $tm-border-radius;
+}
+
+/* Tile */
+@mixin hook-tile() {
+  border-radius: $tm-border-radius;
+}
+
+/* Dropdown */
+@mixin hook-dropdown() {
+  border-radius: $tm-border-radius;
+}
+
+/* Button */
+@mixin hook-button() {
+  border-radius: math.div($tm-border-radius, 2);
+}
+
+/* Offcanvas */
+@mixin hook-offcanvas-bar() {
+  background-color: #ffffffd2;
+}
