@@ -1,5 +1,5 @@
 import React from 'react'; React
-import type { NextPage } from 'next';
+import type { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head'; Head
 import Layout from '../layouts/default'; Layout
 
@@ -9,5 +9,14 @@ const Home: NextPage = () => pug`
   Layout
     p Hello World!
 `
+
+export const getStaticProps: GetStaticProps = async () => {
+  return {
+    redirect: {
+      destination: '/blogs',
+      statusCode: 307,
+    },
+  }
+}
 
 export default Home
