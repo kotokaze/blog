@@ -22,7 +22,7 @@ const Sidebar: React.VFC<Props> = ({ author, categories }) => pug`
       h3.uk-heading-line.uk-text-center #[span Tags]
       each category in categories
         Link(href={pathname: '/categories/[slug]', query: { slug: category.id}}, key=category.id)
-          a #[span.uk-badge #{category.name}]
+          a.uk-margin-small-right #[span.uk-badge #{category.name}]
 `
 
 export default Sidebar
