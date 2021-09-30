@@ -29,6 +29,9 @@ const Detail: NextPage<Props> = ({ article, author, categories, preview }) => pu
       .uk-alert-danger(data-uk-alert)
         a.uk-alert-close(data-uk-close)
         p プレビューモードで表示中
+      Link(href='/api/deactivate')
+        a.uk-button.uk-button-default.uk-position-bottom-right.uk-position-fixed
+          | #[span(data-uk-icon='trash')] Cookie 削除
 
     article
       div(dangerouslySetInnerHTML={ __html: article.body })
