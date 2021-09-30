@@ -12,3 +12,18 @@ interface Content {
   publishedAt: string
   revisedAt: string
 }
+
+interface MethodsGetContentQuery {
+  draftKey?: string
+  fields?: string
+  depth?: number
+}
+
+interface MethodsGetQuery extends MethodsGetContentQuery {
+  limit?: number
+  offset?: number
+  orders?: string
+  q?: string
+  ids?: string
+  filters?: string
+}

@@ -4,13 +4,15 @@
   "private": true,
   "scripts": {
     "postinstall": "husky install",
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "aspida && next dev",
+    "build": "aspida && next build",
     "start": "next start",
     "lint:style": "stylelint \"**/*.scss\" --ignore-path .gitignore",
     "lint": "next lint && yarn lint:style"
   },
   "dependencies": {
+    "@aspida/axios": "^1.7.1",
+    "axios": "^0.21.4",
     "next": "11.1.2",
     "react": "17.0.2",
     "react-dom": "17.0.2"

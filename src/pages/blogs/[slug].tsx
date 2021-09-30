@@ -5,6 +5,7 @@ import Link from 'next/link'; Link
 import Date from '../../components/date'; Date
 import DateTime from '../../lib/date-time'; DateTime
 import WithSidebar from '../../layouts/with-sidebar'; WithSidebar
+import apiClient from '../../modules/api-client'
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>
 
@@ -38,44 +39,49 @@ const Detail: NextPage<Props> = ({ article, author, categories, preview }) => pu
 `
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const req: string = `${process.env.MICROCMS_API_URL!}/api/v1/blogs?fields=id`
-  const res: Response = await fetch(req, {
-    headers: { 'X-API-KEY': process.env.MICROCMS_API_KEY! },
-  })
+  const ids: Promise<string[]> = apiClient.v1.blogs
+    .$get({
+      query: {
+        fields: 'id',
+      },
+    })
+    .then((res) => res.contents)
+    .then((articles) => articles.map((item) => item.id))
 
-  const json: ResRoot<Array<{ id: string }>> = await res.json()
-  const paths = json.contents.map((val) => ({ params: { slug: val['id'] } }))
+  const paths = (await ids).map((id) => ({ params: { slug: id } }))
   return { paths, fallback: 'blocking' }
 }
 
 export const getStaticProps = async (ctx: GetStaticPropsContext) => {
   const { slug } = ctx.params!
-  const req: string = `${process.env.MICROCMS_API_URL!}/api/v1/blogs`
-    + `?ids=${slug!}`
-    + (ctx.preview ? `&draftKey=${ctx.previewData!}` : '')
-  const json: ResRoot<Article[]> = await fetch(req, {
-    headers: { 'X-API-KEY': process.env.MICROCMS_API_KEY! },
-  }).then((res) => res.json())
-  const article: Article = json.contents.pop()!
 
-  const req2: string = `${process.env.MICROCMS_API_URL!}/api/v1/authors`
-  const json2: ResRoot<Author[]> = await fetch(req2, {
-    headers: { 'X-API-KEY': process.env.MICROCMS_API_KEY! },
-  }).then((res) => res.json())
-  const author: Author = json2.contents.pop()!
+  const article: Promise<Article> = apiClient.v1.blogs
+    .$get({
+      query: {
+        ids: slug!.toString(),
+        ...(ctx.preview ? { draftKey: ctx.previewData!.toString() } : null),
+      },
+    })
+    .then((res) => res.contents)
+    .then((articles) => articles.pop()!)
 
-  const req3: string = `${process.env.MICROCMS_API_URL!}/api/v1/categories`
-  const json3: ResRoot<Category[]> = await fetch(req3, {
-    headers: { 'X-API-KEY': process.env.MICROCMS_API_KEY! },
-  }).then((res) => res.json())
-  const categories: Array<Category> = json3.contents
+  const author: Promise<Author> = apiClient.v1.authors
+    .$get()
+    .then((res) => res.contents)
+    .then((authors) => authors.pop()!)
 
-  const props = {
-    article,
-    author,
-    categories,
-    preview: ctx.preview || false,
-  }
+  const categories: Promise<Category[]> = apiClient.v1.categories
+    .$get()
+    .then((res) => res.contents)
+
+  const props = await Promise.all([article, author, categories]).then(
+    ([article, author, categories]) => ({
+      article,
+      author,
+      categories,
+      preview: ctx.preview || false,
+    })
+  )
 
   return {
     props: props,

@@ -5,6 +5,7 @@ import Image from 'next/image'; Image
 import Link from 'next/link'; Link
 import CardList from '../../components/card-list'; CardList
 import WithSidebar from '../../layouts/with-sidebar'; WithSidebar
+import apiClient from '../../modules/api-client'
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>
 
@@ -16,31 +17,26 @@ const Blogs: NextPage<Props> = ({ articles, author, categories }) => pug`
 `
 
 export const getStaticProps = async () => {
-  const req: string = `${process.env.MICROCMS_API_URL!}/api/v1/blogs`
-    + '?orders=-publishedAt'
-    + '?limit=12'
-  const json: ResRoot<Article[]> = await fetch(req, {
-    headers: { 'X-API-KEY': process.env.MICROCMS_API_KEY! },
-  }).then(async (res) => await res.json())
-  const articles: Array<Article> = json.contents
+  const articles: Promise<Article[]> = apiClient.v1.blogs
+    .$get()
+    .then((res) => res.contents)
 
-  const req1: string = `${process.env.MICROCMS_API_URL!}/api/v1/authors`
-  const json1: ResRoot<Author[]> = await fetch(req1, {
-    headers: { 'X-API-KEY': process.env.MICROCMS_API_KEY! },
-  }).then(async (res) => await res.json())
-  const author: Author = json1.contents.pop()!
+  const author: Promise<Author> = apiClient.v1.authors
+    .$get()
+    .then((res) => res.contents)
+    .then((authors) => authors.pop()!)
 
-  const req2: string = `${process.env.MICROCMS_API_URL!}/api/v1/categories`
-  const json2: ResRoot<Category[]> = await fetch(req2, {
-    headers: { 'X-API-KEY': process.env.MICROCMS_API_KEY! },
-  }).then(async (res) => await res.json())
-  const categories: Array<Category> = json2.contents
+  const categories: Promise<Category[]> = apiClient.v1.categories
+    .$get()
+    .then((res) => res.contents)
 
-  const props = {
-    articles,
-    author,
-    categories,
-  }
+  const props = await Promise.all([articles, author, categories]).then(
+    ([articles, author, categories]) => ({
+      articles,
+      author,
+      categories,
+    })
+  )
 
   return {
     props: props,
