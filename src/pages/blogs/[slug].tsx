@@ -8,7 +8,7 @@ import WithSidebar from '../../layouts/with-sidebar'; WithSidebar
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>
 
-const Detail: NextPage<Props> = ({ article, author, categories }) => pug`
+const Detail: NextPage<Props> = ({ article, author, categories, preview }) => pug`
   Head
     title #{article.title} | Kotokaze's Blog
   WithSidebar(author=author, categories=categories)
@@ -25,6 +25,11 @@ const Detail: NextPage<Props> = ({ article, author, categories }) => pug`
           Link(href={pathname: '/categories/[slug]', query: { slug: cat.id}}, key=cat.id)
             a.uk-margin-small-right #[span.uk-badge #{cat.name}]
 
+    if preview
+      .uk-alert-danger(data-uk-alert)
+        a.uk-alert-close(data-uk-close)
+        p プレビューモードで表示中
+
     article
       div(dangerouslySetInnerHTML={ __html: article.body })
 `
@@ -37,13 +42,14 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   const json: ResRoot<Array<{ id: string }>> = await res.json()
   const paths = json.contents.map((val) => ({ params: { slug: val['id'] } }))
-  return { paths, fallback: false }
+  return { paths, fallback: 'blocking' }
 }
 
-export const getStaticProps = async (context: GetStaticPropsContext) => {
-  const { slug } = context.params!
-
-  const req: string = `${process.env.MICROCMS_API_URL!}/api/v1/blogs` + `?ids=${slug!}`
+export const getStaticProps = async (ctx: GetStaticPropsContext) => {
+  const { slug } = ctx.params!
+  const req: string = `${process.env.MICROCMS_API_URL!}/api/v1/blogs`
+    + `?ids=${slug!}`
+    + (ctx.preview ? `&draftKey=${ctx.previewData!}` : '')
   const json: ResRoot<Article[]> = await fetch(req, {
     headers: { 'X-API-KEY': process.env.MICROCMS_API_KEY! },
   }).then((res) => res.json())
@@ -65,11 +71,13 @@ export const getStaticProps = async (context: GetStaticPropsContext) => {
     article,
     author,
     categories,
+    preview: ctx.preview || false,
   }
 
   return {
     props: props,
     revalidate: 10,
+    notFound: !article,
   }
 }
 
