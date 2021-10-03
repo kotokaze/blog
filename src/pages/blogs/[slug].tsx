@@ -23,7 +23,7 @@ const Detail: NextPage<Props> = ({ article, categories, site, preview }) => pug`
         p #[span(data-uk-icon='calendar')] #[Date(utcTime=article.publishedAt)]に公開
         p #[span(data-uk-icon='history')] #[= DateTime.elapsed(article.revisedAt)]前に更新
 
-    .uk-margin-large-bottom
+    .uk-margin-medium-bottom
       p.uk-text-meta #[span(data-uk-icon='tag')] Tags: #[span &nbsp;]
         each cat in article.categories
           Link(href={pathname: '/categories/[slug]', query: { slug: cat.id}}, key=cat.id)
