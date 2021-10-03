@@ -1,7 +1,7 @@
-import UIkit from '../components/uikit'; UIkit
-import Navbar from '../components/navbar'; Navbar
-import Footer from '../components/footer'; Footer
-import OffCanvases from '../components/offcanvases'; OffCanvases
+import UIkit from '@/components/uikit'; UIkit
+import Navbar from '@/components/navbar'; Navbar
+import Footer from '@/components/footer'; Footer
+import OffCanvases from '@/components/offcanvases'; OffCanvases
 
 interface Props {
   children: React.ReactNode

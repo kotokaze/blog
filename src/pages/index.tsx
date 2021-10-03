@@ -1,7 +1,7 @@
 import React from 'react'; React
 import type { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head'; Head
-import Layout from '../layouts/default'; Layout
+import Layout from '@/layouts/default'; Layout
 
 const Home: NextPage = () => pug`
   Head

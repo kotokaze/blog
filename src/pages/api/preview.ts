@@ -1,5 +1,5 @@
 import type { NextApiHandler } from 'next'
-import apiClient from '../../modules/api-client'
+import apiClient from '@/modules/api-client'
 
 const handler: NextApiHandler = async (req, res) => {
   const val: boolean =

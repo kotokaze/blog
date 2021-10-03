@@ -3,9 +3,9 @@ import type { InferGetStaticPropsType, NextPage } from 'next'
 import Head from 'next/head'; Head
 import Image from 'next/image'; Image
 import Link from 'next/link'; Link
-import CardList from '../../components/card-list'; CardList
-import WithSidebar from '../../layouts/with-sidebar'; WithSidebar
-import apiClient from '../../modules/api-client'
+import CardList from '@/components/card-list'; CardList
+import WithSidebar from '@/layouts/with-sidebar'; WithSidebar
+import apiClient from '@/modules/api-client'
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>
 

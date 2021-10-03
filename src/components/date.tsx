@@ -1,4 +1,4 @@
-import DateTime from '../lib/date-time'; DateTime
+import DateTime from '@/lib/date-time'; DateTime
 
 interface Props {
   utcTime: string

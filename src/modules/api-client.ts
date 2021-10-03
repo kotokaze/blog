@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios'
 import aspida from '@aspida/axios'
-import api from "../api/$api"
+import api from "@/api/$api"
 
 const axiosConfig: AxiosRequestConfig = {
   baseURL: process.env.MICROCMS_API_HOST!,

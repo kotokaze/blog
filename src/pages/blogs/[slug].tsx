@@ -2,10 +2,10 @@ import React from 'react'; React
 import type { GetStaticPaths, GetStaticPropsContext, InferGetStaticPropsType, NextPage } from 'next'
 import Head from 'next/head'; Head
 import Link from 'next/link'; Link
-import Date from '../../components/date'; Date
-import DateTime from '../../lib/date-time'; DateTime
-import WithSidebar from '../../layouts/with-sidebar'; WithSidebar
-import apiClient from '../../modules/api-client'
+import Date from '@/components/date'; Date
+import DateTime from '@/lib/date-time'; DateTime
+import WithSidebar from '@/layouts/with-sidebar'; WithSidebar
+import apiClient from '@/modules/api-client'
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>
 
