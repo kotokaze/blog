@@ -18,6 +18,8 @@ interface Category extends Content {
 
 interface Article extends Content {
   title: string
+  subTitle: string
+  author: Author
   categories: Array<Category?>
   body: string
   description?: string

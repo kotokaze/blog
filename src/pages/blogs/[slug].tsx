@@ -16,6 +16,8 @@ const Detail: NextPage<Props> = ({ article, categories, site, preview }) => pug`
     section.uk-section.uk-sextion-small.uk-background-primary
       .uk-flex.uk-flex-center
         h4.uk-text-lead.uk-text-break #{article.title}
+      .uk-flex.uk-flex-center
+        h5.uk-text-lead #{article.subTitle}
       .uk-flex.uk-flex-center.uk-grid-column-medium(data-uk-grid)
         p #[span(data-uk-icon='calendar')] #[Date(utcTime=article.publishedAt)]に公開
         p #[span(data-uk-icon='history')] #[= DateTime.elapsed(article.revisedAt)]前に更新
