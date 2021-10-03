@@ -4,17 +4,18 @@ import Footer from '@/components/footer'; Footer
 import OffCanvases from '@/components/offcanvases'; OffCanvases
 
 interface Props {
+  site: Site
   children: React.ReactNode
 }
 
-const Layout: React.VFC<Props> = ({ children }) => pug`
+const Layout: React.VFC<Props> = ({ site, children }) => pug`
   UIkit/
     header
-      Navbar/
+      Navbar(title=site.title)/
     main
       = children
     footer
-      Footer/
+      Footer(author=site.author)
     OffCanvases/
 `
 

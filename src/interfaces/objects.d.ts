@@ -24,3 +24,9 @@ interface Article extends Content {
   ogImage?: ImageInfo
   relatedBlogs: Array<Article?>
 }
+
+interface Site extends EditInfo {
+  title: string
+  author: Author
+  description: string
+}

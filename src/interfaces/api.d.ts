@@ -5,12 +5,15 @@ interface ResRoot<T> {
   limit?: number
 }
 
-interface Content {
-  id: string
+interface EditInfo {
   createdAt: string
   updatedAt: string
   publishedAt: string
   revisedAt: string
+}
+
+interface Content extends EditInfo {
+  id: string
 }
 
 interface MethodsGetContentQuery {

@@ -9,10 +9,10 @@ import apiClient from '@/modules/api-client'
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>
 
-const Detail: NextPage<Props> = ({ article, author, categories, preview }) => pug`
+const Detail: NextPage<Props> = ({ article, categories, site, preview }) => pug`
   Head
-    title #{article.title} | Kotokaze's Blog
-  WithSidebar(author=author, categories=categories)
+    title #{article.title} | #{site.title}
+  WithSidebar(site=site, author=article.author categories=categories)
     section.uk-section.uk-sextion-small.uk-background-primary
       .uk-flex.uk-flex-center
         h4.uk-text-lead.uk-text-break #{article.title}
@@ -65,19 +65,17 @@ export const getStaticProps = async (ctx: GetStaticPropsContext) => {
     .then((res) => res.contents)
     .then((articles) => articles.pop()!)
 
-  const author: Promise<Author> = apiClient.v1.authors
+  const site: Promise<Site> = apiClient.v1.site
     .$get()
-    .then((res) => res.contents)
-    .then((authors) => authors.pop()!)
 
   const categories: Promise<Category[]> = apiClient.v1.categories
     .$get()
     .then((res) => res.contents)
 
-  const props = await Promise.all([article, author, categories]).then(
-    ([article, author, categories]) => ({
+  const props = await Promise.all([article, site, categories]).then(
+    ([article, site, categories]) => ({
       article,
-      author,
+      site,
       categories,
       preview: ctx.preview || false,
     })

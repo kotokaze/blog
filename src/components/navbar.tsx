@@ -1,12 +1,16 @@
 import Image from 'next/image'; Image
 import Link from 'next/link'; Link
 
-const Navbar: React.VFC = () => pug`
+interface Props {
+  title: string
+}
+
+const Navbar: React.VFC<Props> = ({ title }) => pug`
   .uk-container.uk-container-expand.uk-background-muted
     nav(data-uk-navbar)
       .uk-navbar-left
         Link(href='/')
-          a.uk-navbar-item.uk-logo Kotokaze's Blog
+          a.uk-navbar-item.uk-logo #{title}
 
       .uk-navbar-right
         ul.uk-navbar-nav(className='uk-visible@m')
