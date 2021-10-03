@@ -12,6 +12,7 @@ type Props = InferGetStaticPropsType<typeof getStaticProps>
 const Detail: NextPage<Props> = ({ article, categories, site, preview }) => pug`
   Head
     title #{article.title} | #{site.title}
+    meta(name='keywords', contents=article.categories.map((cat) => cat.name).join(','))
   WithSidebar(site=site, author=article.author categories=categories)
     section.uk-section.uk-sextion-small.uk-background-primary
       .uk-flex.uk-flex-center
