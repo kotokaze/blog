@@ -6,7 +6,7 @@ interface Props {
 }
 
 const Sidebar: React.VFC<Props> = ({ author, categories }) => pug`
-  div
+  aside.uk-width-1-4(className='uk-visible@m')
     .uk-margin-large-bottom
       h3.uk-heading-line.uk-text-center #[span Profile]
       img(src=author.avatar.url data-uk-image).uk-border-circle.uk-align-center

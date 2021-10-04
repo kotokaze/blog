@@ -10,8 +10,7 @@ interface Props {
 const WithSidebar: React.VFC<Props> = ({ site, author, children }) => pug`
   Layout(site=site)
     .uk-padding-large.uk-grid-divider(data-uk-grid)
-      aside.uk-width-1-4(className='uk-visible@m')
-        Sidebar(author=(author ? author : site.author), categories=site.categories)
+      Sidebar(author=(author ? author : site.author), categories=site.categories)
       section.uk-width-expand
         = children
 `

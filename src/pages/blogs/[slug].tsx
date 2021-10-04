@@ -42,47 +42,44 @@ const Detail: NextPage<Props> = ({ article, site, preview }) => pug`
 `
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const ids: Promise<string[]> = apiClient.v1.blogs
-    .$get({
-      query: {
-        fields: 'id',
-      },
-    })
+  const paths: Array<{ params: { slug: string } }> = await apiClient.v1.blogs
+    .$get({ query: { fields: 'id' } })
     .then((res) => res.contents)
-    .then((articles) => articles.map((item) => item.id))
+    .then((contents) => contents.map((item) => item.id))
+    .then((ids) => ids.map((id) => ({ params: { slug: id } })))
 
-  const paths = (await ids).map((id) => ({ params: { slug: id } }))
-  return { paths, fallback: 'blocking' }
+  return {
+    paths: paths,
+    fallback: 'blocking',
+  }
 }
 
 export const getStaticProps = async (ctx: GetStaticPropsContext) => {
   const { slug } = ctx.params!
 
+  const query: MethodsGetQuery = {
+    ids: slug!.toString(),
+    ...(ctx.preview ? { draftKey: ctx.previewData!.toString() } : null),
+  }
+
   const article: Promise<Article> = apiClient.v1.blogs
-    .$get({
-      query: {
-        ids: slug!.toString(),
-        ...(ctx.preview ? { draftKey: ctx.previewData!.toString() } : null),
-      },
-    })
+    .$get({ query: query })
     .then((res) => res.contents)
     .then((articles) => articles.pop()!)
 
   const site: Promise<Site> = apiClient.v1.site
     .$get()
 
-  const props = await Promise.all([article, site])
-    .then(([ article, site ]) => ({
-      article,
-      site,
-      preview: ctx.preview || false,
-    })
-  )
+  const props = await Promise.all([article, site]).then(([article, site]) => ({
+    article,
+    site,
+    preview: ctx.preview || false,
+  }))
 
   return {
     props: props,
     revalidate: 10,
-    notFound: !article,
+    notFound: !props.article,
   }
 }
 

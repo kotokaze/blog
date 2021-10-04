@@ -1,16 +1,18 @@
 import React from 'react'; React
-import type { GetStaticProps, NextPage } from 'next';
+import type { GetServerSideProps, InferGetServerSidePropsType, NextPage } from 'next';
 import Head from 'next/head'; Head
 import Layout from '@/layouts/default'; Layout
 
-const Home: NextPage = () => pug`
+export type Props = InferGetServerSidePropsType<typeof getServerSideProps>
+
+const Home: NextPage<Props> = () => pug`
   Head
     title Kotokaze's Blog - Home
   Layout
     p Hello World!
 `
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   return {
     redirect: {
       destination: '/blogs',
