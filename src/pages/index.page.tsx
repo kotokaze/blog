@@ -1,9 +1,8 @@
 import React from 'react'; React
-import type { GetServerSideProps, InferGetServerSidePropsType, NextPage } from 'next';
+import type { NextPage } from 'next';
 import Head from 'next/head'; Head
 import Layout from '@/layouts/default'; Layout
-
-export type Props = InferGetServerSidePropsType<typeof getServerSideProps>
+import { Props } from './index.hook'
 
 const Home: NextPage<Props> = () => pug`
   Head
@@ -12,13 +11,5 @@ const Home: NextPage<Props> = () => pug`
     p Hello World!
 `
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  return {
-    redirect: {
-      destination: '/blogs',
-      statusCode: 307,
-    },
-  }
-}
-
+export { getServerSideProps } from './index.hook'
 export default Home
