@@ -13,9 +13,9 @@ const Sidebar: React.VFC<Props> = ({ author, categories }) => pug`
       h5.uk-text-large #{author.name}
 
       .uk-flex.uk-flex-center
-        a(href='https://github.com/' + author.githubId, target='_blank', data-uk-icon='github').uk-icon-button.uk-margin-right
-        a(href='https://twitter.com/' + author.twitterId, target='_blank', data-uk-icon='twitter').uk-icon-button.uk-margin-right
-        a(href=author.wordpress, target='_blank', data-uk-icon='wordpress').uk-icon-button.uk-margin-right
+        a(href=author.accounts.github, target='_blank', data-uk-icon='github').uk-icon-button.uk-margin-right
+        a(href=author.accounts.twitter, target='_blank', data-uk-icon='twitter').uk-icon-button.uk-margin-right
+        a(href=author.accounts.wordpress, target='_blank', data-uk-icon='wordpress').uk-icon-button.uk-margin-right
         a(href='/feed', download, data-uk-icon='rss').uk-icon-button
 
     .uk-margin-large-bottom

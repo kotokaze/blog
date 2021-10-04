@@ -16,6 +16,10 @@ interface Content extends EditInfo {
   id: string
 }
 
+interface Field {
+  fieldId: string
+}
+
 interface MethodsGetContentQuery {
   draftKey?: string
   fields?: string
