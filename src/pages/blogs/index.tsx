@@ -9,10 +9,10 @@ import apiClient from '@/modules/api-client'
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>
 
-const Blogs: NextPage<Props> = ({ articles, categories, site }) => pug`
+const Blogs: NextPage<Props> = ({ articles, site }) => pug`
   Head
-    title 記事一覧 | Kotokaze's Blog
-  WithSidebar(site=site, categories=categories)
+    title 記事一覧 | #{site.title}
+  WithSidebar(site=site)
     CardList(articles=articles)
 `
 
@@ -24,17 +24,8 @@ export const getStaticProps = async () => {
   const site: Promise<Site> = apiClient.v1.site
     .$get()
 
-  const categories: Promise<Category[]> = apiClient.v1.categories
-    .$get()
-    .then((res) => res.contents)
-
-  const props = await Promise.all([articles, site, categories]).then(
-    ([articles, site, categories]) => ({
-      articles,
-      site,
-      categories,
-    })
-  )
+  const props = await Promise.all([ articles, site ])
+    .then(([ articles, site ]) => ({ articles, site }))
 
   return {
     props: props,

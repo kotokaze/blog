@@ -31,4 +31,5 @@ interface Site extends EditInfo {
   title: string
   author: Author
   description: string
+  categories: Array<Category>
 }

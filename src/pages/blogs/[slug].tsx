@@ -9,11 +9,11 @@ import apiClient from '@/modules/api-client'
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>
 
-const Detail: NextPage<Props> = ({ article, categories, site, preview }) => pug`
+const Detail: NextPage<Props> = ({ article, site, preview }) => pug`
   Head
     title #{article.title} | #{site.title}
     meta(name='keywords', contents=article.categories.map((cat) => cat.name).join(','))
-  WithSidebar(site=site, author=article.author categories=categories)
+  WithSidebar(site=site, author=article.author)
     section.uk-section.uk-sextion-small.uk-background-primary
       .uk-flex.uk-flex-center
         h4.uk-text-lead.uk-text-break #{article.title}
@@ -71,15 +71,10 @@ export const getStaticProps = async (ctx: GetStaticPropsContext) => {
   const site: Promise<Site> = apiClient.v1.site
     .$get()
 
-  const categories: Promise<Category[]> = apiClient.v1.categories
-    .$get()
-    .then((res) => res.contents)
-
-  const props = await Promise.all([article, site, categories]).then(
-    ([article, site, categories]) => ({
+  const props = await Promise.all([article, site])
+    .then(([ article, site ]) => ({
       article,
       site,
-      categories,
       preview: ctx.preview || false,
     })
   )
