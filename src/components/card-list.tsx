@@ -1,5 +1,5 @@
 import Link from 'next/link'; Link
-import Date from './date'; Date
+import DateTime from '@/lib/date-time'; DateTime
 
 interface Props {
   articles: Array<Article>
@@ -15,7 +15,7 @@ const CardList: React.VFC<Props> = ({ articles }) => pug`
             img(src=blog.ogImage.url + '?fit=fill&fill-color=white&w=200&h=200' data-uk-image)
 
         .uk-card-footer.uk-text-meta
-          p #[span(data-uk-icon='calendar')] #[Date(utcTime=blog.publishedAt)]
+          p #[span(data-uk-icon='calendar')] #[span &nbsp;] #[time(dateTime=blog.publishedAt) #{DateTime.date(blog.publishedAt)}]
           p #[span(data-uk-icon='tag')] #[span &nbsp;]
             each cat in blog.categories
               Link(href={pathname: '/categories/[slug]', query: { slug: cat.id }}, key=cat.id)

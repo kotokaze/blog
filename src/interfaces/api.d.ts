@@ -8,8 +8,8 @@ interface ResRoot<T> {
 interface EditInfo {
   createdAt: string
   updatedAt: string
-  publishedAt: string
-  revisedAt: string
+  publishedAt?: string
+  revisedAt?: string
 }
 
 interface Content extends EditInfo {
