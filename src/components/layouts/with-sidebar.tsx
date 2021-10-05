@@ -1,4 +1,4 @@
-import Sidebar from '@/components/sidebar'; Sidebar
+import Sidebar from './children/sidebar'; Sidebar
 import Layout from './default'; Layout
 
 interface Props {

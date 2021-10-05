@@ -2,7 +2,7 @@ import React from 'react'; React
 import type { NextPage } from 'next'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'; Head
-import WithSidebar from '@/layouts/with-sidebar'; WithSidebar
+import WithSidebar from '@/components/layouts/with-sidebar'; WithSidebar
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css'
 import type { Props } from './index.hook'
 

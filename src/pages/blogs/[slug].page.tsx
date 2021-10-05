@@ -3,7 +3,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'; Head
 import Link from 'next/link'; Link
 import DateTime from '@/lib/date-time'; DateTime
-import WithSidebar from '@/layouts/with-sidebar'; WithSidebar
+import WithSidebar from '@/components/layouts/with-sidebar'; WithSidebar
 import { Props } from './[slug].hook'
 
 const BlogPage: NextPage<Props> = ({ article, site, preview }) => pug`

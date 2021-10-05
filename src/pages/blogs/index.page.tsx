@@ -4,7 +4,7 @@ import Head from 'next/head'; Head
 import Image from 'next/image'; Image
 import Link from 'next/link'; Link
 import CardList from '@/components/card-list'; CardList
-import WithSidebar from '@/layouts/with-sidebar'; WithSidebar
+import WithSidebar from '@/components/layouts/with-sidebar'; WithSidebar
 import { Props } from './index.hook'
 
 const BlogsPage: NextPage<Props> = ({ articles, site }) => pug`

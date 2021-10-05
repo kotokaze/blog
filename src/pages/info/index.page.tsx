@@ -3,7 +3,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'; Head
 import Image from 'next/image'; Image
 import Link from 'next/link'; Link
-import WithSidebar from '@/layouts/with-sidebar'; WithSidebar
+import WithSidebar from '@/components/layouts/with-sidebar'; WithSidebar
 import type { Props } from './index.hook'
 
 const InfoPage: NextPage<Props> = ({ site }) => pug`

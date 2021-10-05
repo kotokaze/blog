@@ -1,7 +1,7 @@
 import React from 'react'; React
 import type { NextPage } from 'next';
 import Head from 'next/head'; Head
-import Layout from '@/layouts/default'; Layout
+import Layout from '@/components/layouts/default'; Layout
 import { Props } from './index.hook'
 
 const IndexPage: NextPage<Props> = () => pug`
