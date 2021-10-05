@@ -6,7 +6,7 @@ import DateTime from '@/lib/date-time'; DateTime
 import WithSidebar from '@/layouts/with-sidebar'; WithSidebar
 import { Props } from './[slug].hook'
 
-const Detail: NextPage<Props> = ({ article, site, preview }) => pug`
+const BlogPage: NextPage<Props> = ({ article, site, preview }) => pug`
   Head
     title #{article.title} | #{site.title}
     meta(name='keywords', contents=article.categories.map((cat) => cat.name).join(','))
@@ -45,4 +45,4 @@ const Detail: NextPage<Props> = ({ article, site, preview }) => pug`
 `
 
 export { getStaticPaths, getStaticProps } from './[slug].hook'
-export default Detail
+export default BlogPage
