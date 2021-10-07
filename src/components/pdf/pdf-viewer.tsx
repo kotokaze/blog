@@ -1,5 +1,6 @@
-import React, { useState } from 'react'; React
+import React, { useState, useRef } from 'react'; React
 import PageController from './pdf-controller'; PageController
+import { useWidth } from '@/hooks/useWidth'
 import { Document, Page, pdfjs } from 'react-pdf/dist/esm/entry.webpack'
 pdfjs.GlobalWorkerOptions.workerSrc = require('pdfjs-dist/build/pdf.worker.min')
 Document
@@ -16,9 +17,12 @@ const PDFViewer: React.VFC<Props> = ({
   src = 'https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/examples/learning/helloworld.pdf',
   slides = false,
 }) => {
-  const [file, setFile] = useState<string>(src)
-  const [numPages, setNumPages] = useState<number | null>(null)
+  const [file, setFile] = useState<string | File>(src)
+  const [numPages, setNumPages] = useState<number>(0)
   const [pageNumber, setPageNumber] = useState<number>(page || 1)
+
+  const ref = useRef<HTMLDivElement>()
+  const width = useWidth(ref)
 
   const onDocumentLoadSuccess = ({ numPages }: any): void =>
     setNumPages(numPages)
@@ -36,43 +40,54 @@ const PDFViewer: React.VFC<Props> = ({
     onChangePage(1)
 
   const loading = (): React.ReactElement => pug`
-    div(data-uk-spinner='ratio: 5')
+    .uk-flex.uk-flex-center(data-uk-spinner='ratio: 5')
   `
 
   return pug`
     Document(
-        file=file
-        options={ cMapUrl: 'cmaps/', cMapPacked: true }
-        loading=loading
-        onLoadSuccess=onDocumentLoadSuccess
-        onItemClicked=onItemClicked
-        externalLinkTarget='_blank'
-      )
+      file=file
+      inputRef=ref
+      className='uk-background-muted'
+      options={ cMapUrl: 'cmaps/', cMapPacked: true }
+      loading=loading
+      onLoadSuccess=onDocumentLoadSuccess
+      onItemClicked=onItemClicked
+      externalLinkTarget='_blank'
+    )
 
-      if slides
-        Page(
-          loading=loading
-          pageNumber=pageNumber
-        )
-        PageController(
-          isPrevDisabled=(pageNumber <= 1)
-          isNextDisabled=(pageNumber >= numPages)
-          prevPage=prevPage
-          nextPage=nextPage
-        )
-
-      else if page
-        Page(
-          loading=loading
-          pageNumber=pageNumber
-        )
+      if (!slides && !page)
+        for i in [...Array(numPages).keys()]
+          .uk-flex.uk-flex-center(key=('pdf-' + i))
+            if (i === 0)
+              Page(
+                width=width * 95e-2
+                className='uk-margin-top uk-margin'
+                loading=loading
+                pageNumber=(i + 1)
+              )
+            else
+              Page(
+                width=width * 95e-2
+                className='uk-margin'
+                loading=loading
+                pageNumber=(i + 1)
+              )
 
       else
-        for i in [...Array(numPages).keys()]
+        .uk-flex.uk-flex-center
           Page(
+            width=width * 95e-2
+            className='uk-margin-top uk-margin-bottom'
             loading=loading
-            pageNumber=(i + 1)
-            key=('pdf-' + i)
+            pageNumber=pageNumber
+          )
+
+        if (slides)
+          PageController(
+            isPrevDisabled=(pageNumber <= 1)
+            isNextDisabled=(pageNumber >= numPages)
+            prevPage=prevPage
+            nextPage=nextPage
           )
   `
 }
