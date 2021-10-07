@@ -12,9 +12,9 @@ export const PDF = dynamic(() => import('@/components/pdf/pdf-viewer'), {
 
 const SlidesPage: NextPage<Props> = ({ site }) => pug`
   Head
-    title title
+    title #{site.title}
   WithSidebar(site=site)
-    .uk-flex.uk-flex-center
+    .uk-container.uk-container-expand
       PDF(
         src='https://raw.githubusercontent.com/wojtekmaj/react-pdf/main/sample/webpack5/sample.pdf'
         page=2
@@ -23,5 +23,4 @@ const SlidesPage: NextPage<Props> = ({ site }) => pug`
 `
 
 export { getStaticProps } from './index.hook'
-
 export default SlidesPage
