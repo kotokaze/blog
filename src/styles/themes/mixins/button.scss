@@ -1,0 +1,5 @@
+@use 'sass:math';
+
+@mixin hook-button() {
+  border-radius: math.div($tm-border-radius, 2);
+}
