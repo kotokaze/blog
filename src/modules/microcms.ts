@@ -7,6 +7,6 @@ const axiosConfig: AxiosRequestConfig = {
   headers: { 'X-API-KEY': process.env.MICROCMS_API_KEY! },
 }
 
-const apiClient = api(aspida(axios, axiosConfig))
+const microcmsClient = api(aspida(axios, axiosConfig))
 
-export default apiClient
+export default microcmsClient

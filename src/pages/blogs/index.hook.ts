@@ -1,14 +1,14 @@
 import type { GetStaticPropsContext, InferGetStaticPropsType } from 'next'
-import apiClient from '@/modules/api-client'
+import microcmsClient from '@/modules/microcms'
 
 export type Props = InferGetStaticPropsType<typeof getStaticProps>
 
 export const getStaticProps = async (_: GetStaticPropsContext) => {
-  const articles: Promise<Article[]> = apiClient.v1.blogs
+  const articles: Promise<Article[]> = microcmsClient.v1.blogs
     .$get()
     .then((res) => res.contents)
 
-  const site: Promise<Site> = apiClient.v1.site
+  const site: Promise<Site> = microcmsClient.v1.site
     .$get()
 
   const props = await Promise.all([ articles, site ])

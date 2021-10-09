@@ -1,10 +1,10 @@
 import type { GetStaticPaths, GetStaticPropsContext, InferGetStaticPropsType } from 'next'
-import apiClient from '@/modules/api-client'
+import microcmsClient from '@/modules/microcms'
 
 export type Props = InferGetStaticPropsType<typeof getStaticProps>
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths: Array<{ params: { slug: string } }> = await apiClient.v1.blogs
+  const paths: Array<{ params: { slug: string } }> = await microcmsClient.v1.blogs
     .$get({ query: { fields: 'id' } })
     .then((res) => res.contents)
     .then((contents) => contents.map((item) => item.id))
@@ -24,12 +24,12 @@ export const getStaticProps = async (ctx: GetStaticPropsContext) => {
     ...(ctx.preview ? { draftKey: ctx.previewData!.toString() } : null),
   }
 
-  const article: Promise<Article> = apiClient.v1.blogs
+  const article: Promise<Article> = microcmsClient.v1.blogs
     .$get({ query: query })
     .then((res) => res.contents)
     .then((articles) => articles.pop()!)
 
-  const site: Promise<Site> = apiClient.v1.site
+  const site: Promise<Site> = microcmsClient.v1.site
     .$get()
 
   const props = await Promise.all([article, site]).then(([article, site]) => ({
