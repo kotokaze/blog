@@ -81,6 +81,7 @@ const PDFViewer: React.VFC<Props> = ({
           )
 
         if (slides)
+          progress(value=pageNumber, max=numPages).uk-progress.uk-margin-remove-top.uk-margin-small-bottom
           PageController(
             isPrevDisabled=(pageNumber <= 1)
             isNextDisabled=(pageNumber >= numPages)
