@@ -28,15 +28,24 @@ const PageController: React.VFC<Props> = ({
   useKey('ArrowLeft', onArrowLeftPressed)
 
   return pug`
-    .uk-flex.uk-flex-center
-      button(
-        onClick=prevPage
-        disabled=isPrevDisabled
-      ).uk-button.uk-button-default.uk-margin-small-right #[span(data-uk-icon='icon: chevron-double-left')]
-      button(
-        onClick=nextPage
-        disabled=isNextDisabled
-      ).uk-button.uk-button-default #[span(data-uk-icon='icon: chevron-double-right')]
+    #pdf-controller
+      .uk-flex.uk-flex-center
+        button(
+          onClick=prevPage
+          disabled=isPrevDisabled
+          data-uk-tooltip='title: Previous page; pos: bottom; delay: 200'
+        ).uk-button.uk-button-default.uk-active.uk-margin-small-right #[span(data-uk-icon='icon: chevron-double-left')]
+        button(
+          onClick=nextPage
+          disabled=isNextDisabled
+          data-uk-tooltip='title: Next page; pos: bottom; delay: 200'
+        ).uk-button.uk-button-default.uk-active #[span(data-uk-icon='icon: chevron-double-right')]
+
+      div(className='uk-visible@m').uk-flex.uk-flex-right.uk-margin-remove-top.uk-margin-small-bottom
+        button(
+          data-uk-icon='icon: info'
+          data-uk-tooltip='title: [←] Previous Page<br/>[→ / Enter] Next Page; pos: bottom; delay: 200'
+        ).uk-button.uk-active
   `
 }
 
