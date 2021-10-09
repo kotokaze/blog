@@ -18,8 +18,8 @@ const Navbar: React.VFC<Props> = ({ title }) => pug`
             Link(href='/blogs')
               a Blog
           li
-            Link(href='/about')
-              a About
+            Link(href='/slides')
+              a Slides
           li
             Link(href='/info')
               a Info
