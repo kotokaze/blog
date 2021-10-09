@@ -7,7 +7,7 @@ Document
 Page
 
 interface Props {
-  src: string
+  src: string | File
   page?: number
   slides: boolean
 }
@@ -17,7 +17,6 @@ const PDFViewer: React.VFC<Props> = ({
   src = 'https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/examples/learning/helloworld.pdf',
   slides = false,
 }) => {
-  const [file, setFile] = useState<string | File>(src)
   const [numPages, setNumPages] = useState<number>(0)
   const [pageNumber, setPageNumber] = useState<number>(page || 1)
 
@@ -45,7 +44,7 @@ const PDFViewer: React.VFC<Props> = ({
 
   return pug`
     Document(
-      file=file
+      file=src
       inputRef=ref
       className='uk-background-muted'
       options={ cMapUrl: 'cmaps/', cMapPacked: true }
