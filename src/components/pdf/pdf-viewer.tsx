@@ -46,7 +46,6 @@ const PDFViewer: React.VFC<Props> = ({
     Document(
       file=src
       inputRef=ref
-      className='uk-background-muted'
       options={ cMapUrl: 'cmaps/', cMapPacked: true }
       loading=loading
       onLoadSuccess=onDocumentLoadSuccess
