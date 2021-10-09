@@ -1,15 +1,14 @@
 import React from 'react'; React
 import type { NextPage } from 'next'
-import Head from 'next/head'; Head
 import Link from 'next/link'; Link
 import DateTime from '@/lib/date-time'; DateTime
+import Meta from '@/components/meta'; Meta
 import WithSidebar from '@/components/layouts/with-sidebar'; WithSidebar
 import { Props } from './[slug].hook'
 
 const BlogPage: NextPage<Props> = ({ article, site, preview }) => pug`
-  Head
-    title #{article.title} | #{site.title}
-    meta(name='keywords', contents=article.categories.map((cat) => cat.name).join(','))
+  - const kw = article.categories.map((cat) => cat.name).join(', ')
+  Meta(title=(article.title + ' | '  + site.title), desc=article.description, kw=kw)
   WithSidebar(site=site, author=article.author)
     section.uk-section.uk-sextion-small.uk-background-primary
       .uk-flex.uk-flex-center

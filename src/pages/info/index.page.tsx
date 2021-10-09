@@ -1,18 +1,19 @@
 import React from 'react'; React
 import type { NextPage } from 'next'
-import Head from 'next/head'; Head
 import Image from 'next/image'; Image
 import Link from 'next/link'; Link
+import Meta from '@/components/meta'; Meta
 import WithSidebar from '@/components/layouts/with-sidebar'; WithSidebar
 import type { Props } from './index.hook'
 
 const InfoPage: NextPage<Props> = ({ site }) => pug`
-  Head
-    title Info | #{site.title}
+  - const kw = site.categories.map((cat) => cat.name).join(', ')
+  Meta(title=('Info | ' + site.title), desc=site.description, kw=kw)
   WithSidebar(site=site)
     section.uk-section.uk-section-default.uk-margin-remove-vertical
       h1(id='about-' + site.title).uk-heading-bullet About #{site.title}
-      div(dangerouslySetInnerHTML={ __html: site.description })
+      div
+        p.uk-comment-body #{site.description}
 
     section.uk-section.uk-section-default.uk-margin-remove-vertical
       h1(id='about-' + site.author.name).uk-heading-bullet About #{site.author.name}
