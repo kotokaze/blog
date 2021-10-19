@@ -1,6 +1,6 @@
 import { RefObject, useCallback, useEffect, useState } from 'react'
 
-const useWidth = (elementRef: RefObject<HTMLElement | undefined>): number => {
+const useWidth = (elementRef: RefObject<HTMLElement>): number => {
   const [width, setWidth] = useState<number>(0)
 
   const updateWidth = useCallback(() => {
