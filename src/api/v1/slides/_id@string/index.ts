@@ -1,6 +1,6 @@
 export type Methods = {
   get: {
-    query: MethodsGetContentQuery
+    query?: MethodsGetContentQuery
     resBody: Slide
   }
 }
