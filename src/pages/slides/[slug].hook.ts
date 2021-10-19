@@ -18,9 +18,8 @@ export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
   const { slug } = params!
 
   const slide: Promise<Slide> = microcmsClient.v1.slides
-    .$get({ query: { ids: slug?.toString() } })
-    .then((res) => res.contents)
-    .then((contents) => contents.pop()!)
+    ._id(slug!.toString())
+    .$get()
 
   const site: Promise<Site> = microcmsClient.v1.site
     .$get()

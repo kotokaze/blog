@@ -19,15 +19,13 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps = async (ctx: GetStaticPropsContext) => {
   const { slug } = ctx.params!
 
-  const query: MethodsGetQuery = {
-    ids: slug!.toString(),
+  const query: MethodsGetContentQuery = {
     ...(ctx.preview ? { draftKey: ctx.previewData!.toString() } : null),
   }
 
   const article: Promise<Article> = microcmsClient.v1.blogs
-    .$get({ query: query })
-    .then((res) => res.contents)
-    .then((articles) => articles.pop()!)
+    ._id(slug!.toString())
+    .$get({ query })
 
   const site: Promise<Site> = microcmsClient.v1.site
     .$get()
