@@ -9,6 +9,9 @@ const OffCanvases: React.VFC = () => pug`
             Link(href='/')
               a #[span.uk-margin-small-right(data-uk-icon='icon: home')] Home
           li
+            Link(href='/blogs')
+              a #[span.uk-margin-small-right(data-uk-icon='icon: pencil')] Blogs
+          li
             Link(href='/slides')
               a #[span.uk-margin-small-right(data-uk-icon='icon: image')] Slides
           li
