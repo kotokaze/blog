@@ -1,5 +1,5 @@
 import type { NextApiHandler } from 'next'
-import apiClient from '@/modules/api-client'
+import microcmsClient from '@/modules/microcms'
 
 const handler: NextApiHandler = async (req, res) => {
   const val: boolean =
@@ -8,7 +8,7 @@ const handler: NextApiHandler = async (req, res) => {
     !req.query.draftKey
   if (val) return res.status(401).json({ message: 'Invalid token' })
 
-  const data: { id: string }= await apiClient.v1.blogs._id(`${req.query.slug}`).$get({
+  const data: { id: string }= await microcmsClient.v1.blogs._id(`${req.query.slug}`).$get({
     query: {
       fields: 'id',
       draftKey: req.query.draftKey.toString(),
