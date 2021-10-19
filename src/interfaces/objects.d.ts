@@ -45,3 +45,15 @@ interface Site extends EditInfo {
   description: string
   categories: Array<?Category>
 }
+
+interface PDF extends Content {
+  url: string
+}
+
+interface Slide extends Content {
+  title: string
+  categories: Array<?Category>
+  description?: string
+  ogImage?: ImageInfo
+  pdf: PDF
+}
