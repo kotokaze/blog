@@ -41,6 +41,7 @@ interface Article extends Content {
 
 interface Site extends EditInfo {
   title: string
+  url: string
   author: Author
   description: string
   categories: Array<?Category>
