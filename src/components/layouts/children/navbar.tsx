@@ -1,4 +1,3 @@
-import Image from 'next/image'; Image
 import Link from 'next/link'; Link
 
 interface Props {

@@ -1,6 +1,5 @@
 import React from 'react'; React
 import type { NextPage } from 'next'
-import Image from 'next/image'; Image
 import Link from 'next/link'; Link
 import Meta from '@/components/meta'; Meta
 import WithSidebar from '@/components/layouts/with-sidebar'; WithSidebar
@@ -24,27 +23,33 @@ const InfoPage: NextPage<Props> = ({ site }) => pug`
       ul
         if site.author.accounts.github
           li
-            a(href=site.author.accounts.github, target='_blank') GitHub
+            Link(href=site.author.accounts.github)
+              a(target='_blank') GitHub
 
         if site.author.accounts.twitter
           li
-            a(href=site.author.accounts.twitter, target='_blank') Twitter
+            Link(href=site.author.accounts.twitter)
+              a(target='_blank') Twitter
 
         if site.author.accounts.zenn
           li
-            a(href=site.author.accounts.zenn, target='_blank') Zenn
+            Link(href=site.author.accounts.zenn)
+              a(target='_blank') Zenn
 
         if site.author.accounts.qiita
           li
-            a(href=site.author.accounts.qiita, target='_blank') Qiita
+            Link(href=site.author.accounts.qiita)
+              a(target='_blank') Qiita
 
         if site.author.accounts.speakerdeck
           li
-            a(href=site.author.accounts.speakerdeck, target='_blank') Speaker Deck
+            Link(href=site.author.accounts.speakerdeck)
+              a(target='_blank') Speaker Deck
 
         if site.author.accounts.wordpress
           li
-            a(href=site.author.accounts.wordpress, target='_blank') WordPress
+            Link(href=site.author.accounts.wordpress)
+              a(target='_blank') WordPress
 `
 
 export { getStaticProps } from './index.hook'
