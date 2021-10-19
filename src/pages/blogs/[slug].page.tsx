@@ -40,7 +40,9 @@ const BlogPage: NextPage<Props> = ({ article, site, preview }) => pug`
           | #[span(data-uk-icon='trash')] Cookie 削除
 
     article
-      div(dangerouslySetInnerHTML={ __html: article.body })
+      - const bodies = article.body.map((item) => item.content)
+      each body, idx in bodies
+        div(dangerouslySetInnerHTML={ __html: body }, key=idx)
 `
 
 export { getStaticPaths, getStaticProps } from './[slug].hook'

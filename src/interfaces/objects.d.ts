@@ -24,12 +24,16 @@ interface Category extends Content {
   name: string
 }
 
+interface ArticleBody extends Field {
+  content: string
+}
+
 interface Article extends Content {
   title: string
-  subTitle: string
+  subTitle?: string
   author: Author
   categories: Array<?Category>
-  body: string
+  body: Array<ArticleBody>
   description?: string
   ogImage?: ImageInfo
   relatedBlogs: Array<?Article>
