@@ -1,12 +1,9 @@
-import type { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
+import type { GetStaticPropsContext, InferGetStaticPropsType } from 'next';
 
-export type Props = InferGetServerSidePropsType<typeof getServerSideProps>
+export type Props = InferGetStaticPropsType<typeof getStaticProps>
 
-export const getServerSideProps = async (_: GetServerSidePropsContext) => {
+export const getStaticProps = async (_: GetStaticPropsContext) => {
   return {
-    redirect: {
-      destination: '/blogs',
-      statusCode: 307,
-    },
+    props: {}
   }
-}
+ }
