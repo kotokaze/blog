@@ -1,4 +1,4 @@
-import UIkit from './children/uikit'; UIkit
+import { Fragment } from 'react'; Fragment
 import Navbar from './children/navbar'; Navbar
 import Scrollbar from './children/scrollbar'; Scrollbar
 import Footer from './children/footer'; Footer
@@ -11,7 +11,7 @@ interface Props {
 }
 
 const Layout: React.VFC<Props> = ({ title, author, children }) => pug`
-  UIkit/
+  Fragment
     header(data-uk-sticky)
       Navbar(title=title)
       Scrollbar/
