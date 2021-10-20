@@ -35,9 +35,8 @@ const BlogPage: NextPage<Props> = ({ article, site, preview }) => pug`
       .uk-alert-danger(data-uk-alert)
         a.uk-alert-close(data-uk-close)
         p プレビューモードで表示中
-      Link(href='/api/deactivate')
-        a.uk-button.uk-button-default.uk-position-bottom-right.uk-position-fixed
-          | #[span(data-uk-icon='trash')] Cookie 削除
+      a(href='/api/deactivate').uk-button.uk-button-default.uk-position-bottom-right.uk-position-fixed
+        | #[span(data-uk-icon='trash')] Cookie 削除
 
     article
       - const bodies = article.body.map((item) => item.content)
