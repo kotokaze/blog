@@ -29,7 +29,6 @@ export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
 
   return {
     props: props,
-    revalidate: 10,
     notFound: !slug,
   }
 }

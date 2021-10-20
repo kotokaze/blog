@@ -22,6 +22,5 @@ export const getStaticProps = async (_: GetStaticPropsContext) => {
 
   return {
     props: props,
-    revalidate: 10,
   }
 }

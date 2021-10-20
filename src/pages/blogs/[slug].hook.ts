@@ -38,7 +38,6 @@ export const getStaticProps = async (ctx: GetStaticPropsContext) => {
 
   return {
     props: props,
-    revalidate: 10,
     notFound: !props.article,
   }
 }
