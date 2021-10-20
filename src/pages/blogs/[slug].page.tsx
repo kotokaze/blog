@@ -23,7 +23,7 @@ const BlogPage: NextPage<Props> = ({ article, site, preview }) => pug`
         if article.revisedAt
           p #[span(data-uk-icon='history')] #[= DateTime.elapsed(article.revisedAt)]前に更新
         else
-          p #[span(data-uk-icon='history')] #[= DateTime.elapsed(article.publishedAt ? article.publishedAt : article.createdAt)]前に更新
+          p #[span(data-uk-icon='history')] #[= DateTime.elapsed(article.publishedAt || article.createdAt)]前に更新
 
     .uk-margin-medium-bottom
       p.uk-text-meta #[span(data-uk-icon='tag')] Tags: #[span &nbsp;]
