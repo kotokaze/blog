@@ -1,0 +1,12 @@
+steps:
+  - name: gcr.io/cloud-builders/gcloud
+    entrypoint: 'bash'
+    args: [ '-c', "gcloud secrets versions access latest --secret=MICROCMS --format='get(payload.data)' | tr '_-' '/+' | base64 -d > .env" ]
+  - name: node:16
+    entrypoint: yarn
+    args: ["install"]
+  - name: node:16
+    entrypoint: yarn
+    args: ["build"]
+  - name: gcr.io/cloud-builders/gcloud
+    args: ["app", "deploy", "app.yaml", "--quiet"]

@@ -1,0 +1,9 @@
+#!include:.gitignore
+.git
+.github
+.gitignore
+.gcloudignore
+/src/
+/typings/
+
+!/.next/
