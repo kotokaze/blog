@@ -26,6 +26,7 @@ export const genFeedXml = async (): Promise<string> => {
     description: site.description,
     feed_url: `${site.url}/feed.xml`,
     site_url: site.url,
+    image_url: `${site.url}/logo.png`,
     copyright: site.author.name,
     language: 'ja',
     categories: site.categories.map((cat) => cat!.name),
