@@ -65,7 +65,6 @@ export const getServerSideProps = async ({
   const xml: string = await genFeedXml()
 
   res.statusCode = 200
-  res.setHeader('Cache-Control', 's-maxage=86400, stale-while-revalidate')
   res.setHeader('Content-Type', 'application/xml')
   res.setHeader('Content-Length', Buffer.byteLength(xml))
   res.setHeader('Content-Language', 'ja')
