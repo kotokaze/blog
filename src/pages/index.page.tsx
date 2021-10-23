@@ -8,7 +8,7 @@ import 'animate.css/animate.min.css'
 
 const IndexPage: NextPage<Props> = ({ site }) => {
   return pug`
-    Meta(title=('[HP] | '  + site.title), desc=site.description, kw='Kotokaze, kotokaze, Blog')
+    Meta(title=site.title, desc=site.description, kw='Kotokaze, kotokaze, Blog')
     WithSidebar(site=site)
       .uk-container-expand.uk-section-xlarge.uk-margin-large
         .uk-flex.uk-flex-center
