@@ -1,8 +1,6 @@
 #!include:.gitignore
-.git
 .github
 .gitignore
-.gitmodules
 .gcloudignore
 /src/
 /typings/
