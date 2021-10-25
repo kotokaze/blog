@@ -2,8 +2,16 @@
 .git
 .github
 .gitignore
+.gitmodules
 .gcloudignore
 /src/
 /typings/
+
+/.husky/
+.editorconfig
+.eslintrc.json
+.lintstagedrc.json
+.prettierrc.json
+stylelint.config.js
 
 !/.next/
