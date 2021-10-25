@@ -16,7 +16,7 @@ const Sidebar: React.VFC<Props> = ({ author, categories }) => pug`
         a(href=author.accounts.github, target='_blank', data-uk-icon='github').uk-icon-button.uk-margin-right
         a(href=author.accounts.twitter, target='_blank', data-uk-icon='twitter').uk-icon-button.uk-margin-right
         a(href=author.accounts.wordpress, target='_blank', data-uk-icon='wordpress').uk-icon-button.uk-margin-right
-        a(href='/feed', download, data-uk-icon='rss').uk-icon-button
+        a(href='/feed', data-uk-icon='rss').uk-icon-button
 
     .uk-margin-large-bottom
       h3.uk-heading-line.uk-text-center #[span Tags]
