@@ -24,7 +24,7 @@ export const genFeedXml = async (): Promise<string> => {
   const feed = new RSS({
     title: site.title,
     description: site.description,
-    feed_url: `${site.url}/feed.xml`,
+    feed_url: `${site.url}/feed`,
     site_url: site.url,
     image_url: `${site.url}/assets/images/logo.png`,
     copyright: site.author.name,
