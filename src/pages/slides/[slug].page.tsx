@@ -12,7 +12,7 @@ const SlidePage: NextPage<Props> = ({ slide, site }) => pug`
     .uk-container.uk-container-expand.uk-background-muted
       - const worker = require('pdfjs-dist/build/pdf.worker.min')
       - const cmap = ({cMapUrl: '/cmaps', cMapPacked: true })
-      Viewer(src=slide.pdf.url, workerSrc=worker, cMap=cmap)
+      Viewer(src=('/assets/slides/' + slide.filename), workerSrc=worker, cMap=cmap)
 `
 
 export { getStaticPaths, getStaticProps } from './[slug].hook'
