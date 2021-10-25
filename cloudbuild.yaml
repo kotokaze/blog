@@ -1,4 +1,16 @@
 steps:
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args: [ '-c', "gcloud secrets versions access latest --secret=SSH_KEY --format='get(payload.data)' | tr '_-' '/+' | base64 -d >> /root/.ssh/id_rsa && chmod 400 /root/.ssh/id_rsa"]
+    volumes:
+    - name: 'ssh'
+      path: /root/.ssh
+  - name: 'gcr.io/cloud-builders/git'
+    entrypoint: 'bash'
+    args: [ '-c', "ssh-keyscan -t rsa github.com >> /root/.ssh/known_hosts && git submodule init && git submodule update --init --recursive && ls public/assets/slides"]
+    volumes:
+    - name: 'ssh'
+      path: /root/.ssh
   - name: gcr.io/cloud-builders/gcloud
     entrypoint: 'bash'
     args: [ '-c', "gcloud secrets versions access latest --secret=MICROCMS --format='get(payload.data)' | tr '_-' '/+' | base64 -d > .env" ]
