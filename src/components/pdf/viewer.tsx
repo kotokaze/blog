@@ -21,7 +21,7 @@ const Viewer: React.VFC<Props> = ({
   cMap,
   workerSrc,
   page = 1,
-  rotation = 0,
+  rotation,
 }) => {
   const ref = useRef<HTMLDivElement>(null)
   const width = useWidth(ref)
