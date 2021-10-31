@@ -3,24 +3,22 @@ import { useWidth } from '@/hooks/useWidth'
 import Worker from './worker'; Worker
 import DocumentLoader from './loader'; DocumentLoader
 import type { RenderOptions } from './renderer'
+import type { LoaderOptions } from './loader'
 
 interface CharMap {
   cMapUrl: string
   cMapPacked: boolean
 }
 
-interface Props extends RenderOptions {
-  src: string | Uint8Array
-  cMap?: CharMap
+interface Props extends RenderOptions, LoaderOptions {
   workerSrc?: string
-  page?: number
 }
 
 const Viewer: React.VFC<Props> = ({
   src,
   cMap,
   workerSrc,
-  page = 1,
+  page,
   rotation,
 }) => {
   const ref = useRef<HTMLDivElement>(null)
