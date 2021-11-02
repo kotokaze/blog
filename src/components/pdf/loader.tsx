@@ -11,10 +11,13 @@ import type {
   PDFDocumentProxy,
 } from 'pdfjs-dist/types/src/display/api'
 
-interface Props {
+interface LoaderOptions {
   src: string | Uint8Array
-  page: number
+  page?: number
   cMap?: CharMap
+}
+
+interface Props extends LoaderOptions {
   options: RenderOptions
 }
 
@@ -24,7 +27,7 @@ const DocumentLoader: React.VFC<Props> = ({ src, page, cMap, options }) => {
   const [pdfDoc, setPdfDoc] = useState<PDFDocumentProxy>()
   const [loadRate, setLoadRate] = useState<number>(0)
   const [numPages, setNumPages] = useState<number>(0)
-  const [pageNum, setPageNum] = useState<number>(page)
+  const [pageNum, setPageNum] = useState<number>(page || 1)
 
   useEffect(() => {
     if (window === undefined) return
@@ -113,4 +116,5 @@ const DocumentLoader: React.VFC<Props> = ({ src, page, cMap, options }) => {
   `
 }
 
+export type { LoaderOptions }
 export default DocumentLoader

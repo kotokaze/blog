@@ -6,7 +6,7 @@ import type {
 
 interface RenderOptions {
   width: number
-  rotation: number
+  rotation?: number
 }
 
 interface Props extends RenderOptions {
@@ -18,7 +18,7 @@ const DocumentRenderer: React.VFC<Props> = ({
   pdfDoc,
   pageNum,
   width,
-  rotation,
+  rotation = 0,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const renderRef = useRef<boolean>(false)
