@@ -3,10 +3,10 @@ name: ci
 on:
   push:
     branches:
-      - dev
+      - master
   pull_request:
     branches:
-      - dev
+      - master
 
 jobs:
   ci:
@@ -15,11 +15,14 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node: [14]
+        node: [16]
 
     steps:
       - name: Checkout 🛎
         uses: actions/checkout@v2
+        with:
+          ssh-key: ${{ secrets.SSH_KEY }}
+          submodules: recursive
 
       - name: Setup node env 🏗
         uses: actions/setup-node@v2
