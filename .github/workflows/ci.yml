@@ -54,6 +54,14 @@ jobs:
       - name: Run linter 👀
         run: yarn lint
 
+      - name: Setup PGP 🔑
+        uses: crazy-max/ghaction-import-gpg@v3
+        with:
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
+          git-user-signingkey: true
+          git-commit-gpgsign: true
+
       - name: Create Pull Request 🚀
         id: cpr
         uses: peter-evans/create-pull-request@v3
