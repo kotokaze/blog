@@ -10,20 +10,19 @@ jobs:
       - name: Checkout 🛎
         uses: actions/checkout@v2
         with:
-          token: ${{ secrets.TOKEN }}
-          ssh-key: ${{ secrets.SSH_KEY }}
-          submodules: recursive
+          ssh_key: ${{ secrets.SSH_KEY }}
 
-      - name: Update submodules ♻️
+      - name: Fetch submodules 🚚
         run: |
-          git submodule update --recursive --remote
+          eval "$(ssh-agent)"
+          ssh-add - <<< "${{ secrets.SSH_KEY_SLIDES }}"
+          git submodule update --init --recursive --remote
 
       - name: Create Pull Request 🚀
         id: cpr
         uses: peter-evans/create-pull-request@v3
         with:
           title: Update submodules
-          token: ${{ secrets.PAT }}
           labels: Auto-PR
           branch: bot/update-submodules
           author: kotokaze <62094392+kotokaze@users.noreply.github.com>

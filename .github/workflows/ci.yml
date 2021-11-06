@@ -21,8 +21,13 @@ jobs:
       - name: Checkout 🛎
         uses: actions/checkout@v2
         with:
-          ssh-key: ${{ secrets.SSH_KEY }}
-          submodules: recursive
+          ssh_key: ${{ secrets.SSH_KEY }}
+
+      - name: Fetch submodules 🚚
+        run: |
+          eval "$(ssh-agent)"
+          ssh-add - <<< "${{ secrets.SSH_KEY_SLIDES }}"
+          git submodule update --init --recursive
 
       - name: Setup node env 🏗
         uses: actions/setup-node@v2
