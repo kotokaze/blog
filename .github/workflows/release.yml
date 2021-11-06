@@ -1,0 +1,31 @@
+name: release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout 🛎
+        uses: actions/checkout@v2
+        with:
+          ssh_key: ${{ secrets.SSH_KEY }}
+
+      - name: Create Pull Request 🚀
+        id: cpr
+        uses: peter-evans/create-pull-request@v3
+        with:
+          title: Release
+          labels: Auto-PR
+          branch: bot/staging
+          author: kotokaze <62094392+kotokaze@users.noreply.github.com>
+          branch-suffix: short-commit-hash
+          base: release
+          delete-branch: true
+
+      - name: Check for changes 🔎
+        run: |
+          echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+          echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
