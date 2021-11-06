@@ -31,7 +31,7 @@ jobs:
           base: master
           delete-branch: true
 
-      - name: Check for changes
+      - name: Check for changes 🔎
         run: |
           echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
           echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
