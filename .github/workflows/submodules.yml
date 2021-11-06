@@ -1,0 +1,38 @@
+name: submodules
+
+on:
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.TOKEN }}
+          ssh-key: ${{ secrets.SSH_KEY }}
+          submodules: recursive
+
+      - name: Update submodules ♻️
+        run: |
+          git submodule update --recursive --remote
+
+      - name: Create Pull Request 🚀
+        id: cpr
+        uses: peter-evans/create-pull-request@v3
+        with:
+          title: Update submodules
+          token: ${{ secrets.PAT }}
+          labels: Auto-PR
+          branch: bot/update-submodules
+          author: kotokaze <62094392+kotokaze@users.noreply.github.com>
+          branch-suffix: short-commit-hash
+          commit-message: ':recycle: Fetch latest submodules'
+          base: master
+          delete-branch: true
+
+      - name: Check for changes
+        run: |
+          echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+          echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
