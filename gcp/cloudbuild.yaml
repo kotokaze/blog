@@ -21,4 +21,4 @@ steps:
     entrypoint: yarn
     args: ["build"]
   - name: gcr.io/cloud-builders/gcloud
-    args: ["app", "deploy", "app.yaml", "--quiet"]
+    args: ["app", "deploy", "gcp/app.yaml", "--quiet"]
