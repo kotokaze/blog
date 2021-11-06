@@ -7,7 +7,7 @@ steps:
       path: /root/.ssh
   - name: 'gcr.io/cloud-builders/git'
     entrypoint: 'bash'
-    args: [ '-c', "ssh-keyscan -t rsa github.com >> /root/.ssh/known_hosts && git submodule init && git submodule update --init --recursive && ls public/assets/slides"]
+    args: [ '-c', "echo ${_GITHUB_HOST_KEY} >> /root/.ssh/known_hosts && git submodule init && git submodule update --init --recursive && ls public/assets/slides"]
     volumes:
     - name: 'ssh'
       path: /root/.ssh
@@ -21,4 +21,4 @@ steps:
     entrypoint: yarn
     args: ["build"]
   - name: gcr.io/cloud-builders/gcloud
-    args: ["app", "deploy", "app.yaml", "--quiet"]
+    args: ["app", "deploy", "gcp/app.yaml", "--quiet"]
