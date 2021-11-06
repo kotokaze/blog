@@ -1,22 +1,17 @@
-name: submodules
+name: release
 
 on:
   workflow_dispatch:
 
 jobs:
-  update:
+  push:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout 🛎
         uses: actions/checkout@v2
         with:
           ssh_key: ${{ secrets.SSH_KEY }}
-
-      - name: Fetch submodules 🚚
-        run: |
-          eval "$(ssh-agent)"
-          ssh-add - <<< "${{ secrets.SSH_KEY_SLIDES }}"
-          git submodule update --init --recursive --remote
 
       - name: Setup PGP 🔑
         uses: crazy-max/ghaction-import-gpg@v3
@@ -30,14 +25,13 @@ jobs:
         id: cpr
         uses: peter-evans/create-pull-request@v3
         with:
-          title: Update submodules
+          title: Release
           labels: Auto-PR
-          branch: bot/update-submodules
+          branch: bot/staging
           assignees: ${{ github.actor }}
           author: kotokaze <62094392+kotokaze@users.noreply.github.com>
           branch-suffix: short-commit-hash
-          commit-message: ':recycle: Fetch latest submodules'
-          base: master
+          base: release
           delete-branch: true
 
       - name: Check for changes 🔎
