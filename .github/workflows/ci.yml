@@ -61,6 +61,7 @@ jobs:
           title: Update submodules
           labels: Auto-PR
           branch: bot/staging
+          assignees: ${{ github.actor }}
           author: kotokaze <62094392+kotokaze@users.noreply.github.com>
           branch-suffix: short-commit-hash
           commit-message: ':recycle: Fetch latest submodules'
