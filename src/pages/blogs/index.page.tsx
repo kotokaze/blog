@@ -1,14 +1,15 @@
 import React from 'react'; React
 import type { NextPage } from 'next'
-import Head from 'next/head'; Head
+import Meta from '@/components/meta'; Meta
 import CardList from '@/components/card-list'; CardList
 import WithSidebar from '@/components/layouts/with-sidebar'; WithSidebar
 import { Props } from './index.hook'
 
-const BlogsPage: NextPage<Props> = ({ items, site }) =>{
+const BlogsPage: NextPage<Props> = ({ items, site }) => {
+  const kw: string = site.categories.map((cat) => cat?.name).join(',')
+
   return pug`
-    Head
-      title 記事一覧 | #{site.title}
+    Meta(title=('記事一覧 | ' + site.title), desc=site.description, kw=kw)
     WithSidebar(site=site)
       CardList(basePath='/blogs', items=items)
   `
