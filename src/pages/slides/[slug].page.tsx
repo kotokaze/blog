@@ -1,8 +1,10 @@
 import React from 'react'; React
 import type { NextPage } from 'next'
+import Link from 'next/link'; Link
 import Meta from '@/components/meta'; Meta
 import Viewer from '@/components/pdf/viewer'; Viewer
 import WithSidebar from '@/components/layouts/with-sidebar'; WithSidebar
+import DateTime from '@/lib/date-time'; DateTime
 import type { CharMap } from '@/components/pdf/viewer'
 import type { Props } from './[slug].hook'
 
@@ -14,8 +16,29 @@ const SlidePage: NextPage<Props> = ({ slide, site }) => {
   return pug`
     Meta(title=(slide.title + ' | '  + site.title), desc=slide.description, kw=kw)
     WithSidebar(site=site)
-      .uk-container.uk-container-expand.uk-background-muted
+      .uk-grid-column-medium(data-uk-grid)
+        p.uk-text-meta #[span(data-uk-icon='tag')] Tags: #[span &nbsp;]
+          each cat in slide.categories
+            Link(href={pathname: '/categories/[slug]', query: { slug: cat.id }}, key=cat.id)
+              a.uk-margin-small-right #[span.uk-badge #{cat.name}]
+
+      .uk-container.uk-container-expand.uk-background-muted.uk-margin-top
         Viewer(src=('/assets/slides/' + slide.filename), workerSrc=worker, cMap=cmap)
+
+      .uk-container.uk-container-expand.uk-margin-medium-top
+        .uk-flex.uk-flex-center
+          h3.uk-heading-large.uk-text-break #{slide.title}
+        .uk-flex.uk-flex-center.uk-grid-column-medium(data-uk-grid)
+          if slide.publishedAt
+            p #[span(data-uk-icon='calendar')] #[time(dateTime=slide.publishedAt) #{DateTime.date(slide.publishedAt)}]に公開
+          else
+            p #[span(data-uk-icon='calendar')] #[time(dateTime=slide.createdAt) #{DateTime.date(slide.createdAt)}]に作成
+          if slide.revisedAt
+            p #[span(data-uk-icon='history')] #[= DateTime.elapsed(slide.revisedAt)]前に更新
+          else
+            p #[span(data-uk-icon='history')] #[= DateTime.elapsed(slide.publishedAt || slide.createdAt)]前に更新
+        .uk-flex.uk-flex-center.uk-margin-top
+          p.uk-text-meta.uk-text-break #{slide.description}
   `
 }
 
