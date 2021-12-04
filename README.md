@@ -16,6 +16,10 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ![architecture](docs/src/architecture.png)
 
+## API Endpoints
+
+You can find in the [`api-endpoints.md`](docs/api-endpoints.md) file the list of all the API endpoints.
+
 ---
 
 ## Learn More
