@@ -1,5 +1,6 @@
 import React from 'react'; React
 import type { NextPage } from 'next'
+import { useRouter } from 'next/router'
 import Link from 'next/link'; Link
 import DateTime from '@/lib/date-time'; DateTime
 import Meta from '@/components/meta'; Meta
@@ -7,6 +8,9 @@ import WithSidebar from '@/components/layouts/with-sidebar'; WithSidebar
 import { Props } from './[slug].hook'
 
 const BlogPage: NextPage<Props> = ({ article, site, preview }) => {
+  const router = useRouter()
+  const slug: string = router.query.slug as string
+  const fullpath: string = `${site.url}${router.pathname.replace('[slug]', slug)}`
   const kw: string = article.categories.map((cat) => cat?.name).join(',')
   const bodies: Array<string> = article.body.map((item) => item.content)
 
@@ -38,6 +42,11 @@ const BlogPage: NextPage<Props> = ({ article, site, preview }) => {
       article
         each body, idx in bodies
           div(dangerouslySetInnerHTML={ __html: body }, key=idx)
+
+      .uk-container.uk-container-expand.uk-margin-medium-top
+        .uk-flex.uk-flex-right
+          a(href='https://twitter.com/intent/tweet?url=' + fullpath + '&text=' + article.title + '&hashtags=' + kw).uk-button.uk-button-text
+            | #[span(data-uk-icon='twitter')] Share on Twitter
   `
 }
 
