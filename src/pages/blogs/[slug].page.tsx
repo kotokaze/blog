@@ -23,7 +23,11 @@ const BlogPage: NextPage<Props> = ({ article, site, preview }) => {
         .uk-flex.uk-flex-center
           h5.uk-text-lead #{article.subTitle}
         .uk-flex.uk-flex-center.uk-grid-column-medium(data-uk-grid)
-          p #[span(data-uk-icon='calendar')] #[time(dateTime=article.publishedAt || article.createdAt) #{DateTime.date(article.publishedAt || article.createdAt)}]に公開
+          p #[span(data-uk-icon='calendar')] #[time(dateTime=article.publishedAt || article.createdAt) #{DateTime.date(article.publishedAt || article.createdAt)}]
+            if article.publishedAt
+              | に公開
+            else
+              | に作成
           p #[span(data-uk-icon='history')] #[= DateTime.elapsed(article.revisedAt || article.publishedAt || article.createdAt)]前に更新
 
       .uk-margin-medium-bottom

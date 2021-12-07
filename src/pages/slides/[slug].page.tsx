@@ -33,14 +33,12 @@ const SlidePage: NextPage<Props> = ({ slide, site }) => {
         .uk-flex.uk-flex-center
           h3.uk-heading-small.uk-text-break #{slide.title}
         .uk-flex.uk-flex-center.uk-grid-column-medium(data-uk-grid)
-          if slide.publishedAt
-            p #[span(data-uk-icon='calendar')] #[time(dateTime=slide.publishedAt) #{DateTime.date(slide.publishedAt)}]に公開
-          else
-            p #[span(data-uk-icon='calendar')] #[time(dateTime=slide.createdAt) #{DateTime.date(slide.createdAt)}]に作成
-          if slide.revisedAt
-            p #[span(data-uk-icon='history')] #[= DateTime.elapsed(slide.revisedAt)]前に更新
-          else
-            p #[span(data-uk-icon='history')] #[= DateTime.elapsed(slide.publishedAt || slide.createdAt)]前に更新
+          p #[span(data-uk-icon='calendar')] #[time(dateTime=slide.publishedAt || slide.createdAt) #{DateTime.date(slide.publishedAt || slide.createdAt)}]
+            if slide.publishedAt
+              | に公開
+            else
+              | に作成
+          p #[span(data-uk-icon='history')] #[= DateTime.elapsed(slide.revisedAt || slide.publishedAt || slide.createdAt)]前に更新
         .uk-flex.uk-flex-center.uk-margin-top
           p.uk-text-meta.uk-text-break #{slide.description}
 
