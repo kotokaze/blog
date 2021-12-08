@@ -31,7 +31,7 @@ const SlidePage: NextPage<Props> = ({ slide, site }) => {
 
       .uk-container.uk-container-expand.uk-margin-medium-top
         .uk-flex.uk-flex-center
-          h3.uk-heading-small.uk-text-break #{slide.title}
+          h3.uk-heading-lead.uk-text-break #{slide.title}
         .uk-flex.uk-flex-center.uk-grid-column-medium(data-uk-grid)
           p #[span(data-uk-icon='calendar')] #[time(dateTime=slide.publishedAt || slide.createdAt) #{DateTime.date(slide.publishedAt || slide.createdAt)}]
             if slide.publishedAt
