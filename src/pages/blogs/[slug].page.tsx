@@ -1,5 +1,6 @@
 import React from 'react'; React
 import type { NextPage } from 'next'
+import { useRouter } from 'next/router'
 import Link from 'next/link'; Link
 import DateTime from '@/lib/date-time'; DateTime
 import Meta from '@/components/meta'; Meta
@@ -7,6 +8,9 @@ import WithSidebar from '@/components/layouts/with-sidebar'; WithSidebar
 import { Props } from './[slug].hook'
 
 const BlogPage: NextPage<Props> = ({ article, site, preview }) => {
+  const router = useRouter()
+  const slug: string = router.query.slug as string
+  const fullpath: string = `${site.url}${router.pathname.replace('[slug]', slug)}`
   const kw: string = article.categories.map((cat) => cat?.name).join(',')
   const bodies: Array<string> = article.body.map((item) => item.content)
 
@@ -19,7 +23,11 @@ const BlogPage: NextPage<Props> = ({ article, site, preview }) => {
         .uk-flex.uk-flex-center
           h5.uk-text-lead #{article.subTitle}
         .uk-flex.uk-flex-center.uk-grid-column-medium(data-uk-grid)
-          p #[span(data-uk-icon='calendar')] #[time(dateTime=article.publishedAt || article.createdAt) #{DateTime.date(article.publishedAt || article.createdAt)}]に公開
+          p #[span(data-uk-icon='calendar')] #[time(dateTime=article.publishedAt || article.createdAt) #{DateTime.date(article.publishedAt || article.createdAt)}]
+            if article.publishedAt
+              | に公開
+            else
+              | に作成
           p #[span(data-uk-icon='history')] #[= DateTime.elapsed(article.revisedAt || article.publishedAt || article.createdAt)]前に更新
 
       .uk-margin-medium-bottom
@@ -38,6 +46,11 @@ const BlogPage: NextPage<Props> = ({ article, site, preview }) => {
       article
         each body, idx in bodies
           div(dangerouslySetInnerHTML={ __html: body }, key=idx)
+
+      .uk-container.uk-container-expand.uk-margin-medium-top
+        .uk-flex.uk-flex-right
+          a(href='https://twitter.com/intent/tweet?url=' + fullpath + '&text=' + article.title + '&hashtags=' + kw).uk-button.uk-button-text
+            | #[span(data-uk-icon='twitter')] Share on Twitter
   `
 }
 

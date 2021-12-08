@@ -1,5 +1,6 @@
 import React from 'react'; React
 import type { NextPage } from 'next'
+import { useRouter } from 'next/router';
 import Link from 'next/link'; Link
 import Meta from '@/components/meta'; Meta
 import Viewer from '@/components/pdf/viewer'; Viewer
@@ -9,6 +10,9 @@ import type { CharMap } from '@/components/pdf/viewer'
 import type { Props } from './[slug].hook'
 
 const SlidePage: NextPage<Props> = ({ slide, site }) => {
+  const router = useRouter()
+  const slug: string = router.query.slug as string
+  const fullpath: string = `${site.url}${router.pathname.replace('[slug]', slug)}`
   const kw: string = slide.categories.map((cat) => cat?.name).join(',')
   const worker: string = require('pdfjs-dist/build/pdf.worker.min')
   const cmap: CharMap = { cMapUrl: '/cmaps', cMapPacked: true }
@@ -27,18 +31,21 @@ const SlidePage: NextPage<Props> = ({ slide, site }) => {
 
       .uk-container.uk-container-expand.uk-margin-medium-top
         .uk-flex.uk-flex-center
-          h3.uk-heading-large.uk-text-break #{slide.title}
+          h3.uk-heading-lead.uk-text-break #{slide.title}
         .uk-flex.uk-flex-center.uk-grid-column-medium(data-uk-grid)
-          if slide.publishedAt
-            p #[span(data-uk-icon='calendar')] #[time(dateTime=slide.publishedAt) #{DateTime.date(slide.publishedAt)}]に公開
-          else
-            p #[span(data-uk-icon='calendar')] #[time(dateTime=slide.createdAt) #{DateTime.date(slide.createdAt)}]に作成
-          if slide.revisedAt
-            p #[span(data-uk-icon='history')] #[= DateTime.elapsed(slide.revisedAt)]前に更新
-          else
-            p #[span(data-uk-icon='history')] #[= DateTime.elapsed(slide.publishedAt || slide.createdAt)]前に更新
+          p #[span(data-uk-icon='calendar')] #[time(dateTime=slide.publishedAt || slide.createdAt) #{DateTime.date(slide.publishedAt || slide.createdAt)}]
+            if slide.publishedAt
+              | に公開
+            else
+              | に作成
+          p #[span(data-uk-icon='history')] #[= DateTime.elapsed(slide.revisedAt || slide.publishedAt || slide.createdAt)]前に更新
         .uk-flex.uk-flex-center.uk-margin-top
           p.uk-text-meta.uk-text-break #{slide.description}
+
+      .uk-container.uk-container-expand.uk-margin-medium-top
+        .uk-flex.uk-flex-right
+          a(href='https://twitter.com/intent/tweet?url=' + fullpath + '&text=' + slide.title + '&hashtags=' + kw).uk-button.uk-button-text
+            | #[span(data-uk-icon='twitter')] Share on Twitter
   `
 }
 
