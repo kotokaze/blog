@@ -29,6 +29,7 @@
     "uikit": "^3.7.6"
   },
   "devDependencies": {
+    "@types/node": "^17.0.21",
     "@types/pdfjs-dist": "^2.7.5",
     "@types/react": "17.0.21",
     "@types/rss": "^0.0.29",
