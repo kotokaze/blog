@@ -17,6 +17,7 @@ default_expiration: "12h"
 
 automatic_scaling:
   min_instances: 0
+  max_instances: 3
   min_idle_instances: 0
   max_idle_instances: 1
   min_pending_latency: 3s
