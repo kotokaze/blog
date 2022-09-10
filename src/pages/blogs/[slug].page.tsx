@@ -38,11 +38,12 @@ const BlogPage: NextPage<Props> = ({ article, site, preview }) => {
                 a.uk-margin-small-right #[span.uk-badge #{cat.name}]
 
         if preview
-          .uk-alert-danger(data-uk-alert)
-            a.uk-alert-close(data-uk-close)
-            p プレビューモードで表示中
-          a(href='/api/deactivate').uk-button.uk-button-default.uk-position-bottom-right.uk-position-fixed
-            | #[span(data-uk-icon='trash')] Cookie 削除
+          Fragment
+            .uk-alert-danger(data-uk-alert)
+              a.uk-alert-close(data-uk-close)
+              p プレビューモードで表示中
+            a(href='/api/deactivate').uk-button.uk-button-default.uk-position-bottom-right.uk-position-fixed
+              | #[span(data-uk-icon='trash')] Cookie 削除
 
         article
           each body, idx in bodies
