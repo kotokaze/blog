@@ -10,7 +10,7 @@ const headers = [
 /** @type {import('next').NextConfig} */
 module.exports = {
   reactStrictMode: true,
-  pageExtensions: ['page.tsx', 'page.ts', 'page.jsx', 'page.js'],
+  pageExtensions: ['page.tsx', 'page.ts', 'api.ts', 'page.jsx', 'page.js'],
   poweredByHeader: false,
 
   headers: async () => [
