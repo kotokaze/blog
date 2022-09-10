@@ -12,7 +12,7 @@ const InfoPage: NextPage<Props> = ({ site }) => {
     Fragment
       Meta(title=('Info | ' + site.title), desc=site.description, kw=kw)
       WithSidebar(site=site)
-        section.uk-section.uk-section-default.uk-margin-remove-vertical
+        // section.uk-section.uk-section-default.uk-margin-remove-vertical
           h1(id='about-' + site.title).uk-heading-bullet About #{site.title}
           div
             p.uk-comment-body #{site.description}
