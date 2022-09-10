@@ -12,10 +12,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
       .then((contents) => contents.map((item) => item.id))
       .then((ids) => ids.map((id) => ({ params: { slug: id } })))
 
-  return {
-    paths,
-    fallback: 'blocking',
-  }
+  return { paths, fallback: false }
 }
 
 export const getStaticProps = async (ctx: GetStaticPropsContext) => {

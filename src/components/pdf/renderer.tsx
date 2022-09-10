@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react'
 import type {
   PDFDocumentProxy,
   RenderParameters,
-  RenderTask,
 } from 'pdfjs-dist/types/src/display/api'
 
 interface RenderOptions {
@@ -58,7 +57,7 @@ const DocumentRenderer: React.VFC<Props> = ({
         }
 
         // Set render task
-        const renderTask: RenderTask = pdfPage.render(params)
+        const renderTask = pdfPage.render(params)
 
         // Cache render task
         setTask(renderTask)

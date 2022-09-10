@@ -30,7 +30,11 @@ const DocumentLoader: React.VFC<Props> = ({ src, page, cMap, options }) => {
   const [pageNum, setPageNum] = useState<number>(page || 1)
 
   useEffect(() => {
-    const worker = new pdfjsApi.PDFWorker()
+    if (window === undefined) return
+
+    const worker = new pdfjsApi.PDFWorker({
+      neme: `worker_${Date.now()}`,
+    })
 
     const params: DocumentInitParameters = {
       ...(typeof src === 'string' ? { url: src } : { data: src }),
