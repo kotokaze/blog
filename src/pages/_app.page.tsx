@@ -9,7 +9,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
     const loadUIkit = async () => {
       const UIkit = (await import('uikit')).default
-      const Icons = (await import('uikit/dist/js/uikit-icons.min')).default
+      const Icons = (await import('uikit/dist/js/uikit-icons')).default
       UIkit.use(Icons)
     }
     loadUIkit()
