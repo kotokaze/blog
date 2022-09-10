@@ -7,7 +7,7 @@ import Viewer from '@/components/pdf/viewer'; Viewer
 import WithSidebar from '@/components/layouts/with-sidebar'; WithSidebar
 import DateTime from '@/lib/date-time'; DateTime
 import type { CharMap } from '@/components/pdf/viewer'
-import type { Props } from './[slug].hook'
+import type { Props } from './index.hook'
 
 const SlidePage: NextPage<Props> = ({ slide, site }) => {
   const router = useRouter()
@@ -50,5 +50,5 @@ const SlidePage: NextPage<Props> = ({ slide, site }) => {
   `
 }
 
-export { getStaticPaths, getStaticProps } from './[slug].hook'
+export { getStaticPaths, getStaticProps } from './index.hook'
 export default SlidePage
