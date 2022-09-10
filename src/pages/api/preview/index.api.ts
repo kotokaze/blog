@@ -14,7 +14,7 @@ const handler: NextApiHandler = async (req, res) => {
       draftKey: req.query.draftKey.toString(),
     },
   })
-  if (!data) return res.status(401).json({ message: 'Invalid slug' })
+  if (!data) return res.status(404).json({ message: 'Invalid slug' })
 
   res.setPreviewData(req.query.draftKey, { maxAge: 60 })
   res.redirect(307, `/blogs/${data.id}`)
