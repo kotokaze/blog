@@ -43,11 +43,11 @@ export const getStaticProps = async (ctx: GetStaticPropsContext) => {
     .$get()
 
   const props = await Promise.all([category, articles, slides, site]).then(
-    ([category, articles, slides, site]) => ({ category, articles, slides, site })
+    ([category, articles, slides, site]) => ({ tag: category.name, articles, slides, site })
   )
 
   return {
     props: props,
-    notFound: !props.category,
+    notFound: !props.tag,
   }
 }
