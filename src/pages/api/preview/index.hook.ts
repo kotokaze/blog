@@ -3,6 +3,7 @@ import microcmsClient from '@/modules/microcms'
 const PageType: { [key: string]: string } = {
   BLOGS: 'blogs',
   INFO: 'info',
+  SLIDES: 'slides',
 }
 type PageType = typeof PageType[keyof typeof PageType]
 
@@ -12,17 +13,19 @@ type ErrCode = {
 }
 
 const isSlugExists = async (type: PageType, slug: string, draftKey: string): Promise<boolean> => {
-  if (type === PageType.BLOGS) {
-    const data: { id: string } = await microcmsClient.v1.blogs._id(slug).$get({
-      query: {
-        fields: 'id',
-        draftKey: draftKey.toString(),
-      },
-    })
-    return !!data.id
+  let data: { id: string } | null = null
+  const query: MethodsGetContentQuery = {
+    fields: 'id',
+    draftKey: draftKey,
   }
 
-  return false
+  if (type === PageType.BLOGS)
+    data = await microcmsClient.v1.blogs._id(slug).$get({ query })
+
+  if (type === PageType.SLIDES)
+    data = await microcmsClient.v1.slides._id(slug).$get({ query })
+
+  return !!data
 }
 
 const validateQuery = async (query: { [key: string]: string | string[] }): Promise<{
