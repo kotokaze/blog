@@ -1,23 +1,24 @@
 import type { NextApiHandler } from 'next'
-import microcmsClient from '@/modules/microcms'
+import type { ErrCode } from './index.hook'
+import { PageType, validateQuery } from './index.hook'
 
-const handler: NextApiHandler = async (req, res) => {
-  const val: boolean =
-    req.query.secret !== process.env.MICROCMS_SECRET ||
-    !req.query.slug ||
-    !req.query.draftKey
-  if (val) return res.status(401).json({ message: 'Invalid token' })
+type PreviewResponse = {
+  query: { [key: string]: string | string[] },
+} & ErrCode
 
-  const data: { id: string }= await microcmsClient.v1.blogs._id(`${req.query.slug}`).$get({
-    query: {
-      fields: 'id',
-      draftKey: req.query.draftKey.toString(),
-    },
-  })
-  if (!data) return res.status(401).json({ message: 'Invalid slug' })
+const handler: NextApiHandler<PreviewResponse> = async (req, res) => {
+  const query = req.query
+  const { err } = await validateQuery(query)
+  if (err) {
+    res.status(err.code).json({ ...err, query })
+    res.end()
+    return
+  }
 
-  res.setPreviewData(req.query.draftKey, { maxAge: 60 })
-  res.redirect(307, `/blogs/${data.id}`)
+  res.setPreviewData(query.draftKey, { maxAge: 60 })
+  res.redirect(307,
+    `/${query.type}` + (query.type !== PageType.INFO ? `/${query.slug}` : '')
+  )
   res.end()
 }
 

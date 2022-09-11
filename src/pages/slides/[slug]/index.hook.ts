@@ -1,9 +1,9 @@
-import type { GetStaticPathsContext, GetStaticPropsContext, InferGetStaticPropsType } from 'next'
+import type { GetStaticPaths, GetStaticPropsContext, InferGetStaticPropsType } from 'next'
 import microcmsClient from '@/modules/microcms'
 
 export type Props = InferGetStaticPropsType<typeof getStaticProps>
 
-export const getStaticPaths = async (ctx: GetStaticPathsContext) => {
+export const getStaticPaths: GetStaticPaths = async (_) => {
   const paths: Array<{ params: { slug: string } }> =
     await microcmsClient.v1.slides
       .$get({ query: { fields: 'id' } })
@@ -11,24 +11,34 @@ export const getStaticPaths = async (ctx: GetStaticPathsContext) => {
       .then((contents) => contents.map((item) => item.id))
       .then((ids) => ids.map((id) => ({ params: { slug: id } })))
 
-  return { paths, fallback: false }
+  return {
+    paths: paths,
+    fallback: 'blocking',
+  }
 }
 
-export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
-  const { slug } = params!
+export const getStaticProps = async (ctx: GetStaticPropsContext) => {
+  const { slug } = ctx.params!
+
+  const query: MethodsGetContentQuery = {
+    ...(ctx.preview ? { draftKey: ctx.previewData!.toString() } : null),
+  }
 
   const slide: Promise<Slide> = microcmsClient.v1.slides
     ._id(slug!.toString())
-    .$get()
+    .$get({ query })
 
   const site: Promise<Site> = microcmsClient.v1.site
     .$get()
 
-  const props = await Promise.all([slide, site])
-    .then(([slide, site]) => ({ slide, site }))
+  const props = await Promise.all([slide, site]).then(([slide, site]) => ({
+    slide: slide,
+    site: site,
+    preview: !!ctx.preview,
+  }))
 
   return {
     props: props,
-    notFound: !slug,
+    notFound: !props.slide,
   }
 }

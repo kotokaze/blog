@@ -4,7 +4,7 @@ import microcmsClient from '@/modules/microcms'
 
 export type Props = InferGetStaticPropsType<typeof getStaticProps>
 
-export const getStaticPaths: GetStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = async (_) => {
   const paths: Array<{ params: { slug: string } }> =
     await microcmsClient.v1.categories
       .$get({ query: { fields: 'id' } })
@@ -48,5 +48,6 @@ export const getStaticProps = async (ctx: GetStaticPropsContext) => {
 
   return {
     props: props,
+    notFound: !props.category,
   }
 }
