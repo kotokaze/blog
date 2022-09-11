@@ -8,8 +8,8 @@
 // --------------------------------------------------------------
 
 // Import default variables and available mixins
-@import '/node_modules/uikit/src/scss/variables-theme';
-@import '/node_modules/uikit/src/scss/mixins-theme';
+@import '~uikit/src/scss/variables-theme';
+@import '~uikit/src/scss/mixins-theme';
 // --------------------------------------------------------------
 
 // Custom mixins
@@ -24,5 +24,5 @@
 // --------------------------------------------------------------
 
 // Import Uikit
-@import '/node_modules/uikit/src/scss/uikit-theme';
+@import '~uikit/src/scss/uikit-theme';
 // --------------------------------------------------------------
