@@ -1,9 +1,9 @@
-import type { GetStaticPathsContext, GetStaticPropsContext, InferGetStaticPropsType } from 'next'
+import type { GetStaticPaths, GetStaticPropsContext, InferGetStaticPropsType } from 'next'
 import microcmsClient from '@/modules/microcms'
 
 export type Props = InferGetStaticPropsType<typeof getStaticProps>
 
-export const getStaticPaths = async (ctx: GetStaticPathsContext) => {
+export const getStaticPaths: GetStaticPaths = async (_) => {
   const paths: Array<{ params: { slug: string } }> =
     await microcmsClient.v1.slides
       .$get({ query: { fields: 'id' } })
