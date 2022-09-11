@@ -6,17 +6,17 @@ import WithSidebar from '@/components/layouts/with-sidebar'; WithSidebar
 import type { Props } from './[slug].hook'
 
 const CategoryPage: NextPage<Props> = ({
-  category,
+  tag,
   articles,
   slides,
   site,
 }) => {
   return pug`
     Fragment
-      Meta(title=(category + ' | '  + site.title), desc=category, kw=category)
+      Meta(title=(tag + ' | '  + site.title), desc=tag, kw=tag)
       WithSidebar(site=site)
         section.uk-section.uk-sextion-small.uk-background-primary.uk-flex.uk-flex-center.uk-margin-medium-bottom
-          h4.uk-text-lead.uk-text-break #[span(data-uk-icon='tag').uk-margin-small-right] #{category.name}
+          h4.uk-text-lead.uk-text-break #[span(data-uk-icon='tag').uk-margin-small-right] #{tag}
 
         if articles.length
           CardList(basePath='/blogs', items=articles)

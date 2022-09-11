@@ -7,9 +7,9 @@ import Viewer from '@/components/pdf/viewer'; Viewer
 import WithSidebar from '@/components/layouts/with-sidebar'; WithSidebar
 import DateTime from '@/lib/date-time'; DateTime
 import type { CharMap } from '@/components/pdf/viewer'
-import type { Props } from './[slug].hook'
+import type { Props } from './index.hook'
 
-const SlidePage: NextPage<Props> = ({ slide, site }) => {
+const SlidePage: NextPage<Props> = ({ slide, site, preview }) => {
   const router = useRouter()
   const slug: string = router.query.slug as string
   const fullpath: string = `${site.url}${router.pathname.replace('[slug]', slug)}`
@@ -21,6 +21,14 @@ const SlidePage: NextPage<Props> = ({ slide, site }) => {
     Fragment
       Meta(title=(slide.title + ' | '  + site.title), desc=slide.description, kw=kw)
       WithSidebar(site=site)
+        if preview
+          Fragment
+            .uk-alert-danger(data-uk-alert)
+              a.uk-alert-close(data-uk-close)
+              p プレビューモードで表示中
+            a(href='/api/deactivate').uk-button.uk-button-default.uk-position-bottom-right.uk-position-fixed
+              | #[span(data-uk-icon='trash')] Cookie 削除
+
         .uk-grid-column-medium(data-uk-grid)
           p.uk-text-meta #[span(data-uk-icon='tag')] Tags: #[span &nbsp;]
             each cat in slide.categories
@@ -50,5 +58,5 @@ const SlidePage: NextPage<Props> = ({ slide, site }) => {
   `
 }
 
-export { getStaticPaths, getStaticProps } from './[slug].hook'
+export { getStaticPaths, getStaticProps } from './index.hook'
 export default SlidePage

@@ -4,7 +4,7 @@ import microcmsClient from '@/modules/microcms'
 
 export type Props = InferGetStaticPropsType<typeof getStaticProps>
 
-export const getStaticPaths: GetStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = async (_) => {
   const paths: Array<{ params: { slug: string } }> =
     await microcmsClient.v1.categories
       .$get({ query: { fields: 'id' } })
@@ -43,10 +43,11 @@ export const getStaticProps = async (ctx: GetStaticPropsContext) => {
     .$get()
 
   const props = await Promise.all([category, articles, slides, site]).then(
-    ([category, articles, slides, site]) => ({ category, articles, slides, site })
+    ([category, articles, slides, site]) => ({ tag: category.name, articles, slides, site })
   )
 
   return {
     props: props,
+    notFound: !props.tag,
   }
 }
