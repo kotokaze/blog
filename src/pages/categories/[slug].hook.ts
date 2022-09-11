@@ -48,5 +48,6 @@ export const getStaticProps = async (ctx: GetStaticPropsContext) => {
 
   return {
     props: props,
+    notFound: !props.category,
   }
 }
