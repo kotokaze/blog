@@ -21,7 +21,7 @@ interface Props extends LoaderOptions {
   options: RenderOptions
 }
 
-const DocumentLoader: React.VFC<Props> = ({ src, page, cMap, options }) => {
+const DocumentLoader: React.FC<Props> = ({ src, page, cMap, options }) => {
   type LoadState = 'loading' | 'loaded' | 'error'
   const [status, setStatus] = useState<LoadState>('loading')
   const [pdfDoc, setPdfDoc] = useState<PDFDocumentProxy>()

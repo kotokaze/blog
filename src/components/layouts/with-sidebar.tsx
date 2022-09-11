@@ -7,7 +7,7 @@ interface Props {
   children: React.ReactNode
 }
 
-const WithSidebar: React.VFC<Props> = ({ site, author, children }) => pug`
+const WithSidebar: React.FC<Props> = ({ site, author, children }) => pug`
   Layout(title=site.title, author=site.author)
     .uk-padding-large.uk-grid-divider(data-uk-grid)
       Sidebar(author=(author ? author : site.author), categories=site.categories, repo=site.repo)

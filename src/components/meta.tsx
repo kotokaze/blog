@@ -7,7 +7,7 @@ interface Props {
   children?: React.ReactNode
 }
 
-const Meta: React.VFC<Props> = ({ title, desc, kw, children }) => pug`
+const Meta: React.FC<Props> = ({ title, desc, kw, children }) => pug`
   Head
     meta(charSet='UTF-8')
     meta(httpEquiv="X-UA-Compatible", content="IE=edge")
