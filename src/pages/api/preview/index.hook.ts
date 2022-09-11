@@ -28,24 +28,26 @@ const isSlugExists = async (type: PageType, slug: string, draftKey: string): Pro
   return !!data
 }
 
-const validateQuery = async (query: { [key: string]: string | string[] }): Promise<{
+type Args = Partial<{ [key: string]: string | string[] }>
+const validateQuery = async (query: Args): Promise<{
   err?: ErrCode,
 }> => {
+  const { secret, type, slug, draftKey } = query
+  if (
+    secret !== process.env.MICROCMS_SECRET ||
+    !draftKey ||
+    !type ||
+    !Object.values(PageType).includes(type.toString())
+  ) return { err: { code: 401, message: 'Invalid request' } }
 
-  const val: boolean =
-    query.secret !== process.env.MICROCMS_SECRET ||
-    !query.draftKey ||
-    !Object.values(PageType).includes(query.type?.toString())
-  if (val) return { err: { code: 401, message: 'Invalid request' } }
-
-  if (query.type !== PageType.INFO) {
-    if (!query.slug) return { err: { code: 401, message: 'Invalid request' } }
+  if (type !== PageType.INFO) {
+    if (!slug) return { err: { code: 401, message: 'Invalid request' } }
 
     if (!
       await isSlugExists(
-        Object.values(PageType).find((v) => v === query.type.toString()) as PageType,
-        query.slug.toString(),
-        query.draftKey.toString(),
+        Object.values(PageType).find((v) => v === type.toString()) as PageType,
+        slug.toString(),
+        draftKey.toString(),
       )
     ) return { err: { code: 404, message: 'Invalid slug' } }
   }
