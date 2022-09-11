@@ -32,7 +32,7 @@ export const getStaticProps = async (ctx: GetStaticPropsContext) => {
 
   const props = await Promise.all([article, site]).then(([article, site]) => ({
     article: article,
-    preview: ctx.preview || false,
+    preview: !!ctx.preview,
     site: site,
   }))
 

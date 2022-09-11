@@ -9,7 +9,10 @@ export const getStaticProps = async (ctx: GetStaticPropsContext) => {
   }
 
   const site: Promise<Site> = microcmsClient.v1.site.$get({ query })
-  const props = await Promise.all([site]).then(([site]) => ({ site }))
+  const props = await Promise.all([site]).then(([site]) => ({
+    preview: !!ctx.preview,
+    site: site,
+  }))
 
   return {
     props: props,

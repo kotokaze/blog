@@ -5,13 +5,21 @@ import Meta from '@/components/meta'; Meta
 import WithSidebar from '@/components/layouts/with-sidebar'; WithSidebar
 import type { Props } from './index.hook'
 
-const InfoPage: NextPage<Props> = ({ site }) => {
+const InfoPage: NextPage<Props> = ({ site, preview }) => {
   const kw: string = site.categories.map((cat) => cat?.name).join(',')
 
   return pug`
     Fragment
       Meta(title=('Info | ' + site.title), desc=site.description, kw=kw)
       WithSidebar(site=site)
+        if preview
+          Fragment
+            .uk-alert-danger(data-uk-alert)
+              a.uk-alert-close(data-uk-close)
+              p プレビューモードで表示中
+            a(href='/api/deactivate').uk-button.uk-button-default.uk-position-bottom-right.uk-position-fixed
+              | #[span(data-uk-icon='trash')] Cookie 削除
+
         // section.uk-section.uk-section-default.uk-margin-remove-vertical
           h1(id='about-' + site.title).uk-heading-bullet About #{site.title}
           div
