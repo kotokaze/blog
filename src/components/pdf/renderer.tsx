@@ -15,7 +15,7 @@ interface Props extends RenderOptions {
   pageNum: number
 }
 
-const DocumentRenderer: React.VFC<Props> = ({
+const DocumentRenderer: React.FC<Props> = ({
   pdfDoc,
   pageNum,
   width,

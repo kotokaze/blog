@@ -27,7 +27,7 @@ const useKey = (
   )
 
   useEffect(() => {
-    if (!listen || window === undefined) return
+    if (!listen) return
 
     document.addEventListener(eventType!, keyListener)
     return () => document.removeEventListener(eventType!, keyListener)

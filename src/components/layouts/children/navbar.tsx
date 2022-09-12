@@ -4,7 +4,7 @@ interface Props {
   title: string
 }
 
-const Navbar: React.VFC<Props> = ({ title }) => pug`
+const Navbar: React.FC<Props> = ({ title }) => pug`
   .uk-container.uk-container-expand.uk-background-muted
     nav(data-uk-navbar)
       .uk-navbar-left

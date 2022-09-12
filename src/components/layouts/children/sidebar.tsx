@@ -6,7 +6,7 @@ interface Props {
   repo: string
 }
 
-const Sidebar: React.VFC<Props> = ({ author, categories, repo }) => pug`
+const Sidebar: React.FC<Props> = ({ author, categories, repo }) => pug`
   aside.uk-width-1-4(className='uk-visible@m')
     .uk-margin-large-bottom
       h3.uk-heading-line.uk-text-center #[span Profile]

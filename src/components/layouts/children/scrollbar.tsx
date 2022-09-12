@@ -1,6 +1,6 @@
 import { useScrollProgress } from "@/hooks/useScrollProgress"
 
-const Scrollbar: React.VFC = () => {
+const Scrollbar: React.FC = () => {
   const scroll = useScrollProgress()
 
   return pug`

@@ -5,8 +5,6 @@ import '@/styles/site.scss'
 
 function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
-    if (window === undefined) return
-
     const loadUIkit = async () => {
       const UIkit = (await import('uikit')).default
       const Icons = (await import('uikit/dist/js/uikit-icons')).default

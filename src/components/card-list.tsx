@@ -13,7 +13,7 @@ interface Props {
   items: Array<CardItem>
 }
 
-const CardList: React.VFC<Props> = ({ basePath, items }) => pug`
+const CardList: React.FC<Props> = ({ basePath, items }) => pug`
   .uk-grid-small.uk-flex-center(data-uk-grid)
     each item in items
       .uk-card.uk-card-default.uk-margin-right(className='uk-width-1-3@s', key=item.id)

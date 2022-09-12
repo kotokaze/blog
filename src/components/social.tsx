@@ -7,7 +7,7 @@ interface Props {
   url: string
 }
 
-const Social: React.VFC<Props> = ({ title, desc, image, url}) => pug`
+const Social: React.FC<Props> = ({ title, desc, image, url}) => pug`
   Fragment
     //- Twitter Card
     meta(name='twitter:card', content='summary')

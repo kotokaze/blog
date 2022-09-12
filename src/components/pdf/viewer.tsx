@@ -14,7 +14,7 @@ interface Props extends RenderOptions, LoaderOptions {
   workerSrc?: string
 }
 
-const Viewer: React.VFC<Props> = ({
+const Viewer: React.FC<Props> = ({
   src,
   cMap,
   workerSrc,

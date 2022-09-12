@@ -1,6 +1,6 @@
 import Link from 'next/link'; Link
 
-const OffCanvases: React.VFC = () => pug`
+const OffCanvases: React.FC = () => pug`
   div
     #offcanvas-nav(data-uk-offcanvas='flip: true; overlay: true')
       .uk-offcanvas-bar
