@@ -2,6 +2,7 @@ import { Fragment } from 'react'; Fragment
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import Link from 'next/link'; Link
+import CardList from '@/components/card-list'; CardList
 import DateTime from '@/lib/date-time'; DateTime
 import Meta from '@/components/meta'; Meta
 import WithSidebar from '@/components/layouts/with-sidebar'; WithSidebar
@@ -48,6 +49,11 @@ const BlogPage: NextPage<Props> = ({ article: content, site, preview }) => {
         article
           each body, idx in bodies
             div(dangerouslySetInnerHTML={ __html: body }, key=idx)
+
+        if content.relatedBlogs.length
+          .uk-margin-medium-top
+            h4.uk-text-lead.uk-text-center.uk-margin-medium_bottom 関連記事
+            CardList(basePath='/blogs', items=content.relatedBlogs, noTag=true)
 
         .uk-container.uk-container-expand.uk-margin-medium-top
           .uk-flex.uk-flex-right
