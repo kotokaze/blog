@@ -10,9 +10,7 @@ const useScrollProgress = (): ScrollProgress => {
   const [max, setMax] = useState<number>(0)
 
   useEffect(() => {
-    if (window === undefined) return
-
-    const handleOffset = () => setYOffset(Math.round(pageYOffset))
+    const handleOffset = () => setYOffset(Math.round(scrollY))
     const handleMax = () =>
       setMax(document.body.offsetHeight - document.documentElement.clientHeight)
 

@@ -11,9 +11,10 @@ interface CardItem extends Content {
 interface Props {
   basePath: string
   items: Array<CardItem>
+  noTag: boolean
 }
 
-const CardList: React.VFC<Props> = ({ basePath, items }) => pug`
+const CardList: React.FC<Props> = ({ basePath, items, noTag = false }) => pug`
   .uk-grid-small.uk-flex-center(data-uk-grid)
     each item in items
       .uk-card.uk-card-default.uk-margin-right(className='uk-width-1-3@s', key=item.id)
@@ -24,10 +25,12 @@ const CardList: React.VFC<Props> = ({ basePath, items }) => pug`
 
         .uk-card-footer.uk-text-meta
           p #[span(data-uk-icon='calendar')] #[span &nbsp;] #[time(dateTime=item.publishedAt) #{DateTime.date(item.publishedAt)}]
-          p #[span(data-uk-icon='tag')] #[span &nbsp;]
-            each cat in item.categories
-              Link(href={pathname: '/categories/[slug]', query: { slug: cat.id }}, key=cat.id)
-                a.uk-margin-small-right #[span.uk-badge #{cat.name}]
+
+          if !noTag
+            p #[span(data-uk-icon='tag')] #[span &nbsp;]
+              each cat in item.categories
+                Link(href={pathname: '/categories/[slug]', query: { slug: cat.id }}, key=cat.id)
+                  a.uk-margin-small-right #[span.uk-badge #{cat.name}]
 `
 
 export type { CardItem }

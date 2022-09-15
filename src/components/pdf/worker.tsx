@@ -5,7 +5,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-const Worker: React.VFC<Props> = ({
+const Worker: React.FC<Props> = ({
   src,
   children,
 }) => {

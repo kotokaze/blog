@@ -10,7 +10,7 @@ interface Props {
   children: React.ReactNode
 }
 
-const Layout: React.VFC<Props> = ({ title, author, children }) => pug`
+const Layout: React.FC<Props> = ({ title, author, children }) => pug`
   Fragment
     header(data-uk-sticky)
       Navbar(title=title)

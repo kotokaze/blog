@@ -3,7 +3,7 @@ import type { ErrCode } from './index.hook'
 import { PageType, validateQuery } from './index.hook'
 
 type PreviewResponse = {
-  query: { [key: string]: string | string[] },
+  query: Partial<{ [key: string]: string | string[] }>,
 } & ErrCode
 
 const handler: NextApiHandler<PreviewResponse> = async (req, res) => {
@@ -15,7 +15,7 @@ const handler: NextApiHandler<PreviewResponse> = async (req, res) => {
     return
   }
 
-  res.setPreviewData(query.draftKey, { maxAge: 60 })
+  res.setPreviewData(query.draftKey!, { maxAge: 60 })
   res.redirect(307,
     `/${query.type}` + (query.type !== PageType.INFO ? `/${query.slug}` : '')
   )
