@@ -5,7 +5,8 @@
   overflow-x: hidden;
   overflow-y: scroll;
   scrollbar-width: none;
-  text-rendering: optimizeLegibility;
+  text-rendering: optimizelegibility;
+
   &::-webkit-scrollbar {
     display: none;
   }
