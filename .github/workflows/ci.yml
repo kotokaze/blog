@@ -22,7 +22,7 @@ jobs:
       - name: Checkout 🛎
         uses: actions/checkout@v3
         with:
-          ssh_key: ${{ secrets.SSH_KEY_SLIDES }}
+          ssh-key: ${{ secrets.SSH_KEY_SLIDES }}
           submodules: recursive
 
       - name: Setup node env 🏗
