@@ -35,7 +35,7 @@ interface Article extends Content {
   categories: Array<?Category>
   body: Array<ArticleBody>
   description?: string
-  ogImage?: ImageInfo
+  ogImage: ImageInfo
   relatedBlogs: Array<?Article>
 }
 
@@ -52,6 +52,6 @@ interface Slide extends Content {
   title: string
   categories: Array<?Category>
   description?: string
-  ogImage?: ImageInfo
+  ogImage: ImageInfo
   filename: string
 }
