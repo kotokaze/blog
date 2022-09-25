@@ -6,11 +6,9 @@ import WithSidebar from '@/components/layouts/with-sidebar'; WithSidebar
 import type { Props } from './index.hook'
 
 const SlidesPage: NextPage<Props> = ({ items, site }) =>{
-  const kw: string = site.categories.map((cat) => cat?.name).join(',')
-
   return pug`
     Fragment
-      Meta(title=('slides | ' + site.title), desc=site.description, kw=kw)
+      Meta(site=site, title='slides')
       WithSidebar(site=site)
         CardList(basePath='/slides', items=items)
   `

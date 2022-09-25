@@ -1,4 +1,5 @@
 import { Fragment } from 'react'; Fragment
+import { useRouter } from 'next/router';
 import type { NextPage } from 'next'
 import Meta from '@/components/meta'; Meta
 import CardList from '@/components/card-list'; CardList
@@ -11,9 +12,13 @@ const CategoryPage: NextPage<Props> = ({
   slides,
   site,
 }) => {
+  const router = useRouter()
+  const slug: string = router.query.slug!.toString()
+  const fullpath: string = `${site.url}${router.pathname.replace('[slug]', slug)}`
+
   return pug`
     Fragment
-      Meta(title=(tag + ' | '  + site.title), desc=tag, kw=tag)
+      Meta(site=site, title=tag, desc=tag, kw=tag, url=fullpath)
       WithSidebar(site=site)
         section.uk-section.uk-sextion-small.uk-background-primary.uk-flex.uk-flex-center.uk-margin-medium-bottom
           h4.uk-text-lead.uk-text-break #[span(data-uk-icon='tag').uk-margin-small-right] #{tag}
