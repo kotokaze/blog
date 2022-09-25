@@ -6,11 +6,9 @@ import WithSidebar from '@/components/layouts/with-sidebar'; WithSidebar
 import { Props } from './index.hook'
 
 const BlogsPage: NextPage<Props> = ({ items, site }) => {
-  const kw: string = site.categories.map((cat) => cat?.name).join(',')
-
   return pug`
     Fragment
-      Meta(title=('記事一覧 | ' + site.title), desc=site.description, kw=kw)
+      Meta(site=site, title='記事一覧')
       WithSidebar(site=site)
         CardList(basePath='/blogs', items=items)
   `
