@@ -6,11 +6,9 @@ import WithSidebar from '@/components/layouts/with-sidebar'; WithSidebar
 import type { Props } from './index.hook'
 
 const InfoPage: NextPage<Props> = ({ site, preview }) => {
-  const kw: string = site.categories.map((cat) => cat?.name).join(',')
-
   return pug`
     Fragment
-      Meta(title=('Info | ' + site.title), desc=site.description, kw=kw)
+      Meta(site=site, title='Info')
       WithSidebar(site=site)
         if preview
           Fragment

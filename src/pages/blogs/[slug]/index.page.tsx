@@ -10,14 +10,14 @@ import { Props } from './index.hook'
 
 const BlogPage: NextPage<Props> = ({ article: content, site, preview }) => {
   const router = useRouter()
-  const slug: string = router.query.slug as string
+  const slug: string = router.query.slug!.toString()
   const fullpath: string = `${site.url}${router.pathname.replace('[slug]', slug)}`
   const kw: string = content.categories.map((cat) => cat?.name).join(',')
   const bodies: Array<string> = content.body.map((content) => content.content)
 
   return pug`
     Fragment
-      Meta(title=(content.title + ' | '  + site.title), desc=content.description, kw=kw)
+      Meta(site=site, title=content.title, desc=content.description, kw=kw, imageUrl=content.ogImage.url, url=fullpath)
       WithSidebar(site=site, author=content.author)
         section.uk-section.uk-sextion-small.uk-background-primary
           .uk-flex.uk-flex-center

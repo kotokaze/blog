@@ -20,15 +20,10 @@ jobs:
 
     steps:
       - name: Checkout 🛎
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
-          ssh_key: ${{ secrets.SSH_KEY }}
-
-      - name: Fetch submodules 🚚
-        run: |
-          eval "$(ssh-agent)"
-          ssh-add - <<< "${{ secrets.SSH_KEY_SLIDES }}"
-          git submodule update --init --recursive
+          ssh-key: ${{ secrets.SSH_KEY_SLIDES }}
+          submodules: recursive
 
       - name: Setup node env 🏗
         uses: actions/setup-node@v2

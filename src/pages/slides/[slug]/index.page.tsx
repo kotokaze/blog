@@ -11,7 +11,7 @@ import type { Props } from './index.hook'
 
 const SlidePage: NextPage<Props> = ({ slide, site, preview }) => {
   const router = useRouter()
-  const slug: string = router.query.slug as string
+  const slug: string = router.query.slug!.toString()
   const fullpath: string = `${site.url}${router.pathname.replace('[slug]', slug)}`
   const kw: string = slide.categories.map((cat) => cat?.name).join(',')
   const worker: string = require('pdfjs-dist/build/pdf.worker.min')
@@ -19,7 +19,7 @@ const SlidePage: NextPage<Props> = ({ slide, site, preview }) => {
 
   return pug`
     Fragment
-      Meta(title=(slide.title + ' | '  + site.title), desc=slide.description, kw=kw)
+      Meta(site=site, title=slide.title, desc=slide.description, imageUrl=slide.ogImage.url, url=fullpath, kw=kw)
       WithSidebar(site=site)
         if preview
           Fragment

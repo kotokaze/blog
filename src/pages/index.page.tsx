@@ -1,7 +1,6 @@
 import { Fragment } from 'react'; Fragment
 import type { NextPage } from 'next';
 import Meta from '@/components/meta'; Meta
-import Social from '@/components/social'; Social
 import Layout from '@/components/layouts/default'; Layout
 import WithSidebar from '@/components/layouts/with-sidebar'; WithSidebar
 import type { Props } from './index.hook'
@@ -10,8 +9,7 @@ import 'animate.css/animate.min.css'
 const IndexPage: NextPage<Props> = ({ site }) => {
   return pug`
     Fragment
-      Meta(title=site.title, desc=site.description, kw=site.title)
-        Social(title=site.title, desc=site.description, url=site.url)
+      Meta(site=site, title='Home')
       WithSidebar(site=site)
         .uk-container-expand.uk-section-xlarge.uk-margin-large
           .uk-flex.uk-flex-center
