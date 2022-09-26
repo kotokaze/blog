@@ -40,7 +40,7 @@ export const genFeedXml = async (): Promise<string> => {
       url: `${site.url}/blogs/${article.id}`,
       guid: article.id,
       categories: article.categories.map((cat) => cat!.name) || [],
-      author: article.author.name,
+      author: site.author.name,
       date: new Date(article.publishedAt!),
     })
   })
@@ -52,6 +52,7 @@ export const genFeedXml = async (): Promise<string> => {
       url: `${site.url}/slides/${slide.id}`,
       guid: slide.id,
       categories: slide.categories.map((cat) => cat!.name) || [],
+      author: site.author.name,
       date: new Date(slide.publishedAt!),
     })
   })

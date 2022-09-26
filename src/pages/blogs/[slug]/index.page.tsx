@@ -19,7 +19,7 @@ const BlogPage: NextPage<Props> = ({ article: content, site, preview }) => {
   return pug`
     Fragment
       Meta(site=site, title=content.title, desc=content.description, kw=kw, imageUrl=content.ogImage.url, url=fullpath)
-      WithSidebar(site=site, author=content.author)
+      WithSidebar(site=site, author=site.author)
         section.uk-section.uk-sextion-small.uk-background-primary
           .uk-flex.uk-flex-center
             h4.uk-text-lead.uk-text-break #{content.title}
