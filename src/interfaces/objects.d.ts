@@ -31,7 +31,6 @@ interface ArticleBody extends Field {
 interface Article extends Content {
   title: string
   subTitle?: string
-  author: Author
   categories: Array<?Category>
   body: Array<ArticleBody>
   description?: string
