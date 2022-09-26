@@ -14,8 +14,8 @@ const Sidebar: React.FC<Props> = ({ author, categories, repo }) => pug`
       h5.uk-text-large #{author.name}
 
       .uk-flex.uk-flex-center
-        a(href=author.accounts.twitter, target='_blank', data-uk-icon='twitter').uk-icon-button.uk-margin-right
-        a(href=author.accounts.github, target='_blank', data-uk-icon='github').uk-icon-button.uk-margin-right
+        a(href='https://twitter.com/' + author.accounts.twitter, target='_blank', data-uk-icon='twitter').uk-icon-button.uk-margin-right
+        a(href='https://github.com/' + author.accounts.github, target='_blank', data-uk-icon='github').uk-icon-button.uk-margin-right
         a(href=repo, target='_blank', data-uk-icon='git-branch').uk-icon-button.uk-margin-right
         a(href='/feed', data-uk-icon='rss').uk-icon-button
 

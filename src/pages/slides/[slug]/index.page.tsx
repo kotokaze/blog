@@ -3,6 +3,7 @@ import type { NextPage } from 'next'
 import { useRouter } from 'next/router';
 import Link from 'next/link'; Link
 import Meta from '@/components/meta'; Meta
+import TwitterIntentButton from '@/components/twitter-intent'; TwitterIntentButton
 import Viewer from '@/components/pdf/viewer'; Viewer
 import WithSidebar from '@/components/layouts/with-sidebar'; WithSidebar
 import DateTime from '@/lib/date-time'; DateTime
@@ -51,10 +52,7 @@ const SlidePage: NextPage<Props> = ({ slide, site, preview }) => {
           .uk-flex.uk-flex-center.uk-margin-top
             p.uk-text-meta.uk-text-break #{slide.description}
 
-        .uk-container.uk-container-expand.uk-margin-medium-top
-          .uk-flex.uk-flex-right
-            a(href='https://twitter.com/intent/tweet?url=' + fullpath + '&text=' + slide.title + '&hashtags=' + kw).uk-button.uk-button-text
-              | #[span(data-uk-icon='twitter')] Share on Twitter
+        TwitterIntentButton(fullpath=fullpath, text=slide.title, hashtags=kw, via=site.author.accounts.twitter)
   `
 }
 

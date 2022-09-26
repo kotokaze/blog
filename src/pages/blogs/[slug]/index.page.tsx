@@ -5,6 +5,7 @@ import Link from 'next/link'; Link
 import CardList from '@/components/card-list'; CardList
 import DateTime from '@/lib/date-time'; DateTime
 import Meta from '@/components/meta'; Meta
+import TwitterIntentButton from '@/components/twitter-intent'; TwitterIntentButton
 import WithSidebar from '@/components/layouts/with-sidebar'; WithSidebar
 import { Props } from './index.hook'
 
@@ -50,15 +51,12 @@ const BlogPage: NextPage<Props> = ({ article: content, site, preview }) => {
           each body, idx in bodies
             div(dangerouslySetInnerHTML={ __html: body }, key=idx)
 
+        TwitterIntentButton(fullpath=fullpath, text=content.title, hashtags=kw, via=site.author.accounts.twitter)
+
         if content.relatedBlogs.length
           .uk-margin-medium-top
             h4.uk-text-lead.uk-text-center.uk-margin-medium_bottom 関連記事
             CardList(basePath='/blogs', items=content.relatedBlogs, noTag=true)
-
-        .uk-container.uk-container-expand.uk-margin-medium-top
-          .uk-flex.uk-flex-right
-            a(href='https://twitter.com/intent/tweet?url=' + fullpath + '&text=' + content.title + '&hashtags=' + kw).uk-button.uk-button-text
-              | #[span(data-uk-icon='twitter')] Share on Twitter
   `
 }
 
