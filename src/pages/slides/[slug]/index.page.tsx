@@ -40,8 +40,7 @@ const SlidePage: NextPage<Props> = ({ slide, site, preview }) => {
           Viewer(src=('/assets/slides/' + slide.filename), workerSrc=worker, cMap=cmap)
 
         .uk-container.uk-container-expand.uk-margin-medium-top
-          .uk-flex.uk-flex-center
-            h3.uk-heading-lead.uk-text-break #{slide.title}
+          h3.uk-text-lead.uk-text-break.uk-text-center #{slide.title}
           .uk-flex.uk-flex-center.uk-grid-column-medium(data-uk-grid)
             p #[span(data-uk-icon='calendar')] #[time(dateTime=slide.publishedAt || slide.createdAt) #{DateTime.date(slide.publishedAt || slide.createdAt)}]
               if slide.publishedAt

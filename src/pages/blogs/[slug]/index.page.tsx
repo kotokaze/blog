@@ -21,10 +21,8 @@ const BlogPage: NextPage<Props> = ({ article: content, site, preview }) => {
       Meta(site=site, title=content.title, desc=content.description, kw=kw, imageUrl=content.ogImage.url, url=fullpath)
       WithSidebar(site=site, author=site.author)
         section.uk-section.uk-sextion-small.uk-background-primary
-          .uk-flex.uk-flex-center
-            h4.uk-text-lead.uk-text-break #{content.title}
-          .uk-flex.uk-flex-center
-            h5.uk-text-lead #{content.subTitle}
+          h4.uk-text-lead.uk-text-break.uk-text-center #{content.title}
+          h5.uk-text-lead.uk-text-center #{content.subTitle}
           .uk-flex.uk-flex-center.uk-grid-column-medium(data-uk-grid)
             p #[span(data-uk-icon='calendar')] #[time(dateTime=content.publishedAt || content.createdAt) #{DateTime.date(content.publishedAt || content.createdAt)}]
               if content.publishedAt
@@ -44,8 +42,9 @@ const BlogPage: NextPage<Props> = ({ article: content, site, preview }) => {
             .uk-alert-danger(data-uk-alert)
               a.uk-alert-close(data-uk-close)
               p プレビューモードで表示中
-            a(href='/api/deactivate').uk-button.uk-button-default.uk-position-bottom-right.uk-position-fixed
-              | #[span(data-uk-icon='trash')] Cookie 削除
+            Link(href='/api/deactivate')
+              a.uk-button.uk-button-default.uk-position-bottom-right.uk-position-fixed
+                | #[span(data-uk-icon='trash')] Cookie 削除
 
         article
           each body, idx in bodies
