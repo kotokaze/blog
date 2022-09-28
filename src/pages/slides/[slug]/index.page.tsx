@@ -2,6 +2,7 @@ import { Fragment } from 'react'; Fragment
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router';
 import Link from 'next/link'; Link
+import Breadcrumb from '@/components/breadcrumb'; Breadcrumb
 import Meta from '@/components/meta'; Meta
 import TwitterIntentButton from '@/components/twitter-intent'; TwitterIntentButton
 import Viewer from '@/components/pdf/viewer'; Viewer
@@ -13,7 +14,8 @@ import type { Props } from './index.hook'
 const SlidePage: NextPage<Props> = ({ slide, site, preview }) => {
   const router = useRouter()
   const slug: string = router.query.slug!.toString()
-  const fullpath: string = `${site.url}${router.pathname.replace('[slug]', slug)}`
+  const relpath = router.pathname.replace('[slug]', slug)
+  const fullpath: string = `${site.url}${relpath}`
   const kw: string = slide.categories.map((cat) => cat?.name).join(',')
   const worker: string = require('pdfjs-dist/build/pdf.worker.min')
   const cmap: CharMap = { cMapUrl: '/cmaps', cMapPacked: true }
@@ -22,6 +24,8 @@ const SlidePage: NextPage<Props> = ({ slide, site, preview }) => {
     Fragment
       Meta(site=site, title=slide.title, desc=slide.description, imageUrl=slide.ogImage.url, url=fullpath, kw=kw)
       WithSidebar(site=site)
+        Breadcrumb(relpath=relpath, table={title: slide.title, slug: slug})
+
         if preview
           Fragment
             .uk-alert-danger(data-uk-alert)
@@ -42,12 +46,16 @@ const SlidePage: NextPage<Props> = ({ slide, site, preview }) => {
         .uk-container.uk-container-expand.uk-margin-medium-top
           h3.uk-text-lead.uk-text-break.uk-text-center #{slide.title}
           .uk-flex.uk-flex-center.uk-grid-column-medium(data-uk-grid)
-            p #[span(data-uk-icon='calendar')] #[time(dateTime=slide.publishedAt || slide.createdAt) #{DateTime.date(slide.publishedAt || slide.createdAt)}]
-              if slide.publishedAt
-                | に公開
-              else
-                | に作成
-            p #[span(data-uk-icon='history')] #[= DateTime.elapsed(slide.revisedAt || slide.publishedAt || slide.createdAt)]前に更新
+            p
+              | #[span(data-uk-icon='calendar')]
+              | #[time(dateTime=slide.publishedAt || slide.createdAt) #{DateTime.date(slide.publishedAt || slide.createdAt)}]
+              | #{slide.publishedAt ? 'に公開' : 'に作成'}
+
+            p
+              | #[span(data-uk-icon='history')]
+              | #[= DateTime.elapsed(slide.revisedAt || slide.publishedAt || slide.createdAt)]
+              | 前に更新
+
           .uk-flex.uk-flex-center.uk-margin-top
             p.uk-text-meta.uk-text-break #{slide.description}
 
