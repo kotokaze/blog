@@ -17,7 +17,11 @@ interface Props {
 const CardList: React.FC<Props> = ({ basePath, items, noTag = false }) => pug`
   .uk-grid-small.uk-flex-center(data-uk-grid)
     each item in items
-      .uk-card.uk-card-default.uk-margin-right(className='uk-width-1-3@s', key=item.id)
+      .uk-card.uk-card-default.uk-margin-right(
+        className='uk-width-1-3@s',
+        key=item.id,
+        data-uk-tooltip='title: ' + item.title + '; pos: bottom-right; delay: 200',
+      )
         Link(href={pathname: basePath + '/[slug]', query: { slug: item.id }})
           a.uk-link-toggle.uk-card-header.uk-text-center
             h4.uk-card-title.uk-text-truncate #[span.uk-link-heading #{item.title}]
