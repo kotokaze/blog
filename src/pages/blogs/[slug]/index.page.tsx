@@ -2,7 +2,6 @@ import { Fragment } from 'react'; Fragment
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import Link from 'next/link'; Link
-import Breadcrumb from '@/components/breadcrumb'; Breadcrumb
 import CardList from '@/components/card-list'; CardList
 import DateTime from '@/lib/date-time'; DateTime
 import Meta from '@/components/meta'; Meta
@@ -13,8 +12,7 @@ import { Props } from './index.hook'
 const BlogPage: NextPage<Props> = ({ article: content, site, preview }) => {
   const router = useRouter()
   const slug: string = router.query.slug!.toString()
-  const relpath = router.pathname.replace('[slug]', slug)
-  const fullpath: string = `${site.url}${relpath}`
+  const fullpath: string = `${site.url}${router.pathname.replace('[slug]', slug)}`
   const kw: string = content.categories.map((cat) => cat?.name).join(',')
   const bodies: Array<string> = content.body.map((content) => content.content)
 
@@ -22,20 +20,16 @@ const BlogPage: NextPage<Props> = ({ article: content, site, preview }) => {
     Fragment
       Meta(site=site, title=content.title, desc=content.description, kw=kw, imageUrl=content.ogImage.url, url=fullpath)
       WithSidebar(site=site, author=site.author)
-        Breadcrumb(relpath=relpath, table={title: content.title, slug: slug})
-        section.uk-section.uk-sextion-small.uk-background-primary.uk-text-center.uk-text-break
-          h4.uk-text-lead #{content.title}
-          h5.uk-text-lead #{content.subTitle}
+        section.uk-section.uk-sextion-small.uk-background-primary
+          h4.uk-text-lead.uk-text-break.uk-text-center #{content.title}
+          h5.uk-text-lead.uk-text-center #{content.subTitle}
           .uk-flex.uk-flex-center.uk-grid-column-medium(data-uk-grid)
-            p
-              | #[span(data-uk-icon='calendar')]
-              | #[time(dateTime=content.publishedAt || content.createdAt) #{DateTime.date(content.publishedAt || content.createdAt)}]
-              | #{content.publishedAt ? 'に公開' : 'に作成'}
-
-            p
-              | #[span(data-uk-icon='history')]
-              | #[= DateTime.elapsed(content.revisedAt || content.publishedAt || content.createdAt)]
-              | 前に更新
+            p #[span(data-uk-icon='calendar')] #[time(dateTime=content.publishedAt || content.createdAt) #{DateTime.date(content.publishedAt || content.createdAt)}]
+              if content.publishedAt
+                | に公開
+              else
+                | に作成
+            p #[span(data-uk-icon='history')] #[= DateTime.elapsed(content.revisedAt || content.publishedAt || content.createdAt)]前に更新
 
         .uk-margin-medium-bottom
           p.uk-text-meta #[span(data-uk-icon='tag')] Tags: #[span &nbsp;]
