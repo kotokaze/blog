@@ -2,35 +2,40 @@ import { Fragment } from 'react'; Fragment
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import Link from 'next/link'; Link
+import Breadcrumb from '@/components/breadcrumb'; Breadcrumb
 import CardList from '@/components/card-list'; CardList
 import DateTime from '@/lib/date-time'; DateTime
 import Meta from '@/components/meta'; Meta
+import TwitterIntentButton from '@/components/twitter-intent'; TwitterIntentButton
 import WithSidebar from '@/components/layouts/with-sidebar'; WithSidebar
 import { Props } from './index.hook'
 
-const BlogPage: NextPage<Props> = ({ article: content, site, preview }) => {
+const BlogPage: NextPage<Props> = ({ article: content, preview, site }) => {
   const router = useRouter()
   const slug: string = router.query.slug!.toString()
-  const fullpath: string = `${site.url}${router.pathname.replace('[slug]', slug)}`
+  const relpath = router.pathname.replace('[slug]', slug)
+  const fullpath: string = `${site.url}${relpath}`
   const kw: string = content.categories.map((cat) => cat?.name).join(',')
   const bodies: Array<string> = content.body.map((content) => content.content)
 
   return pug`
     Fragment
       Meta(site=site, title=content.title, desc=content.description, kw=kw, imageUrl=content.ogImage.url, url=fullpath)
-      WithSidebar(site=site, author=content.author)
-        section.uk-section.uk-sextion-small.uk-background-primary
-          .uk-flex.uk-flex-center
-            h4.uk-text-lead.uk-text-break #{content.title}
-          .uk-flex.uk-flex-center
-            h5.uk-text-lead #{content.subTitle}
+      WithSidebar(site=site, author=site.author)
+        Breadcrumb(relpath=relpath, table={title: content.title, slug: slug})
+        section.uk-section.uk-sextion-small.uk-background-primary.uk-text-center.uk-text-break
+          h4.uk-text-lead #{content.title}
+          h5.uk-text-lead #{content.subTitle}
           .uk-flex.uk-flex-center.uk-grid-column-medium(data-uk-grid)
-            p #[span(data-uk-icon='calendar')] #[time(dateTime=content.publishedAt || content.createdAt) #{DateTime.date(content.publishedAt || content.createdAt)}]
-              if content.publishedAt
-                | に公開
-              else
-                | に作成
-            p #[span(data-uk-icon='history')] #[= DateTime.elapsed(content.revisedAt || content.publishedAt || content.createdAt)]前に更新
+            p
+              | #[span(data-uk-icon='calendar')]
+              | #[time(dateTime=content.publishedAt || content.createdAt) #{DateTime.date(content.publishedAt || content.createdAt)}]
+              | #{content.publishedAt ? 'に公開' : 'に作成'}
+
+            p
+              | #[span(data-uk-icon='history')]
+              | #[= DateTime.elapsed(content.revisedAt || content.publishedAt || content.createdAt)]
+              | 前に更新
 
         .uk-margin-medium-bottom
           p.uk-text-meta #[span(data-uk-icon='tag')] Tags: #[span &nbsp;]
@@ -43,22 +48,20 @@ const BlogPage: NextPage<Props> = ({ article: content, site, preview }) => {
             .uk-alert-danger(data-uk-alert)
               a.uk-alert-close(data-uk-close)
               p プレビューモードで表示中
-            a(href='/api/deactivate').uk-button.uk-button-default.uk-position-bottom-right.uk-position-fixed
-              | #[span(data-uk-icon='trash')] Cookie 削除
+            Link(href='/api/deactivate')
+              a.uk-button.uk-button-default.uk-position-bottom-right.uk-position-fixed
+                | #[span(data-uk-icon='trash')] Cookie 削除
 
         article
           each body, idx in bodies
             div(dangerouslySetInnerHTML={ __html: body }, key=idx)
 
+        TwitterIntentButton(fullpath=fullpath, text=content.title, hashtags=kw, via=site.author.accounts.twitter)
+
         if content.relatedBlogs.length
           .uk-margin-medium-top
             h4.uk-text-lead.uk-text-center.uk-margin-medium_bottom 関連記事
             CardList(basePath='/blogs', items=content.relatedBlogs, noTag=true)
-
-        .uk-container.uk-container-expand.uk-margin-medium-top
-          .uk-flex.uk-flex-right
-            a(href='https://twitter.com/intent/tweet?url=' + fullpath + '&text=' + content.title + '&hashtags=' + kw).uk-button.uk-button-text
-              | #[span(data-uk-icon='twitter')] Share on Twitter
   `
 }
 
