@@ -5,18 +5,20 @@ on:
 
 jobs:
   update:
+    permissions:
+      contents: write
+      pull-requests: write
+
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎
         uses: actions/checkout@v2
         with:
-          ssh_key: ${{ secrets.SSH_KEY }}
+          lfs: true
+          ssh-key: ${{ secrets.SSH_KEY }}
 
       - name: Fetch submodules 🚚
-        run: |
-          eval "$(ssh-agent)"
-          ssh-add - <<< "${{ secrets.SSH_KEY_SLIDES }}"
-          git submodule update --init --recursive --remote
+        run: git submodule update --init --recursive --remote
 
       - name: Setup PGP 🔑
         uses: crazy-max/ghaction-import-gpg@v3
@@ -28,17 +30,16 @@ jobs:
 
       - name: Create Pull Request 🚀
         id: cpr
-        uses: peter-evans/create-pull-request@v3
+        uses: peter-evans/create-pull-request@v4
         with:
           title: Update submodules
           labels: Auto-PR
-          branch: bot/update-submodules
-          assignees: ${{ github.actor }}
-          author: kotokaze <62094392+kotokaze@users.noreply.github.com>
-          branch-suffix: short-commit-hash
-          commit-message: ':recycle: Fetch latest submodules'
           base: master
+          branch: bot/update-submodules
+          branch-suffix: short-commit-hash
           delete-branch: true
+          author: kotokaze <62094392+kotokaze@users.noreply.github.com>
+          commit-message: ':recycle: Fetch latest submodules'
 
       - name: Check for changes 🔎
         run: |

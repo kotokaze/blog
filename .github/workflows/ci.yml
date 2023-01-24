@@ -22,7 +22,8 @@ jobs:
       - name: Checkout 🛎
         uses: actions/checkout@v3
         with:
-          ssh-key: ${{ secrets.SSH_KEY_SLIDES }}
+          lfs: true
+          ssh-key: ${{ secrets.SSH_KEY }}
           submodules: recursive
 
       - name: Setup node env 🏗
@@ -33,7 +34,7 @@ jobs:
 
       - name: Get yarn cache directory path 🛠
         id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
 
       - name: Cache node_modules 📦
         uses: actions/cache@v2
