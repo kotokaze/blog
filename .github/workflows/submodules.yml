@@ -10,13 +10,11 @@ jobs:
       - name: Checkout 🛎
         uses: actions/checkout@v2
         with:
-          ssh_key: ${{ secrets.SSH_KEY }}
+          lfs: true
+          ssh-key: ${{ secrets.SSH_KEY }}
 
       - name: Fetch submodules 🚚
-        run: |
-          eval "$(ssh-agent)"
-          ssh-add - <<< "${{ secrets.SSH_KEY_SLIDES }}"
-          git submodule update --init --recursive --remote
+        run: git submodule update --init --recursive --remote
 
       - name: Setup PGP 🔑
         uses: crazy-max/ghaction-import-gpg@v3
