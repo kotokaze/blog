@@ -16,7 +16,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        node: [16,18]
+        node: [18]
 
     steps:
       - name: Checkout 🛎
@@ -27,7 +27,7 @@ jobs:
           submodules: recursive
 
       - name: Setup node env 🏗
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
           check-latest: true
