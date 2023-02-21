@@ -1,9 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import type {
-  PDFDocumentProxy,
-  RenderParameters,
-  RenderTask,
-} from 'pdfjs-dist/types/src/display/api'
+import type { PDFDocumentProxy, RenderTask } from 'pdfjs-dist'
+import type { RenderParameters } from 'pdfjs-dist/types/src/display/api'
 
 interface RenderOptions {
   width: number

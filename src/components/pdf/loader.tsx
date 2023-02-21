@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react'
 import { useKey } from '@/hooks/useKey'
-import { pdfjsApi } from '@/modules/pdfjs'
+import { PDFWorker, getDocument } from 'pdfjs-dist'
 import Renderer from './renderer'; Renderer
 import type { CharMap } from './viewer'
 import type { RenderOptions } from './renderer'
+import type { DocumentInitParameters } from 'pdfjs-dist/types/src/display/api'
 import type {
-  DocumentInitParameters,
   OnProgressParameters,
   PDFDocumentLoadingTask,
   PDFDocumentProxy,
-} from 'pdfjs-dist/types/src/display/api'
+} from 'pdfjs-dist'
 
 interface LoaderOptions {
   src: string | Uint8Array
@@ -30,7 +30,7 @@ const DocumentLoader: React.FC<Props> = ({ src, page, cMap, options }) => {
   const [pageNum, setPageNum] = useState<number>(page || 1)
 
   useEffect(() => {
-    const worker = new pdfjsApi.PDFWorker()
+    const worker = new PDFWorker()
 
     const params: DocumentInitParameters = {
       ...(typeof src === 'string' ? { url: src } : { data: src }),
@@ -39,7 +39,7 @@ const DocumentLoader: React.FC<Props> = ({ src, page, cMap, options }) => {
     }
 
     // Set up the loading task
-    const loadingTask: PDFDocumentLoadingTask = pdfjsApi.getDocument(params)
+    const loadingTask: PDFDocumentLoadingTask = getDocument(params)
     loadingTask.onProgress = (progress: OnProgressParameters) =>
       progress.total > 0
         ? setLoadRate(Math.min(100, (100 * progress.loaded) / progress.total))
