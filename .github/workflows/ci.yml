@@ -50,3 +50,10 @@ jobs:
 
       - name: Run linter 👀
         run: yarn lint
+
+      - name: Run build 🏗
+        run: yarn build
+        env:
+          MICROCMS_API_HOST: ${{ secrets.MICROCMS_API_HOST }}
+          MICROCMS_API_KEY: ${{ secrets.MICROCMS_API_KEY }}
+          MICROCMS_SECRET: ${{ secrets.MICROCMS_SECRET }}
