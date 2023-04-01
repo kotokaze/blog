@@ -1,7 +1,7 @@
 steps:
   - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: 'bash'
-    args: [ '-c', "gcloud secrets versions access latest --secret=SSH_KEY --format='get(payload.data)' | tr '_-' '/+' | base64 -d >> /root/.ssh/id_rsa && chmod 400 /root/.ssh/id_rsa"]
+    args: [ '-c', "gcloud secrets versions access latest --secret=SSH_KEY --format='get(payload.data)' | tr '_-' '/+' | base64 -d > /root/.ssh/id_ed25519 && chmod 400 /root/.ssh/id_ed25519"]
     volumes:
     - name: 'ssh'
       path: /root/.ssh
