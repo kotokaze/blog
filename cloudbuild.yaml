@@ -1,24 +1,47 @@
 steps:
   - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: 'bash'
-    args: [ '-c', "gcloud secrets versions access latest --secret=SSH_KEY --format='get(payload.data)' | tr '_-' '/+' | base64 -d > /root/.ssh/id_ed25519 && chmod 400 /root/.ssh/id_ed25519"]
+    args:
+      - '-c'
+      - |
+        gcloud secrets versions access latest --secret=SSH_KEY --format='get(payload.data)' | tr '_-' '/+' | base64 -d > /root/.ssh/id_ed25519
+        chmod 400 /root/.ssh/id_ed25519
     volumes:
     - name: 'ssh'
       path: /root/.ssh
+
   - name: 'gcr.io/cloud-builders/git'
     entrypoint: 'bash'
-    args: [ '-c', "echo ${_GITHUB_HOST_KEY} >> /root/.ssh/known_hosts && git submodule init && git submodule update --init --recursive && ls public/assets/slides"]
+    args:
+      - '-c'
+      - |
+        echo "${_GITHUB_HOST_KEY}" >> /root/.ssh/known_hosts
+        git submodule init
+        git submodule update --init --recursive
+        ls public/assets/slides
     volumes:
     - name: 'ssh'
       path: /root/.ssh
+
   - name: gcr.io/cloud-builders/gcloud
     entrypoint: 'bash'
-    args: [ '-c', "gcloud secrets versions access latest --secret=MICROCMS --format='get(payload.data)' | tr '_-' '/+' | base64 -d > .env" ]
+    args:
+      - '-c'
+      - gcloud secrets versions access latest --secret=MICROCMS --format='get(payload.data)' | tr '_-' '/+' | base64 -d > .env
+
   - name: node:16
     entrypoint: yarn
-    args: ["install"]
+    args:
+      - install
+
   - name: node:16
     entrypoint: yarn
-    args: ["build"]
+    args:
+      - build
+
   - name: gcr.io/cloud-builders/gcloud
-    args: ["app", "deploy", "app.yaml", "--quiet"]
+    args:
+      - app
+      - deploy
+      - app.yaml
+      - '--quiet'
