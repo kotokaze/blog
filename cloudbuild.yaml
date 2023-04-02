@@ -1,24 +1,41 @@
 steps:
   - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: 'bash'
-    args: [ '-c', "gcloud secrets versions access latest --secret=SSH_KEY --format='get(payload.data)' | tr '_-' '/+' | base64 -d >> /root/.ssh/id_rsa && chmod 400 /root/.ssh/id_rsa"]
+    args:
+      - '-c'
+      - |
+        gcloud secrets versions access latest --secret=SSH_KEY --format='get(payload.data)' | tr '_-' '/+' | base64 -d > /root/.ssh/id_ed25519
+        chmod 400 /root/.ssh/id_ed25519
+        echo "${_GITHUB_HOST_KEY}" >> /root/.ssh/known_hosts
+        gcloud secrets versions access latest --secret=MICROCMS --format='get(payload.data)' | tr '_-' '/+' | base64 -d > .env
     volumes:
     - name: 'ssh'
       path: /root/.ssh
+
   - name: 'gcr.io/cloud-builders/git'
-    entrypoint: 'bash'
-    args: [ '-c', "echo ${_GITHUB_HOST_KEY} >> /root/.ssh/known_hosts && git submodule init && git submodule update --init --recursive && ls public/assets/slides"]
+    args:
+      - submodule
+      - update
+      - '--init'
+      - '--remote'
+      - '--recursive'
     volumes:
     - name: 'ssh'
       path: /root/.ssh
-  - name: gcr.io/cloud-builders/gcloud
-    entrypoint: 'bash'
-    args: [ '-c', "gcloud secrets versions access latest --secret=MICROCMS --format='get(payload.data)' | tr '_-' '/+' | base64 -d > .env" ]
-  - name: node:16
+
+  - name: 'node:18'
     entrypoint: yarn
-    args: ["install"]
-  - name: node:16
+    args:
+      - install
+
+  - name: 'node:18'
     entrypoint: yarn
-    args: ["build"]
-  - name: gcr.io/cloud-builders/gcloud
-    args: ["app", "deploy", "app.yaml", "--quiet"]
+    args:
+      - build
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - app
+      - deploy
+      - app.yaml
+      - '--quiet'
