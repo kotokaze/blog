@@ -6,17 +6,13 @@ const OffCanvases: React.FC = () => pug`
       .uk-offcanvas-bar
         ul.uk-nav
           li
-            Link(href='/')
-              a #[span.uk-margin-small-right(data-uk-icon='icon: home')] Home
+            Link(href='/') #[span.uk-margin-small-right(data-uk-icon='icon: home')] Home
           li
-            Link(href='/blogs')
-              a #[span.uk-margin-small-right(data-uk-icon='icon: pencil')] Blogs
+            Link(href='/blogs') #[span.uk-margin-small-right(data-uk-icon='icon: pencil')] Blogs
           li
-            Link(href='/slides')
-              a #[span.uk-margin-small-right(data-uk-icon='icon: image')] Slides
+            Link(href='/slides') #[span.uk-margin-small-right(data-uk-icon='icon: image')] Slides
           li
-            Link(href='/info')
-              a #[span.uk-margin-small-right(data-uk-icon='icon: location')] Info
+            Link(href='/info') #[span.uk-margin-small-right(data-uk-icon='icon: location')] Info
 `
 
 export default OffCanvases

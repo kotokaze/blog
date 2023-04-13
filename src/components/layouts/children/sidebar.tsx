@@ -14,16 +14,16 @@ const Sidebar: React.FC<Props> = ({ author, categories, repo }) => pug`
       h5.uk-text-large #{author.name}
 
       .uk-flex.uk-flex-center
-        a(href='https://twitter.com/' + author.accounts.twitter, target='_blank', data-uk-icon='twitter').uk-icon-button.uk-margin-right
-        a(href='https://github.com/' + author.accounts.github, target='_blank', data-uk-icon='github').uk-icon-button.uk-margin-right
-        a(href=repo, target='_blank', data-uk-icon='git-branch').uk-icon-button.uk-margin-right
-        a(href='/feed', data-uk-icon='rss').uk-icon-button
+        Link(href='https://twitter.com/' + author.accounts.twitter, target='_blank', data-uk-icon='twitter').uk-icon-button.uk-margin-right
+        Link(href='https://github.com/' + author.accounts.github, target='_blank', data-uk-icon='github').uk-icon-button.uk-margin-right
+        Link(href=repo, target='_blank', data-uk-icon='git-branch').uk-icon-button.uk-margin-right
+        Link(href='/feed', data-uk-icon='rss').uk-icon-button
 
     .uk-margin-large-bottom
       h3.uk-heading-line.uk-text-center #[span Tags]
       each category in categories
-        Link(href={pathname: '/categories/[slug]', query: { slug: category.id}}, key=category.id)
-          a.uk-margin-small-right #[span.uk-badge #{category.name}]
+        Link(href={pathname: '/categories/[slug]', query: { slug: category.id}}, key=category.id).uk-margin-small-right
+          | #[span.uk-badge #{category.name}]
 `
 
 export default Sidebar
