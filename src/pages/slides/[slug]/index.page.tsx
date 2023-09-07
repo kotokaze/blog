@@ -31,14 +31,14 @@ const SlidePage: NextPage<Props> = ({ slide, site, preview }) => {
             .uk-alert-danger(data-uk-alert)
               a.uk-alert-close(data-uk-close)
               p プレビューモードで表示中
-            a(href='/api/deactivate').uk-button.uk-button-default.uk-position-bottom-right.uk-position-fixed
+            Link(href='/api/deactivate').uk-button.uk-button-default.uk-position-bottom-right.uk-position-fixed
               | #[span(data-uk-icon='trash')] Cookie 削除
 
         .uk-grid-column-medium(data-uk-grid)
           p.uk-text-meta #[span(data-uk-icon='tag')] Tags: #[span &nbsp;]
             each cat in slide.categories
-              Link(href={pathname: '/categories/[slug]', query: { slug: cat.id }}, key=cat.id)
-                a.uk-margin-small-right #[span.uk-badge #{cat.name}]
+              Link(href={pathname: '/categories/[slug]', query: { slug: cat.id }}, key=cat.id).uk-margin-small-right
+                | #[span.uk-badge #{cat.name}]
 
         .uk-container.uk-container-expand.uk-background-muted.uk-margin-top
           Viewer(src=('/assets/slides/' + slide.filename), workerSrc=worker, cMap=cmap)

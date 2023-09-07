@@ -21,8 +21,7 @@ const Breadcrumb: React.FC<Props> = ({ relpath, table: { slug, title } = {} }) =
       ul.uk-breadcrumb.uk-text-nowrap.uk-text-truncate
         each breadcrumb, index in breadcrumbs
           li(key=index)
-            Link(href=breadcrumb.href)
-              a #{breadcrumb.name}
+            Link(href=breadcrumb.href) #{breadcrumb.name}
   `
 
 }
