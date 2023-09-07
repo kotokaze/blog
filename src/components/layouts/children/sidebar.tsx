@@ -1,3 +1,4 @@
+import Image from 'next/image'; Image
 import Link from 'next/link'; Link
 
 interface Props {
@@ -10,7 +11,7 @@ const Sidebar: React.FC<Props> = ({ author, categories, repo }) => pug`
   aside.uk-width-1-4(className='uk-visible@m')
     .uk-margin-large-bottom
       h3.uk-heading-line.uk-text-center #[span Profile]
-      img(src=author.avatar.url data-uk-image).uk-border-circle.uk-align-center
+      Image(src=author.avatar.url, alt='avatar image', width=200, height=200, data-fill, data-uk-image).uk-border-circle.uk-align-center
       h5.uk-text-large #{author.name}
 
       .uk-flex.uk-flex-center
