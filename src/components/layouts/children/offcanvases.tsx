@@ -1,7 +1,8 @@
+import { Fragment } from 'react'; Fragment;
 import Link from 'next/link'; Link
 
 const OffCanvases: React.FC = () => pug`
-  div
+  Fragment
     #offcanvas-nav(data-uk-offcanvas='flip: true; overlay: true')
       .uk-offcanvas-bar
         ul.uk-nav
