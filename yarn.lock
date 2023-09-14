@@ -485,9 +485,9 @@
   integrity sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==
 
 "@types/uikit@^3.3.2":
-  version "3.14.0"
-  resolved "https://registry.yarnpkg.com/@types/uikit/-/uikit-3.14.0.tgz#8951f4ad2469297b0ba1d9dd810a180ac2ed69c1"
-  integrity sha512-1d3UY6h6PVfkvOxINerFUVvlseP9hk4lfdtmWoIEbtCgQSYyrX8gd7VbibLa7K+LkD8DpyYm0+yA/7OO7FmXDQ==
+  version "3.14.1"
+  resolved "https://registry.yarnpkg.com/@types/uikit/-/uikit-3.14.1.tgz#2dc17decee28c4fed2f96d9f67fc5ac5235794ca"
+  integrity sha512-DvyFy9PJjedeycR26zC71ri7OgpFkYa63xw6Cr9dOU2dlQWn8TmS8moHDFw3qsB0TDSJ3VaMQNYyE/lOH89e+w==
 
 "@typescript-eslint/parser@^5.4.2 || ^6.0.0":
   version "6.7.0"
@@ -4175,9 +4175,9 @@ uglify-to-browserify@~1.0.0:
   integrity sha512-vb2s1lYx2xBtUgy+ta+b2J/GLVUR+wmpINwHePmPRhOsIVCG2wDzKJ0n14GslH1BifsqVzSOwQhRaCAsZ/nI4Q==
 
 uikit@^3.7.6:
-  version "3.15.24"
-  resolved "https://registry.yarnpkg.com/uikit/-/uikit-3.15.24.tgz#6f888bf9a79e8907e67eec1b110f0c7255de2537"
-  integrity sha512-/+gEflrIh6VMFyWwLInYnmzHSBN4v0wdDuO9W+JsCGs6omZzYsBvqRrOCHa9AGNhOZOHhcw52ZtxKBpkXjaoBA==
+  version "3.16.26"
+  resolved "https://registry.yarnpkg.com/uikit/-/uikit-3.16.26.tgz#90c2cde94626546c42d0b7c8f1bedafeedb909b6"
+  integrity sha512-5NCaHqgYIzTVDMxix9tUb4pJn478GdIxEodWuWy/eMf3mi7EWZPyVQxPEos71H0hrr7xC6i0TK6tjOSfF7gkOA==
 
 unbox-primitive@^1.0.2:
   version "1.0.2"
