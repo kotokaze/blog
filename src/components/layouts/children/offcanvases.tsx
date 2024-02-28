@@ -1,22 +1,19 @@
+import { Fragment } from 'react'; Fragment;
 import Link from 'next/link'; Link
 
 const OffCanvases: React.FC = () => pug`
-  div
+  Fragment
     #offcanvas-nav(data-uk-offcanvas='flip: true; overlay: true')
       .uk-offcanvas-bar
         ul.uk-nav
           li
-            Link(href='/')
-              a #[span.uk-margin-small-right(data-uk-icon='icon: home')] Home
+            Link(href='/') #[span.uk-margin-small-right(data-uk-icon='icon: home')] Home
           li
-            Link(href='/blogs')
-              a #[span.uk-margin-small-right(data-uk-icon='icon: pencil')] Blogs
+            Link(href='/blogs') #[span.uk-margin-small-right(data-uk-icon='icon: pencil')] Blogs
           li
-            Link(href='/slides')
-              a #[span.uk-margin-small-right(data-uk-icon='icon: image')] Slides
+            Link(href='/slides') #[span.uk-margin-small-right(data-uk-icon='icon: image')] Slides
           li
-            Link(href='/info')
-              a #[span.uk-margin-small-right(data-uk-icon='icon: location')] Info
+            Link(href='/info') #[span.uk-margin-small-right(data-uk-icon='icon: location')] Info
 `
 
 export default OffCanvases

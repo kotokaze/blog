@@ -17,6 +17,16 @@ module.exports = {
     { source: '/(.*)', headers: headers },
   ],
 
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.microcms-assets.io',
+        pathname: '/assets/**',
+      },
+    ]
+  },
+
   webpack: (config, { isServer }) => {
     // load worker files as a urls by using Asset Modules
     // https://webpack.js.org/guides/asset-modules/

@@ -40,17 +40,16 @@ const BlogPage: NextPage<Props> = ({ article: content, preview, site }) => {
         .uk-margin-medium-bottom
           p.uk-text-meta #[span(data-uk-icon='tag')] Tags: #[span &nbsp;]
             each cat in content.categories
-              Link(href={pathname: '/categories/[slug]', query: { slug: cat.id}}, key=cat.id)
-                a.uk-margin-small-right #[span.uk-badge #{cat.name}]
+              Link(href={pathname: '/categories/[slug]', query: { slug: cat.id}}, key=cat.id).uk-margin-small-right
+                | #[span.uk-badge #{cat.name}]
 
         if preview
           Fragment
             .uk-alert-danger(data-uk-alert)
               a.uk-alert-close(data-uk-close)
               p プレビューモードで表示中
-            Link(href='/api/deactivate')
-              a.uk-button.uk-button-default.uk-position-bottom-right.uk-position-fixed
-                | #[span(data-uk-icon='trash')] Cookie 削除
+            Link(href='/api/deactivate').uk-button.uk-button-default.uk-position-bottom-right.uk-position-fixed
+              | #[span(data-uk-icon='trash')] Cookie 削除
 
         article
           each body, idx in bodies

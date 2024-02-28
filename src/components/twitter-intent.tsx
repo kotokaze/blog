@@ -13,9 +13,8 @@ const TwitterIntentButton: React.FC<Props> = ({ fullpath, text, hashtags, via })
   return pug`
     .uk-container.uk-container-expand.uk-margin-medium-top.uk-margin-large-bottom
       div(className='uk-align-right@m').uk-button.uk-button-default
-        Link(href=url)
-          a(target='_blank').uk-button.uk-button-text
-            | #[span(data-uk-icon='twitter')] Share on Twitter
+        Link(href=url, target='_blank').uk-button.uk-button-text
+          | #[span(data-uk-icon='twitter')] Share on Twitter
   `
 }
 

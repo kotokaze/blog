@@ -1,3 +1,4 @@
+import Image from 'next/image'; Image
 import Link from 'next/link'; Link
 import DateTime from '@/lib/date-time'; DateTime
 
@@ -23,9 +24,15 @@ const CardList: React.FC<Props> = ({ basePath, items, noTag = false }) => pug`
         data-uk-tooltip='title: ' + item.title + '; pos: bottom-right; delay: 200',
       )
         Link(href={pathname: basePath + '/[slug]', query: { slug: item.id }})
-          a.uk-link-toggle.uk-card-header.uk-text-center
+          .uk-link-toggle.uk-card-header.uk-text-center
             h4.uk-card-title.uk-text-truncate #[span.uk-link-heading #{item.title}]
-            img(src=item.ogImage.url + '?fit=fill&fill-color=white&w=200&h=200' data-uk-image)
+            Image(
+              src=(item.ogImage.url + '?fit=fill&fill-color=white&w=200&h=200'),
+              width=200,
+              height=200,
+              alt=item.title,
+              data-uk-image,
+            )
 
         .uk-card-footer.uk-text-meta
           p #[span(data-uk-icon='calendar')] #[span &nbsp;] #[time(dateTime=item.publishedAt) #{DateTime.date(item.publishedAt)}]
@@ -33,8 +40,8 @@ const CardList: React.FC<Props> = ({ basePath, items, noTag = false }) => pug`
           if !noTag
             p #[span(data-uk-icon='tag')] #[span &nbsp;]
               each cat in item.categories
-                Link(href={pathname: '/categories/[slug]', query: { slug: cat.id }}, key=cat.id)
-                  a.uk-margin-small-right #[span.uk-badge #{cat.name}]
+                Link(href={pathname: '/categories/[slug]', query: { slug: cat.id }}, key=cat.id).uk-margin-small-right
+                  | #[span.uk-badge #{cat.name}]
 `
 
 export type { CardItem }
