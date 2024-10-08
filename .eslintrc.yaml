@@ -7,12 +7,10 @@ parserOptions:
 
 plugins:
   - '@typescript-eslint'
-  - 'eslint-plugin-next-on-pages'
 
 extends:
   - 'next'
   - 'next/core-web-vitals'
-  - 'plugin:eslint-plugin-next-on-pages/recommended'
   - 'plugin:@typescript-eslint/strict-type-checked'
   - 'plugin:@typescript-eslint/stylistic-type-checked'
   - 'prettier'
