@@ -1,0 +1,3 @@
+[submodule "slides"]
+	path = public/assets/slides
+	url = git@github.com:kotokaze/slides
