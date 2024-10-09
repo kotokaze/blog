@@ -1,0 +1,7 @@
+'*.{js,jsx,ts,tsx}':
+  - 'eslint'
+  - 'prettier'
+
+'*.{css,scss,less}':
+  - 'stylelint'
+  - 'prettier'

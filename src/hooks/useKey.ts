@@ -1,37 +1,43 @@
-import { useCallback, useEffect, useRef } from 'react'
+import {
+  useCallback,
+  useEffect,
+  useRef,
+} from 'react';
 
 interface UseKeyOptions {
-  listen?: boolean
-  eventType?: 'keydown' | 'keypress' | 'keyup'
+  listen?: boolean;
+  type: keyof Pick<GlobalEventHandlersEventMap, 'keydown' | 'keypress' | 'keyup'>;
 }
 
 const useKey = (
   input: string | number,
-  cb: (e: KeyboardEvent) => any,
+  cb: (e: KeyboardEvent) => unknown,
   options: UseKeyOptions = {
     listen: true,
-    eventType: 'keydown',
-  }
+    type: 'keydown',
+  },
 ): void => {
-  const { listen, eventType } = options
-  const cbRef = useRef<(e: KeyboardEvent) => any>(cb)
+  const { listen, type } = options;
+  const cbRef = useRef<(e: KeyboardEvent) => unknown>(cb);
   useEffect(() => {
-    cbRef.current = cb
-  })
+    cbRef.current = cb;
+  }, [cb]);
 
   const keyListener = useCallback(
     (e: KeyboardEvent) => {
-      if (e.key.match(input.toString())) cbRef.current(e)
+      if (e.key.match(input.toString())) cbRef.current(e);
     },
-    [input]
-  )
+    [input],
+  );
 
   useEffect(() => {
-    if (!listen) return
+    if (!Boolean(listen)) return;
 
-    document.addEventListener(eventType!, keyListener)
-    return () => document.removeEventListener(eventType!, keyListener)
-  }, [keyListener, listen, eventType])
-}
+    document.addEventListener(type, keyListener);
+    return () => {
+      document.removeEventListener(type, keyListener);
+    };
+  }, [keyListener, listen, type]);
+};
 
-export { useKey }
+export { useKey };

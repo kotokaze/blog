@@ -1,0 +1,125 @@
+root: true
+
+parser: '@typescript-eslint/parser'
+parserOptions:
+  project: true
+  tsconfigRootDir: __dirname
+
+plugins:
+  - '@typescript-eslint'
+
+extends:
+  - 'next'
+  - 'next/core-web-vitals'
+  - 'plugin:@typescript-eslint/strict-type-checked'
+  - 'plugin:@typescript-eslint/stylistic-type-checked'
+  - 'prettier'
+
+rules:
+  '@typescript-eslint/no-unused-vars':
+    - 'error'
+    - varsIgnorePattern: '^_'
+      argsIgnorePattern: '^_'
+      destructuredArrayIgnorePattern: '^_'
+      caughtErrorsIgnorePattern: '^_'
+
+  '@typescript-eslint/no-empty-object-type':
+    - 'warn'
+    - allowInterfaces: 'with-single-extends'
+      allowWithName: 'Props$'
+
+  '@typescript-eslint/no-confusing-void-expression':
+    - 'error'
+    - ignoreVoidOperator: true
+  '@typescript-eslint/no-meaningless-void-operator':
+    # Relaxed for '@typescript-eslint/no-confusing-void-expression: error, {ignoreVoidOperator: true}'
+    - 'warn'
+    - {}
+
+  '@typescript-eslint/prefer-includes':
+    - 'warn'
+
+  '@typescript-eslint/prefer-readonly-parameter-types':
+    - 'warn'
+    - ignoreInferredTypes: true
+      treatMethodsAsReadonly: true
+
+  '@typescript-eslint/strict-boolean-expressions':
+    - 'warn'
+    - {}
+
+  '@typescript-eslint/switch-exhaustiveness-check':
+    - 'warn'
+    - allowDefaultCaseForExhaustiveSwitch: true
+      requireDefaultForNonUnion: true
+
+  'multiline-ternary':
+    - error
+    - always-multiline
+
+  'curly':
+    - 'error'
+    - 'multi-line'
+
+  'template-curly-spacing':
+    - 'error'
+
+  'no-template-curly-in-string':
+    - 'error'
+
+  'object-curly-spacing':
+    - 'error'
+    - 'always'
+    - arraysInObjects: false
+      objectsInObjects: false
+
+  'object-curly-newline':
+    - 'error'
+    - ImportDeclaration:
+        minProperties: 2
+
+  'comma-dangle':
+    - 'error'
+    - always-multiline
+
+  'comma-style':
+    - 'error'
+    - last
+
+  'no-extra-semi':
+    - 'error'
+
+  'semi-spacing':
+    - 'error'
+
+  'dot-location':
+    - 'error'
+    - property
+
+  'no-mixed-operators':
+    - 'error'
+
+  'operator-linebreak':
+    - 'error'
+    - before
+
+  'space-unary-ops':
+    - 'error'
+
+  'no-confusing-arrow':
+    - 'error'
+
+  'no-floating-decimal':
+    - 'error'
+
+  'no-whitespace-before-property':
+    - 'error'
+
+  'no-multi-spaces':
+    - 'error'
+    - exceptions:
+        Property: false
+
+  'no-else-return':
+    - 'error'
+    - allowElseIf: false

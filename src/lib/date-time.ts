@@ -1,11 +1,18 @@
-import { format, formatDistanceToNow, parseISO } from 'date-fns'
-import { ja } from 'date-fns/locale'
+import {
+  formatDistanceToNow,
+  parseISO,
+} from 'date-fns';
+import { ja } from 'date-fns/locale';
+import { formatInTimeZone } from 'date-fns-tz';
 
-class DateTime {
-  static date = (utc: string): string =>
-    format(parseISO(utc), 'yyyy.LL.dd')
-  static elapsed = (utc: string): string =>
-    formatDistanceToNow(parseISO(utc), { locale: ja })
-}
+export const formatInJst = (date: Date | string | number, format = 'yyyy/MM/dd') => {
+  return formatInTimeZone(date, 'Asia/Tokyo', format, { locale: ja });
+};
 
-export default DateTime
+export const getElapsed = (iso8601: string) => {
+  const utcDate = parseISO(iso8601);
+  return formatDistanceToNow(utcDate, {
+    addSuffix: true,
+    locale: ja,
+  });
+};
