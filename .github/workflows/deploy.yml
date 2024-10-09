@@ -1,0 +1,40 @@
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: 🔍 Checkout
+        uses: actions/checkout@v4
+        with:
+          ssh-key: ${{ secrets.SSH_KEY }}
+          persist-credentials: false
+          lfs: true
+          submodules: recursive
+
+      - name: 🏗 Setup node env
+        uses: actions/setup-node@v3
+
+      - name: 📦 Install dependencies
+        run: npm ci
+
+      - name: 🚧 Build
+        run: npm run build:worker
+
+      - name: 🚀 Deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          command: versions upload

@@ -12,7 +12,6 @@
     "build:worker": "npm run cf-typegen && cloudflare",
     "dev:worker": "wrangler dev",
     "preview:worker": "npm run dev:worker",
-    "deploy:worker": "wrangler deploy",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv env.d.ts --x-include-runtime"
   },
   "dependencies": {
