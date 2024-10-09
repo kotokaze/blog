@@ -29,6 +29,10 @@ jobs:
       - name: 📦 Install dependencies
         run: npm ci
 
+      - name: 🧪 Generate types
+        run: npm run cf-typegen
+        continue-on-error: true  # Ignore the entrypoint not found error
+
       - name: 🚧 Build
         run: npm run build:worker
 
