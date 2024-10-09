@@ -1,7 +1,7 @@
 {
   "name": "blog",
   "version": "0.1.0",
-  "packageManager": "npm",
+  "packageManager": "npm@10.9.0+",
   "private": true,
   "scripts": {
     "prepare": "husky",
@@ -9,10 +9,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "build:worker": "cloudflare",
+    "build:worker": "npm run cf-typegen && cloudflare",
     "dev:worker": "wrangler dev",
-    "preview:worker": "npm run build:worker && npm run dev:worker",
-    "deploy:worker": "npm run build:worker && wrangler deploy",
+    "preview:worker": "npm run dev:worker",
+    "deploy:worker": "wrangler deploy",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv env.d.ts --x-include-runtime"
   },
   "dependencies": {
