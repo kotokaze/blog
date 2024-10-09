@@ -5,6 +5,3 @@
 '*.{css,scss,less}':
   - 'stylelint'
   - 'prettier'
-
-'!*.{js,jsx,ts,tsx,css,scss,less,gitignore,node-version,toml}':
-  - 'prettier'

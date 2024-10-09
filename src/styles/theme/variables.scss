@@ -1,0 +1,10 @@
+// Custom variables for the theme
+// Rounded corners
+$tm-border-radius-xsmall: 2px;
+$tm-border-radius-small: 4px;
+$tm-border-radius-default: 7px;
+$tm-border-radius-large: 14px;
+$tm-border-radius-xlarge: 20px;
+
+// UIkit variable overrides
+@import 'variables/import';
