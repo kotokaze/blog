@@ -40,5 +40,8 @@ jobs:
         with:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          preCommands: npm run build:worker
+          preCommands: |
+            # HACK: opennextjs/opennextjs-cloudflare seems not be able to use secret while building
+            ${{ secrets.DEV_VARS }} > .dev.vars
+            npm run build:worker
           command: versions upload
