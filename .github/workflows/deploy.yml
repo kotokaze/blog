@@ -35,12 +35,10 @@ jobs:
         run: npm run cf-typegen
         continue-on-error: true  # Ignore the entrypoint not found error
 
-      - name: 🚧 Build
-        run: npm run build:worker
-
-      - name: 🚀 Deploy
+      - name: 🚀 Build & Deploy
         uses: cloudflare/wrangler-action@v3
         with:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          preCommands: npm run build:worker
           command: versions upload
