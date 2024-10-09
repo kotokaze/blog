@@ -12,9 +12,6 @@ minify = true
 # Use the new Workers + Assets to host the static frontend files
 assets = { directory = '.worker-next/assets', binding = 'ASSETS' }
 
-[build]
-command = 'npm run build:worker'
-
 # Bind a KV Namespace. Use KV as persistent storage for small key-value pairs.
 # Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#kv-namespaces
 [[kv_namespaces]]
