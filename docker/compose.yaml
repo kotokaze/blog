@@ -1,0 +1,47 @@
+# See: https://docs.docker.com/go/compose-spec-reference/
+name: blog
+services:
+  app:
+    container_name: app
+    profiles: [ prod ]
+    user: node
+    image: kotokaze/blog:latest
+    build:
+      dockerfile: docker/Dockerfile
+      context: ../
+      args:
+        NODE_VERSION: 22.9.0
+      secrets:
+        - domain
+        - key
+        - secret
+    ports:
+      - 8080:3000
+    secrets:
+      - source: env
+        target: /app/.env
+
+  dev:
+    container_name: dev
+    # BUG: Uncomment on DevContainer since they can't select the profile
+    # : https://github.com/devcontainers/cli/issues/669
+    profiles: [ dev ]
+    init: true
+    user: node
+    image: kotokaze/blog:dev
+    build:
+      dockerfile: docker/Dockerfile
+      context: ../
+      target: development
+      args:
+        NODE_VERSION: 22.9.0
+
+secrets:
+  env:
+    file: ../.env
+  domain:
+    file: private/microcms/service_domain.txt
+  key:
+    file: private/microcms/api_key.txt
+  secret:
+    file: private/microcms/secret.txt
