@@ -59,7 +59,7 @@ jobs:
         id: restore-cache
         uses: actions/cache/restore@v4
         with:
-          path: /tmp/container.cache.src
+          path: ./docker/container.cache
           key: container-${{ vars.VARIANT }}-node${{ vars.NODE_VERSION }}-${{ github.sha }}
           restore-keys: |
             container-${{ vars.VARIANT }}-node${{ vars.NODE_VERSION }}-
@@ -75,8 +75,8 @@ jobs:
             docker-bake.hcl
             ${{ steps.meta.outputs.bake-file }}
           set: |
-            *.cache-from=type=local,src=/tmp/container.cache.src
-            *.cache-to=type=local,mode=max,dest=/tmp/container.cache.dest,compression-level=9
+            *.cache-from=type=local,src=docker/container.cache
+            *.cache-to=type=local,mode=max,dest=docker/container.cache,compression-level=9
         env:
           PUSH: ${{ fromJson(env.PUSH_IMAGE) }}
           NODE_VERSION: ${{ vars.NODE_VERSION }}
@@ -99,10 +99,10 @@ jobs:
       - name: 💾 Save cache
         uses: actions/cache/save@v4
         with:
-          path: /tmp/container.cache.dest
+          path: ./docker/container.cache
           key: container-${{ vars.VARIANT }}-node${{ vars.NODE_VERSION }}-${{ github.sha }}
 
-      - name: Delete old repo cache 🗑️
+      - name: 🗑️ Delete old repo cache
         if: ${{ steps.restore-cache.outputs.cache-hit }}
         shell: bash
         run: |
