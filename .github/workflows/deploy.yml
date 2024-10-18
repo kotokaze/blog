@@ -66,6 +66,11 @@ jobs:
           NODE_VERSION: ${{ vars.NODE_VERSION }}
           VARIANT: ${{ vars.VARIANT }}
 
+          # MicroCMS
+          MICROCMS_SERVICE_DOMAIN: ${{ secrets.MICROCMS_SERVICE_DOMAIN }}
+          MICROCMS_API_KEY: ${{ secrets.MICROCMS_API_KEY }}
+          MICROCMS_SECRET: ${{ secrets.MICROCMS_SECRET }}
+
       - name: 📤 Upload artifact
         if: ${{ ! fromJson(env.PUSH_IMAGE) }}
         uses: actions/upload-artifact@v4
