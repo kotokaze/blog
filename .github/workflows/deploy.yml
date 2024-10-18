@@ -13,6 +13,7 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     permissions:
+      actions: write # Required for deleting old cache
       contents: read
       packages: write
 
@@ -58,7 +59,7 @@ jobs:
         id: restore-cache
         uses: actions/cache/restore@v4
         with:
-          path: /tmp/container.cache.src
+          path: /tmp/container.cache
           key: container-${{ vars.VARIANT }}-node${{ vars.NODE_VERSION }}-${{ github.sha }}
           restore-keys: |
             container-${{ vars.VARIANT }}-node${{ vars.NODE_VERSION }}-
@@ -74,8 +75,8 @@ jobs:
             docker-bake.hcl
             ${{ steps.meta.outputs.bake-file }}
           set: |
-            *.cache-from=type=local,src=/tmp/container.cache.src
-            *.cache-to=type=local,mode=max,dest=/tmp/container.cache.dest,compression-level=9
+            *.cache-from=type=local,src=/tmp/container.cache
+            *.cache-to=type=local,mode=max,dest=/tmp/container.cache,compression-level=9
         env:
           PUSH: ${{ fromJson(env.PUSH_IMAGE) }}
           NODE_VERSION: ${{ vars.NODE_VERSION }}
@@ -98,5 +99,16 @@ jobs:
       - name: 💾 Save cache
         uses: actions/cache/save@v4
         with:
-          path: /tmp/container.cache.dest
+          path: /tmp/container.cache
           key: container-${{ vars.VARIANT }}-node${{ vars.NODE_VERSION }}-${{ github.sha }}
+
+      - name: Delete old repo cache 🗑️
+        if: ${{ steps.restore-cache.outputs.cache-hit }}
+        shell: bash
+        run: |
+          gh extension install actions/gh-actions-cache
+
+          [ $(gh actions-cache list -R ${{ github.repository }} -B ${{ github.ref }} --key container- | wc -l) -lt 3 ] && exit 0
+          gh actions-cache delete ${{ steps.restore-cache.outputs.cache-matched-key }} -R ${{ github.repository }} --confirm
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
