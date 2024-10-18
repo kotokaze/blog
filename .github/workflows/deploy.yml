@@ -55,12 +55,28 @@ jobs:
           username: ${{ secrets.REGISTRY_USER }}
           password: ${{ secrets.REGISTRY_TOKEN }}
 
+      - name: 📃 Restore cache
+        id: restore-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: /tmp/container.cache.src
+          key: container-${{ vars.VARIANT }}-node${{ vars.NODE_VERSION }}-${{ github.sha }}
+          restore-keys: |
+            container-${{ vars.VARIANT }}-node${{ vars.NODE_VERSION }}-
+            container-${{ vars.VARIANT }}-node
+            container-
+          enableCrossOsArchive: true
+          fail-on-cache-miss: false
+
       - name: 🐳 Build / Deploy
         uses: docker/bake-action@v4
         with:
           files: |
             docker-bake.hcl
             ${{ steps.meta.outputs.bake-file }}
+          set: |
+            *.cache-from=type=local,src=/tmp/container.cache.src
+            *.cache-to=type=local,mode=max,dest=/tmp/container.cache.dest,compression-level=9
         env:
           PUSH: ${{ fromJson(env.PUSH_IMAGE) }}
           NODE_VERSION: ${{ vars.NODE_VERSION }}
@@ -79,3 +95,9 @@ jobs:
           path: /tmp/container.oci
           if-no-files-found: error
           compression-level: 0
+
+      - name: 💾 Save cache
+        uses: actions/cache/save@v4
+        with:
+          path: /tmp/container.cache.dest
+          key: container-${{ vars.VARIANT }}-node${{ vars.NODE_VERSION }}-${{ github.sha }}
