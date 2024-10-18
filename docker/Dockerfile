@@ -2,10 +2,11 @@
 # check=error=true
 
 ARG NODE_VERSION=22
+ARG VALIANT=bookworm
 
 ################################################################################
 # Use node image for base image for all stages.
-FROM node:${NODE_VERSION}-bookworm AS base
+FROM node:${NODE_VERSION}-${VALIANT} AS base
 
 # Set working directory for all build stages.
 WORKDIR /app
@@ -52,7 +53,7 @@ RUN --mount=type=cache,dst=~/.npm \
 ################################################################################
 # Create a new stage to run the application with minimal runtime dependencies
 # where the necessary files are copied from the build stage.
-FROM base AS runner
+FROM base AS runtime
 
 # Use production node environment by default.
 ENV NODE_ENV=production

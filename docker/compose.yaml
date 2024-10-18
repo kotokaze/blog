@@ -5,15 +5,6 @@ services:
     container_name: app
     user: node
     image: kotokaze/blog:latest
-    build:
-      dockerfile: docker/Dockerfile
-      context: ../
-      args:
-        NODE_VERSION: 22.9.0
-      secrets:
-        - domain
-        - key
-        - secret
     ports:
       - 8080:3000
     secrets:
@@ -23,9 +14,3 @@ services:
 secrets:
   env:
     file: ../.env
-  domain:
-    file: private/microcms/service_domain.txt
-  key:
-    file: private/microcms/api_key.txt
-  secret:
-    file: private/microcms/secret.txt
