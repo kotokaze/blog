@@ -13,6 +13,7 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     permissions:
+      actions: write # Required for deleting old cache
       contents: read
       packages: write
 
@@ -100,3 +101,14 @@ jobs:
         with:
           path: /tmp/container.cache.dest
           key: container-${{ vars.VARIANT }}-node${{ vars.NODE_VERSION }}-${{ github.sha }}
+
+      - name: Delete old repo cache 🗑️
+        if: ${{ steps.restore-cache.outputs.cache-hit }}
+        shell: bash
+        run: |
+          gh extension install actions/gh-actions-cache
+
+          [ $(gh actions-cache list -R ${{ github.repository }} -B ${{ github.ref }} --key container- | wc -l) -lt 3 ] && exit 0
+          gh actions-cache delete ${{ steps.restore-cache.outputs.cache-matched-key }} -R ${{ github.repository }} --confirm
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
