@@ -1,0 +1,16 @@
+# See: https://docs.docker.com/go/compose-spec-reference/
+name: blog
+services:
+  app:
+    container_name: app
+    user: node
+    image: kotokaze/blog:latest
+    ports:
+      - 8080:3000
+    secrets:
+      - source: env
+        target: /app/.env
+
+secrets:
+  env:
+    file: ../.env

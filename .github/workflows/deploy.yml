@@ -1,11 +1,12 @@
 on:
   push:
-    branches:
-      - master
+    branches: ['master']
+    tags: ['v*.*.*']
   pull_request:
-    branches:
-      - master
   workflow_dispatch:
+
+env:
+  PUSH_IMAGE: ${{ github.event_name != 'pull_request' }}
 
 jobs:
   deploy:
@@ -13,6 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      packages: write
 
     steps:
       - name: 🔍 Checkout
@@ -23,24 +25,79 @@ jobs:
           lfs: true
           submodules: recursive
 
-      - name: 🏗 Setup node env
-        uses: actions/setup-node@v3
+      - name: 🕵️ Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
         with:
-          node-version-file: .node-version
+          images: |
+            ${{ vars.GHCR }}/${{ github.repository }}
+            ${{ vars.REGISTRY }}/${{ github.repository }}
+          bake-target: metadata-action
+          flavor: |
+            latest=auto
+            prefix=node${{ vars.NODE_VERSION }}-${{ vars.VARIANT }}-,onlatest=false
+          tags: |
+            type=semver,pattern=v{{version}}
+            type=semver,pattern=v{{major}}.{{minor}}
+            type=semver,pattern=v{{major}},enable=${{ !startsWith(github.ref, 'refs/tags/v0.') }}
+            type=sha,prefix=node${{ vars.NODE_VERSION }}-${{ vars.VARIANT }}-,format=short
+          labels: |
+            org.opencontainers.image.source=${{ github.event.repository.clone_url }}
 
-      - name: 📦 Install dependencies
-        run: npm ci
+      - name: 🔧 Setup buildx
+        uses: docker/setup-buildx-action@v3
 
-      - name: 🧪 Generate types
-        run: npm run cf-typegen
-        continue-on-error: true  # Ignore the entrypoint not found error
-
-      - name: 🚧 Build
-        run: npm run build:worker
-
-      - name: 🚀 Deploy
-        uses: cloudflare/wrangler-action@v3
+      - name: 🧑‍💻 Log into ${{ vars.REGISTRY }} registry
+        if: ${{ fromJson(env.PUSH_IMAGE) }}
+        uses: docker/login-action@v3
         with:
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          command: versions upload
+          registry: ${{ vars.REGISTRY }}
+          username: ${{ secrets.REGISTRY_USER }}
+          password: ${{ secrets.REGISTRY_TOKEN }}
+
+      - name: 📃 Restore cache
+        id: restore-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: /tmp/container.cache.src
+          key: container-${{ vars.VARIANT }}-node${{ vars.NODE_VERSION }}-${{ github.sha }}
+          restore-keys: |
+            container-${{ vars.VARIANT }}-node${{ vars.NODE_VERSION }}-
+            container-${{ vars.VARIANT }}-node
+            container-
+          enableCrossOsArchive: true
+          fail-on-cache-miss: false
+
+      - name: 🐳 Build / Deploy
+        uses: docker/bake-action@v4
+        with:
+          files: |
+            docker-bake.hcl
+            ${{ steps.meta.outputs.bake-file }}
+          set: |
+            *.cache-from=type=local,src=/tmp/container.cache.src
+            *.cache-to=type=local,mode=max,dest=/tmp/container.cache.dest,compression-level=9
+        env:
+          PUSH: ${{ fromJson(env.PUSH_IMAGE) }}
+          NODE_VERSION: ${{ vars.NODE_VERSION }}
+          VARIANT: ${{ vars.VARIANT }}
+
+          # MicroCMS
+          MICROCMS_SERVICE_DOMAIN: ${{ secrets.MICROCMS_SERVICE_DOMAIN }}
+          MICROCMS_API_KEY: ${{ secrets.MICROCMS_API_KEY }}
+          MICROCMS_SECRET: ${{ secrets.MICROCMS_SECRET }}
+
+      - name: 📤 Upload artifact
+        if: ${{ ! fromJson(env.PUSH_IMAGE) }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: container.oci
+          path: /tmp/container.oci
+          if-no-files-found: error
+          compression-level: 0
+
+      - name: 💾 Save cache
+        uses: actions/cache/save@v4
+        with:
+          path: /tmp/container.cache.dest
+          key: container-${{ vars.VARIANT }}-node${{ vars.NODE_VERSION }}-${{ github.sha }}
