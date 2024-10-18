@@ -30,8 +30,7 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: |
-            ${{ vars.GHCR }}/${{ github.repository }}
-            ${{ vars.REGISTRY }}/${{ github.repository }}
+            ${{ vars.REGISTRY }}/${{ secrets.REGISTRY_USER }}/${{ vars.IMAGE_NAME }}
           bake-target: metadata-action
           flavor: |
             latest=auto
