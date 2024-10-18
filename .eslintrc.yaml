@@ -2,15 +2,11 @@ root: true
 
 parser: '@typescript-eslint/parser'
 parserOptions:
-  project: './tsconfig.json'
-
-  # FIXME: tsconfig not detected with `__dirname` on linux
-  # project: true
-  # tsconfigRootDir: __dirname
+  project: true
+  tsconfigRootDir: __dirname
 
 plugins:
   - '@typescript-eslint'
-  - '@stylistic'
 
 extends:
   - 'next'
@@ -57,12 +53,7 @@ rules:
     - allowDefaultCaseForExhaustiveSwitch: true
       requireDefaultForNonUnion: true
 
-  '@stylistic/brace-style':
-    - 'error'
-    - 'stroustrup'
-    - allowSingleLine: true
-
-  '@stylistic/multiline-ternary':
+  'multiline-ternary':
     - error
     - always-multiline
 
@@ -70,42 +61,42 @@ rules:
     - 'error'
     - 'multi-line'
 
-  '@stylistic/template-curly-spacing':
+  'template-curly-spacing':
     - 'error'
 
   'no-template-curly-in-string':
     - 'error'
 
-  '@stylistic/object-curly-spacing':
+  'object-curly-spacing':
     - 'error'
     - 'always'
     - arraysInObjects: false
       objectsInObjects: false
 
-  '@stylistic/object-curly-newline':
+  'object-curly-newline':
     - 'error'
     - ImportDeclaration:
         minProperties: 2
 
-  '@stylistic/comma-dangle':
+  'comma-dangle':
     - 'error'
     - always-multiline
 
-  '@stylistic/comma-style':
+  'comma-style':
     - 'error'
     - last
 
-  '@stylistic/no-extra-semi':
+  'no-extra-semi':
     - 'error'
 
-  '@stylistic/semi-spacing':
+  'semi-spacing':
     - 'error'
 
-  '@stylistic/dot-location':
+  'dot-location':
     - 'error'
     - property
 
-  '@stylistic/no-mixed-operators':
+  'no-mixed-operators':
     - 'error'
 
   'operator-linebreak':
@@ -121,7 +112,7 @@ rules:
   'no-floating-decimal':
     - 'error'
 
-  '@stylistic/no-whitespace-before-property':
+  'no-whitespace-before-property':
     - 'error'
 
   'no-multi-spaces':
