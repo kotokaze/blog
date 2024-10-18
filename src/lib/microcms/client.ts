@@ -1,5 +1,6 @@
 import 'server-only';
 import { createClient } from 'microcms-js-sdk';
+import { getCloudflareContext } from '@opennextjs/cloudflare';
 import type {
   GetAllContentIds,
   GetObjectData,
@@ -12,22 +13,13 @@ import type {
   Tag,
 } from './types';
 
-const client = function () {
-  const { MICROCMS_SERVICE_DOMAIN, MICROCMS_API_KEY } = process.env;
-
-  if (!MICROCMS_SERVICE_DOMAIN) {
-    throw new Error('Please define MICROCMS_SERVICE_DOMAIN');
-  }
-
-  if (!MICROCMS_API_KEY) {
-    throw new Error('Please define MICROCMS_API_KEY');
-  }
-
+const client = await (async function () {
+  const { env } = await getCloudflareContext();
   return createClient({
-    serviceDomain: MICROCMS_SERVICE_DOMAIN,
-    apiKey: MICROCMS_API_KEY,
+    serviceDomain: env.MICROCMS_SERVICE_DOMAIN,
+    apiKey: env.MICROCMS_API_KEY,
   });
-}();
+})();
 
 /* common api */
 const _getAllIds: GetAllContentIds = async ({ ...args }) => {

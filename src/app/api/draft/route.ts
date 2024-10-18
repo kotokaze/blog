@@ -4,6 +4,7 @@ import {
   RedirectType,
   redirect,
 } from 'next/navigation';
+import { getCloudflareContext } from '@opennextjs/cloudflare';
 import { type Status } from '../lib';
 import {
   PageKind,
@@ -13,7 +14,6 @@ import {
 
 const badRequest: Status = { code: 400, message: 'Bad Request' };
 const unauthorized: Status = { code: 401, message: 'Unauthorized' };
-const internalServerError: Status = { code: 500, message: 'Internal Server Error' };
 
 export const GET = async (req: NextRequest) => {
   const params = new URL(req.url).searchParams;
@@ -31,11 +31,8 @@ export const GET = async (req: NextRequest) => {
 
   const type = PageKind[type_ as keyof typeof PageKind];
 
-  if (!process.env.MICROCMS_SECRET) {
-    return jsonResponse(internalServerError);
-  }
-
-  if (secret !== process.env.MICROCMS_SECRET) {
+  const { env } = await getCloudflareContext();
+  if (secret !== env.MICROCMS_SECRET) {
     return jsonResponse(unauthorized);
   }
 

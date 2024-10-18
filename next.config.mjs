@@ -1,6 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'standalone',
   swcMinify: false, // For PDF.js
   experimental: {
     typedRoutes: true,
