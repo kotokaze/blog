@@ -121,7 +121,7 @@ jobs:
           restore-keys: |
             container-${{ inputs.variant }}-${{ inputs.environment }}-node${{ inputs.node_version }}-
             container-${{ inputs.variant }}-${{ inputs.environment }}-node
-            container-${{ inputs.variant }}-
+            ${{ (inputs.environment != 'prod') && 'container-${{ inputs.variant }}-' }}
           enableCrossOsArchive: true
           fail-on-cache-miss: false
 
