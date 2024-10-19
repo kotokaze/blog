@@ -17,6 +17,10 @@ jobs:
       contents: read
       packages: write
 
+    strategy:
+      matrix:
+        target: ['prod', 'dev']
+
     steps:
       - name: 🔍 Checkout
         uses: actions/checkout@v4
@@ -60,7 +64,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: /tmp/container.cache
-          key: container-${{ vars.VARIANT }}-node${{ vars.NODE_VERSION }}-${{ github.sha }}
+          key: container-${{ vars.VARIANT }}-node${{ vars.NODE_VERSION }}-${{ github.sha }}-${{ matrix.target }}
           restore-keys: |
             container-${{ vars.VARIANT }}-node${{ vars.NODE_VERSION }}-
             container-${{ vars.VARIANT }}-node
@@ -74,6 +78,7 @@ jobs:
           files: |
             docker-bake.hcl
             ${{ steps.meta.outputs.bake-file }}
+          targets: ${{ vars.VARIANT }}-${{ matrix.target }}
           set: |
             *.cache-from=type=local,src=/tmp/container.cache
             *.cache-to=type=local,mode=max,dest=/tmp/container.cache,compression-level=9
@@ -99,7 +104,7 @@ jobs:
         uses: actions/cache/save@v4
         with:
           path: /tmp/container.cache
-          key: container-${{ vars.VARIANT }}-node${{ vars.NODE_VERSION }}-${{ github.sha }}
+          key: container-${{ vars.VARIANT }}-node${{ vars.NODE_VERSION }}-${{ github.sha }}-${{ matrix.target }}
 
       - name: Delete old repo cache 🗑️
         if: ${{ steps.restore-cache.outputs.cache-hit }}
