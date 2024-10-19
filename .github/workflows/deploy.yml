@@ -5,110 +5,34 @@ on:
   pull_request:
   workflow_dispatch:
 
-env:
-  PUSH_IMAGE: ${{ github.event_name != 'pull_request' }}
-
 jobs:
   deploy:
     name: Deploy
-    runs-on: ubuntu-latest
     permissions:
       actions: write # Required for deleting old cache
       contents: read
       packages: write
 
-    steps:
-      - name: 🔍 Checkout
-        uses: actions/checkout@v4
-        with:
-          ssh-key: ${{ secrets.SSH_KEY }}
-          persist-credentials: false
-          lfs: true
-          submodules: recursive
+    strategy:
+      matrix:
+        target: ['prod', 'dev']
 
-      - name: 🕵️ Extract metadata
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: |
-            ${{ vars.REGISTRY }}/${{ secrets.REGISTRY_USER }}/${{ vars.IMAGE_NAME }}
-          bake-target: metadata-action
-          flavor: |
-            latest=auto
-            prefix=node${{ vars.NODE_VERSION }}-${{ vars.VARIANT }}-,onlatest=false
-          tags: |
-            type=semver,pattern=v{{version}}
-            type=semver,pattern=v{{major}}.{{minor}}
-            type=semver,pattern=v{{major}},enable=${{ !startsWith(github.ref, 'refs/tags/v0.') }}
-            type=sha,prefix=node${{ vars.NODE_VERSION }}-${{ vars.VARIANT }}-,format=short
-          labels: |
-            org.opencontainers.image.source=${{ github.event.repository.clone_url }}
+    uses: ./.github/workflows/bake.yml
+    with:
+      image_name: ${{ vars.IMAGE_NAME }}
+      node_version: ${{ vars.NODE_VERSION }}
+      variant: ${{ vars.VARIANT }}
+      environment: ${{ matrix.target }}
+      push: ${{ github.event_name != 'pull_request' }}
 
-      - name: 🔧 Setup buildx
-        uses: docker/setup-buildx-action@v3
+      registry: ${{ vars.REGISTRY }}
 
-      - name: 🧑‍💻 Log into ${{ vars.REGISTRY }} registry
-        if: ${{ fromJson(env.PUSH_IMAGE) }}
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ vars.REGISTRY }}
-          username: ${{ secrets.REGISTRY_USER }}
-          password: ${{ secrets.REGISTRY_TOKEN }}
+    secrets:
+      registry_user: ${{ secrets.REGISTRY_USER }}
+      registry_password: ${{ secrets.REGISTRY_TOKEN }}
 
-      - name: 📃 Restore cache
-        id: restore-cache
-        uses: actions/cache/restore@v4
-        with:
-          path: /tmp/container.cache
-          key: container-${{ vars.VARIANT }}-node${{ vars.NODE_VERSION }}-${{ github.sha }}
-          restore-keys: |
-            container-${{ vars.VARIANT }}-node${{ vars.NODE_VERSION }}-
-            container-${{ vars.VARIANT }}-node
-            container-
-          enableCrossOsArchive: true
-          fail-on-cache-miss: false
+      ssh_key: ${{ secrets.SSH_KEY }}
 
-      - name: 🐳 Build / Deploy
-        uses: docker/bake-action@v4
-        with:
-          files: |
-            docker-bake.hcl
-            ${{ steps.meta.outputs.bake-file }}
-          set: |
-            *.cache-from=type=local,src=/tmp/container.cache
-            *.cache-to=type=local,mode=max,dest=/tmp/container.cache,compression-level=9
-        env:
-          PUSH: ${{ fromJson(env.PUSH_IMAGE) }}
-          NODE_VERSION: ${{ vars.NODE_VERSION }}
-          VARIANT: ${{ vars.VARIANT }}
-
-          # MicroCMS
-          MICROCMS_SERVICE_DOMAIN: ${{ secrets.MICROCMS_SERVICE_DOMAIN }}
-          MICROCMS_API_KEY: ${{ secrets.MICROCMS_API_KEY }}
-          MICROCMS_SECRET: ${{ secrets.MICROCMS_SECRET }}
-
-      - name: 📤 Upload artifact
-        if: ${{ ! fromJson(env.PUSH_IMAGE) }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: container.oci
-          path: /tmp/container.oci
-          if-no-files-found: error
-          compression-level: 0
-
-      - name: 💾 Save cache
-        uses: actions/cache/save@v4
-        with:
-          path: /tmp/container.cache
-          key: container-${{ vars.VARIANT }}-node${{ vars.NODE_VERSION }}-${{ github.sha }}
-
-      - name: Delete old repo cache 🗑️
-        if: ${{ steps.restore-cache.outputs.cache-hit }}
-        shell: bash
-        run: |
-          gh extension install actions/gh-actions-cache
-
-          [ $(gh actions-cache list -R ${{ github.repository }} -B ${{ github.ref }} --key container- | wc -l) -lt 3 ] && exit 0
-          gh actions-cache delete ${{ steps.restore-cache.outputs.cache-matched-key }} -R ${{ github.repository }} --confirm
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      microcms_service_domain: ${{ secrets.MICROCMS_SERVICE_DOMAIN }}
+      microcms_api_key: ${{ secrets.MICROCMS_API_KEY }}
+      microcms_secret: ${{ secrets.MICROCMS_SECRET }}

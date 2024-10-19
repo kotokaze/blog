@@ -1,0 +1,172 @@
+name: Build & Push with Docker Bake
+run-name: "Bake  ${{ inputs.variant }}-${{ inputs.environment }}-node${{ inputs.node_version }}"
+
+on:
+  workflow_call:
+    inputs:
+      image_name:
+        description: 'Image name to build'
+        required: true
+        type: string
+
+      node_version:
+        description: 'Node version to build'
+        required: true
+        type: string
+
+      variant:
+        description: 'Variant to build'
+        required: true
+        type: string
+
+      environment:
+        description: 'Environment to deploy to (prod, dev)'
+        required: true
+        type: string
+
+      push:
+        description: 'Push image to registry'
+        required: false
+        default: false
+        type: boolean
+
+      registry:
+        description: 'Container registry to push to'
+        required: true
+        type: string
+
+    secrets:
+      ssh_key:
+        description: 'SSH key for private submodules'
+        required: true
+
+      registry_user:
+        description: 'Registry username'
+        required: true
+      registry_password:
+        description: 'Registry password'
+        required: true
+
+      microcms_service_domain:
+        description: 'MicroCMS service domain'
+        required: true
+      microcms_api_key:
+        description: 'MicroCMS API key'
+        required: true
+      microcms_secret:
+        description: 'MicroCMS secret'
+        required: true
+
+    outputs:
+      download-url:
+        description: 'URL to download the artifact'
+        value: ${{ jobs.build.outputs.download-url }}
+
+jobs:
+  build:
+    name: Build & Push
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write # Required for deleting old cache
+      contents: read
+      packages: write
+    outputs:
+      download-url: ${{ steps.upload-artifact.outputs.artifact-url }}
+
+    steps:
+      - name: 🔍 Checkout
+        uses: actions/checkout@v4
+        with:
+          ssh-key: ${{ secrets.ssh_key }}
+          persist-credentials: false
+          lfs: true
+          submodules: recursive
+
+      - name: 🕵️ Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: |
+            ${{ inputs.registry }}/${{ inputs.image_name }}
+          bake-target: metadata-action
+          flavor: |
+            latest=auto
+            prefix=node${{ inputs.node_version }}-${{ inputs.variant }}-${{ inputs.environment }}-,onlatest=${{ inputs.environment != 'prod' }}
+          tags: |
+            type=schedule,pattern=nightly
+            type=semver,pattern=v{{version}}
+            type=semver,pattern=v{{major}}.{{minor}}
+            type=semver,pattern=v{{major}},enable=${{ !startsWith(github.ref, 'refs/tags/v0.') }}
+            type=sha,prefix=node${{ inputs.node_version }}-${{ inputs.variant }}-${{ inputs.environment }}-,format=short
+          labels: |
+            org.opencontainers.image.source=${{ github.event.repository.clone_url }}
+
+      - name: 🔧 Setup buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: 🧑‍💻 Log into ${{ inputs.registry }} registry
+        if: ${{ inputs.push }}
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ inputs.registry }}
+          username: ${{ secrets.registry_user }}
+          password: ${{ secrets.registry_password }}
+
+      - name: 📃 Restore cache
+        id: restore-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: /tmp/container.cache
+          key: container-${{ inputs.variant }}-${{ inputs.environment }}-node${{ inputs.node_version }}-${{ github.sha }}
+          restore-keys: |
+            container-${{ inputs.variant }}-${{ inputs.environment }}-node${{ inputs.node_version }}-
+            container-${{ inputs.variant }}-${{ inputs.environment }}-node
+            ${{ (inputs.environment != 'prod') && 'container-${{ inputs.variant }}-' }}
+          enableCrossOsArchive: true
+          fail-on-cache-miss: false
+
+      - name: 🐳 Build / Deploy
+        uses: docker/bake-action@v4
+        with:
+          files: |
+            docker-bake.hcl
+            ${{ steps.meta.outputs.bake-file }}
+          targets: ${{ inputs.variant }}-${{ inputs.environment }}
+          set: |
+            *.cache-from=type=local,src=/tmp/container.cache
+            *.cache-to=type=local,mode=max,dest=/tmp/container.cache,compression-level=9
+        env:
+          PUSH: ${{ inputs.push }}
+          NODE_VERSION: ${{ inputs.node_version }}
+
+          # MicroCMS
+          MICROCMS_SERVICE_DOMAIN: ${{ secrets.microcms_service_domain }}
+          MICROCMS_API_KEY: ${{ secrets.microcms_api_key }}
+          MICROCMS_SECRET: ${{ secrets.microcms_secret }}
+
+      - name: 📤 Upload artifact
+        id: upload-artifact
+        if: ${{ ! inputs.push }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: container.${{ inputs.environment }}.oci
+          path: /tmp/container.oci
+          if-no-files-found: error
+          compression-level: 0
+
+      - name: 💾 Save cache
+        uses: actions/cache/save@v4
+        with:
+          path: /tmp/container.cache
+          key: container-${{ inputs.variant }}-${{ inputs.environment }}-node${{ inputs.node_version }}-${{ github.sha }}
+
+      - name: 🗑️ Delete old repo cache
+        if: ${{ steps.restore-cache.outputs.cache-hit }}
+        shell: bash
+        run: |
+          gh extension install actions/gh-actions-cache
+
+          [ $(gh actions-cache list -R ${{ github.repository }} -B ${{ github.ref }} --key container- | wc -l) -lt 3 ] && exit 0
+          gh actions-cache delete ${{ steps.restore-cache.outputs.cache-matched-key }} -R ${{ github.repository }} --confirm
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -72,6 +72,10 @@ target "_base" {
 
 target "bookworm-prod" {
   target = "runtime"
+  args = {
+    "VARIANT" = "bookworm",
+  }
+
   inherits = [
     "metadata-action",
     "_platforms",
@@ -81,6 +85,10 @@ target "bookworm-prod" {
 
 target "bookworm-dev" {
   target = "development"
+  args = {
+    "VARIANT" = "bookworm",
+  }
+
   inherits = [
     "metadata-action",
     "_platforms",
