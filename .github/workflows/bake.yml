@@ -91,7 +91,7 @@ jobs:
           bake-target: metadata-action
           flavor: |
             latest=auto
-            prefix=node${{ inputs.node_version }}-${{ inputs.variant }}-${{ inputs.environment }}-,onlatest=false
+            prefix=node${{ inputs.node_version }}-${{ inputs.variant }}-${{ inputs.environment }}-,onlatest=${{ inputs.environment != 'prod' }}
           tags: |
             type=schedule,pattern=nightly
             type=semver,pattern=v{{version}}
