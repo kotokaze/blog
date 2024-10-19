@@ -80,7 +80,6 @@ jobs:
         env:
           PUSH: ${{ fromJson(env.PUSH_IMAGE) }}
           NODE_VERSION: ${{ vars.NODE_VERSION }}
-          VARIANT: ${{ vars.VARIANT }}
 
           # MicroCMS
           MICROCMS_SERVICE_DOMAIN: ${{ secrets.MICROCMS_SERVICE_DOMAIN }}
