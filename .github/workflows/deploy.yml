@@ -8,7 +8,6 @@ on:
 jobs:
   deploy:
     name: Deploy
-    runs-on: ubuntu-latest
     permissions:
       actions: write # Required for deleting old cache
       contents: read
@@ -18,29 +17,22 @@ jobs:
       matrix:
         target: ['prod', 'dev']
 
-    steps:
-      - name: 🔍 Checkout
-        uses: actions/checkout@v4
-        with:
-          persist-credentials: false
-          lfs: true
+    uses: ./.github/workflows/bake.yml
+    with:
+      image_name: ${{ vars.IMAGE_NAME }}
+      node_version: ${{ vars.NODE_VERSION }}
+      variant: ${{ vars.VARIANT }}
+      environment: ${{ matrix.target }}
+      push: ${{ github.event_name != 'pull_request' }}
 
-      - name: 🚀 Buld & Deploy
-        uses: ./.github/workflows/bake.yml
-        with:
-          image_name: ${{ vars.IMAGE_NAME }}
-          node_version: ${{ vars.NODE_VERSION }}
-          variant: ${{ vars.VARIANT }}
-          environment: ${{ matrix.target }}
-          push: ${{ github.event_name != 'pull_request' }}
+      registry: ${{ vars.REGISTRY }}
 
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          ssh_key: ${{ secrets.SSH_KEY }}
+    secrets:
+      registry_user: ${{ secrets.REGISTRY_USER }}
+      registry_password: ${{ secrets.REGISTRY_TOKEN }}
 
-          registry: ${{ vars.REGISTRY }}
-          registry_user: ${{ secrets.REGISTRY_USER }}
-          registry_password: ${{ secrets.REGISTRY_TOKEN }}
+      ssh_key: ${{ secrets.SSH_KEY }}
 
-          microcms_service_domain: ${{ secrets.MICROCMS_SERVICE_DOMAIN }}
-          microcms_api_key: ${{ secrets.MICROCMS_API_KEY }}
-          microcms_secret: ${{ secrets.MICROCMS_SECRET }}
+      microcms_service_domain: ${{ secrets.MICROCMS_SERVICE_DOMAIN }}
+      microcms_api_key: ${{ secrets.MICROCMS_API_KEY }}
+      microcms_secret: ${{ secrets.MICROCMS_SECRET }}

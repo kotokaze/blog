@@ -36,10 +36,6 @@ on:
         type: string
 
     secrets:
-      github_token:
-        description: 'GitHub token'
-        required: true
-
       ssh_key:
         description: 'SSH key for private submodules'
         required: true
@@ -173,4 +169,4 @@ jobs:
           [ $(gh actions-cache list -R ${{ github.repository }} -B ${{ github.ref }} --key container- | wc -l) -lt 3 ] && exit 0
           gh actions-cache delete ${{ steps.restore-cache.outputs.cache-matched-key }} -R ${{ github.repository }} --confirm
         env:
-          GH_TOKEN: ${{ secrets.github_token }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
