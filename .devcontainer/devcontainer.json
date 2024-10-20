@@ -1,22 +1,15 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 {
   "name": "DevContainer",
-  "context": "${localWorkspaceFolder}",
-  "dockerFile": "${localWorkspaceFolder}/docker/Dockerfile",
-  "build": {
-    "target": "development",
-    "args": {
-      "NODE_VERSION": "22.9.0"
-    }
-  },
-
+  "image": "kotokaze/blog:node22.9.0-bookworm-dev-latest",
   "init": true,
   "runArgs": [ "--name", "${localWorkspaceFolderBasename}" ],
 
   "workspaceFolder": "/app",
+  "workspaceMount": "source=${localWorkspaceFolder}/,target=/app,type=bind,consistency=cached",
   "mounts": [
-    "source=${localWorkspaceFolder}/,target=/app,type=bind,consistency=cached",
-    "source=${localWorkspaceFolderBasename}-node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume"
+    "source=${localWorkspaceFolderBasename}-node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume",
+    "source=${localWorkspaceFolderBasename}-next,target=${containerWorkspaceFolder}/.next,type=volume"
   ],
 
   // Features to add to the dev container. More info: https://containers.dev/features.
@@ -40,7 +33,10 @@
   },
 
   // Use 'onCreateCommand' to run when creating the container.
-  "onCreateCommand": "git config --global --add safe.directory /ws",
+  "onCreateCommand": "git config --global --add safe.directory /app",
+
+  // Use 'onPostCreateCommand' to run after creating the container.
+  "postCreateCommand": "sudo chown -R node /app/node_modules/ /app/.next/",
 
   // Configure tool-specific properties.
   "customizations": {
