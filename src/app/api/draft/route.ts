@@ -8,11 +8,12 @@ import { type Status } from '../lib';
 import {
   PageKind,
   jsonResponse,
-  getValidSlug,
+  isValidSlug,
 } from './lib';
 
 const badRequest: Status = { code: 400, message: 'Bad Request' };
 const unauthorized: Status = { code: 401, message: 'Unauthorized' };
+const notFound: Status = { code: 404, message: 'Not Found' };
 const internalServerError: Status = { code: 500, message: 'Internal Server Error' };
 
 export const GET = async (req: NextRequest) => {
@@ -29,9 +30,9 @@ export const GET = async (req: NextRequest) => {
     return jsonResponse(badRequest);
   }
 
-  const type = PageKind[type_ as keyof typeof PageKind];
+  const type = PageKind[type_.toUpperCase() as keyof typeof PageKind];
 
-  if (!process.env.MICROCMS_SECRET) {
+  if (process.env.MICROCMS_SECRET == null) {
     return jsonResponse(internalServerError);
   }
 
@@ -44,12 +45,11 @@ export const GET = async (req: NextRequest) => {
     redirect(`/${type.toString()}?dk=${draftKey}`, RedirectType.replace);
   }
 
-  const slug_ = params.get('slug') ?? '';
-  const slug = await getValidSlug(type, slug_, draftKey);
-  if (!slug) {
-    return jsonResponse({ code: 404, message: 'Not Found' });
+  const slug = params.get('slug') ?? '';
+  if (!(await isValidSlug(type, slug, draftKey))) {
+    return jsonResponse(notFound);
   }
 
   draftMode().enable();
-  redirect(`/${type === PageKind.ARTICLES ? 'posts' : type.toString()}/${slug}?dk=${draftKey}`, RedirectType.replace);
+  redirect(`/${type === PageKind.ARTICLES ? 'posts' : type}/${slug}?dk=${draftKey}`, RedirectType.replace);
 };

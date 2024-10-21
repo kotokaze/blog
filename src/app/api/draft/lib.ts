@@ -11,11 +11,11 @@ export enum PageKind {
   SLIDES = 'slides',
 }
 
-export const getValidSlug = async (type: PageKind, slug: string, dk: string): Promise<string> => {
+export const isValidSlug = async (type: PageKind, slug: string, dk: string): Promise<boolean> => {
   if (type === PageKind.ARTICLES) {
     const promise = getArticleBySlug(slug, {
       queries: { fields: 'id', draftKey: dk },
-    }).then((data) => data.id);
+    }).then((_) => true).catch(() => false);
 
     return await promise;
   }
@@ -23,12 +23,12 @@ export const getValidSlug = async (type: PageKind, slug: string, dk: string): Pr
   if (type === PageKind.SLIDES) {
     const promise = getSlideBySlug(slug, {
       queries: { fields: 'id', draftKey: dk },
-    }).then((data) => data.id);
+    }).then((_) => true).catch(() => false);
 
     return await promise;
   }
 
-  return '';
+  return false;
 };
 
 export const jsonResponse = (body: Status): NextResponse<Status> => {
