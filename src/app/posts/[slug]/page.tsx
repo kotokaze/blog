@@ -12,8 +12,6 @@ import {
 } from '@/lib/microcms';
 import { type Props } from './lib';
 
-export const dynamic = 'error';
-
 const Page: NextPage<Props> = async ({ params, searchParams }) => {
   const { isEnabled } = draftMode();
   if (isEnabled && !Boolean(searchParams.dk)) {
