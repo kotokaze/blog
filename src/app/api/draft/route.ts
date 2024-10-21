@@ -32,7 +32,7 @@ export const GET = async (req: NextRequest) => {
 
   const type = PageKind[type_.toUpperCase() as keyof typeof PageKind];
 
-  if (!process.env.MICROCMS_SECRET) {
+  if (process.env.MICROCMS_SECRET == null) {
     return jsonResponse(internalServerError);
   }
 
