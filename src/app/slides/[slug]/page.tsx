@@ -50,7 +50,7 @@ const Page: NextPage<Props> = async ({ params, searchParams }) => {
         hashtags={data.tags?.map((tag) => tag.name)}
         via={pickTwitterUid(site.publisher.accounts)}
       />
-      <WithSidebar title={data.title} publisher={site.publisher} tags={data.tags} child={<Desc />}>
+      <WithSidebar title={data.title} publisher={site.publisher} tags={data.tags} child={<Desc />} isPreview={isEnabled}>
         <h1 className='uk-heading-bullet-small'>{data.title}</h1>
         {data.filename != null
           ? <PDFViewer src={`/assets/slides/${data.filename}`} />
