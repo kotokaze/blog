@@ -52,5 +52,5 @@ export const GET = async (req: NextRequest) => {
   }
 
   draftMode().enable();
-  redirect(`/${type === PageKind.ARTICLES ? 'posts' : type.toString()}/${slug}?dk=${draftKey}`, RedirectType.replace);
+  redirect(`/${type === PageKind.ARTICLES ? 'posts' : type}/${slug}?dk=${draftKey}`, RedirectType.replace);
 };
