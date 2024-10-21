@@ -8,7 +8,7 @@ import { type Status } from '../lib';
 import {
   PageKind,
   jsonResponse,
-  getValidSlug,
+  isValidSlug,
 } from './lib';
 
 const badRequest: Status = { code: 400, message: 'Bad Request' };
@@ -45,9 +45,8 @@ export const GET = async (req: NextRequest) => {
     redirect(`/${type.toString()}?dk=${draftKey}`, RedirectType.replace);
   }
 
-  const slug_ = params.get('slug') ?? '';
-  const slug = await getValidSlug(type, slug_, draftKey);
-  if (!slug) {
+  const slug = params.get('slug') ?? '';
+  if (!(await isValidSlug(type, slug, draftKey))) {
     return jsonResponse(notFound);
   }
 
