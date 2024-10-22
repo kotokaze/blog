@@ -3,22 +3,22 @@
 // UIkit mixin overrides
 @import 'mixins/import';
 
-.uk-border-rounded-xsmall {
+.tm-border-rounded-xsmall {
   border-radius: $tm-border-radius-xsmall;
 }
 
-.uk-border-rounded-small {
+.tm-border-rounded-small {
   border-radius: $tm-border-radius-small;
 }
 
-.uk-border-rounded-default {
+.tm-border-rounded-default {
   border-radius: $tm-border-radius-default;
 }
 
-.uk-border-rounded-large {
+.tm-border-rounded-large {
   border-radius: $tm-border-radius-large;
 }
 
-.uk-border-rounded-xlarge {
+.tm-border-rounded-xlarge {
   border-radius: $tm-border-radius-xlarge;
 }

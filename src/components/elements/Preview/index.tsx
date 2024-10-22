@@ -9,9 +9,9 @@ const PreviewWarning: React.FC<Props> = ({ enabled }) => {
 
   return (
     <>
-      <div className='uk-alert-danger' data-uk-alert>
-        <p>プレビューモードで表示中</p>
+      <div className='uk-alert-danger tm-border-rounded-large' data-uk-alert>
         <button type='button' className='uk-alert-close' data-uk-close />
+        <p>プレビューモードで表示中</p>
       </div>
 
       <Link
