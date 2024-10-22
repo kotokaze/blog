@@ -1,0 +1,20 @@
+
+.tm-border-rounded-xsmall {
+  @include rounded($tm-border-radius-xsmall);
+}
+
+.tm-border-rounded-small {
+  @include rounded($tm-border-radius-small);
+}
+
+.tm-border-rounded-default {
+  @include rounded($tm-border-radius-default);
+}
+
+.tm-border-rounded-large {
+  @include rounded($tm-border-radius-large);
+}
+
+.tm-border-rounded-xlarge {
+  @include rounded($tm-border-radius-xlarge);
+}

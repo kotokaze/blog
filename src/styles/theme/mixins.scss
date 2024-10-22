@@ -3,22 +3,6 @@
 // UIkit mixin overrides
 @import 'mixins/import';
 
-.tm-border-rounded-xsmall {
-  border-radius: $tm-border-radius-xsmall;
-}
-
-.tm-border-rounded-small {
-  border-radius: $tm-border-radius-small;
-}
-
-.tm-border-rounded-default {
-  border-radius: $tm-border-radius-default;
-}
-
-.tm-border-rounded-large {
-  border-radius: $tm-border-radius-large;
-}
-
-.tm-border-rounded-xlarge {
-  border-radius: $tm-border-radius-xlarge;
+@mixin rounded($radius) {
+  border-radius: $radius;
 }
