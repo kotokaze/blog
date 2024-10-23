@@ -6,5 +6,8 @@ $tm-border-radius-default: 7px;
 $tm-border-radius-large: 14px;
 $tm-border-radius-xlarge: 20px;
 
+// Rounded corners for the button
+$tm-button-border-radius-default: 500px;
+
 // UIkit variable overrides
 @import 'variables/import';

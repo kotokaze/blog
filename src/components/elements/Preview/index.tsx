@@ -18,10 +18,10 @@ const PreviewWarning: React.FC<Props> = ({ enabled }) => {
         href='/api/deactivate'
         aria-hidden='true'
         prefetch={false}
-        className='uk-button uk-button-default uk-position-bottom-right uk-position-fixed'
-      >
-        <span data-uk-icon='trash'></span> Cookie 削除
-      </Link>
+        className='uk-button tm-button-default uk-position-bottom-right uk-position-fixed uk-margin-small-bottom uk-margin-small-right'
+        >
+          <span className='uk-icon-link' data-uk-icon='eye-slash'></span> Exit Preview
+        </Link>
     </>
   );
 };
