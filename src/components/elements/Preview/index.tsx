@@ -9,19 +9,19 @@ const PreviewWarning: React.FC<Props> = ({ enabled }) => {
 
   return (
     <>
-      <div className='uk-alert-danger' data-uk-alert>
-        <p>プレビューモードで表示中</p>
+      <div className='uk-alert-danger tm-border-rounded-large' data-uk-alert>
         <button type='button' className='uk-alert-close' data-uk-close />
+        <p>プレビューモードで表示中</p>
       </div>
 
       <Link
         href='/api/deactivate'
         aria-hidden='true'
         prefetch={false}
-        className='uk-button uk-button-default uk-position-bottom-right uk-position-fixed'
-      >
-        <span data-uk-icon='trash'></span> Cookie 削除
-      </Link>
+        className='uk-button tm-button-default uk-position-bottom-right uk-position-fixed uk-margin-small-bottom uk-margin-small-right'
+        >
+          <span className='uk-icon-link' data-uk-icon='eye-slash'></span> Exit Preview
+        </Link>
     </>
   );
 };

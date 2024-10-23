@@ -8,9 +8,8 @@
 // Custom mixin overrides
 @import 'theme/mixins';
 
-// Custom components
-// @import 'theme/components';
-
-// --------------------------------------------------------------
-// Import Uikit
+// Import Uikit components
 @import '~uikit/src/scss/uikit';
+
+// Custom components
+@import 'components';

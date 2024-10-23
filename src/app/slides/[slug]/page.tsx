@@ -32,7 +32,7 @@ const Page: NextPage<Props> = async ({ params, searchParams }) => {
     if (data.description == null) return null;
 
     return (
-      <div className='uk-card uk-card-default uk-border-rounded uk-margin-bottom'>
+      <div className='uk-card uk-card-default tm-border-rounded-default uk-margin-bottom'>
         <div className='uk-card-body'>
           <h3 className='uk-card-title'>概要</h3>
           <div className='uk-text-meta'>{data.description}</div>

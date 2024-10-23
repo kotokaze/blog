@@ -1,0 +1,25 @@
+@use 'sass:meta';
+
+.tm-button-default {
+  /* stylelint-disable-next-line scss/at-extend-no-missing-placeholder */
+  @extend .uk-button-default;
+  @include rounded($tm-button-border-radius-default);
+
+  color: $button-default-color;
+  background-color: $button-default-background;
+
+  &:hover {
+    color: $button-default-hover-color;
+    background-color: $button-default-hover-background;
+
+    @if meta.mixin-exists(hook-button-hover) {@include hook-button-hover;}
+  }
+
+  &:active,
+  .uk-active {
+    color: $button-default-active-color;
+    background-color: $button-default-active-background;
+
+    @if meta.mixin-exists(hook-button-active) {@include hook-button-active;}
+  }
+}

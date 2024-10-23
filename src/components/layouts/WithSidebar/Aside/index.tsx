@@ -12,7 +12,7 @@ export interface Props extends React.PropsWithChildren<{
 const Aside: React.FC<Props> = ({ publisher, tags, children }) => {
   return (
     <aside className='uk-width-1-4 uk-visible@s' role='complementary'>
-      <div className='uk-card uk-card-default uk-border-rounded uk-margin-bottom'>
+      <div className='uk-card uk-card-default tm-border-rounded-large uk-margin-bottom'>
         <div className='uk-card-header'>
           <div className='uk-grid-small uk-flex-middle' data-uk-grid>
             <div className='uk-width-auto@m'>
