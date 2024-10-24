@@ -51,4 +51,5 @@ const Page: NextPage<Props> = async ({ searchParams }) => {
   );
 };
 
+export { generateMetadata } from './lib';
 export default Page;
