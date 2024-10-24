@@ -9,8 +9,8 @@ export interface Props {
 
 const Breadcrumb: React.FC<Props> = ({ title = '' }) => {
   const pathname = usePathname();
-  const paths = pathname.split('/').filter((item) => item !== '');
-  if (paths.length <= 1) return null;
+  const paths = pathname.split('/').map((item) => (item.length ? item : '/'));
+  if (paths.length <= 2) return null;
 
   return (
     <nav aria-label='Breadcrumb'>
@@ -19,7 +19,7 @@ const Breadcrumb: React.FC<Props> = ({ title = '' }) => {
           <li key={idx}>
             {(idx < paths.length - 1)
               ? (
-                <Link href={`/${item}` as Route}>{item}</Link>
+                <Link href={`/${item}` as Route}>{item !== '/' ? item : 'home'}</Link>
               )
               : (
                 // The last item is slug and should be displayed as title string
