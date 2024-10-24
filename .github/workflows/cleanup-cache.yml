@@ -1,3 +1,4 @@
+name: Cleanup cache
 on:
   pull_request:
     types: [closed]

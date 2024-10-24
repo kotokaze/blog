@@ -1,8 +1,17 @@
+name: Deploy
 on:
   push:
     branches: ['master']
     tags: ['v*.*.*']
+    paths-ignore:
+      - '*.md'
+      - '.*.y[a]?ml'
+      - '.github/*.y[a]?ml'
   pull_request:
+    paths-ignore:
+      - '*.md'
+      - '.*.y[a]?ml'
+      - '.github/*.y[a]?ml'
   workflow_dispatch:
 
 jobs:
