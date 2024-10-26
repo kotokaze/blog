@@ -1,22 +1,24 @@
 import { draftMode } from 'next/headers';
-import { type NextRequest } from 'next/server';
+import {
+  type NextRequest,
+  type NextResponse,
+} from 'next/server';
 import {
   RedirectType,
   redirect,
 } from 'next/navigation';
-import { type Status } from '../lib';
 import {
-  PageKind,
+  badRequest,
+  unauthorized,
+  notFound,
+  internalServerError,
   jsonResponse,
-  isValidSlug,
-} from './lib';
+  PageKind,
+  Status,
+} from '@/app/api/lib';
+import { isValidSlug } from './lib';
 
-const badRequest: Status = { code: 400, message: 'Bad Request' };
-const unauthorized: Status = { code: 401, message: 'Unauthorized' };
-const notFound: Status = { code: 404, message: 'Not Found' };
-const internalServerError: Status = { code: 500, message: 'Internal Server Error' };
-
-export const GET = async (req: NextRequest) => {
+export const GET = async (req: NextRequest): Promise<NextResponse<Status>> => {
   const params = new URL(req.url).searchParams;
   const type_ = params.get('type') ?? '';
   const secret = params.get('secret') ?? '';
