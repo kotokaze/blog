@@ -114,6 +114,7 @@ jobs:
 
       - name: 📃 Restore cache
         id: restore-cache
+        if: ${{ github.ref_type != 'tag' }}
         uses: actions/cache/restore@v4
         with:
           path: /tmp/container.cache
