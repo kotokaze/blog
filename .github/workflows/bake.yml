@@ -114,6 +114,7 @@ jobs:
 
       - name: 📃 Restore cache
         id: restore-cache
+        if: ${{ github.ref_type != 'tag' }}
         uses: actions/cache/restore@v4
         with:
           path: /tmp/container.cache
@@ -156,6 +157,7 @@ jobs:
 
       - name: 💾 Save cache
         uses: actions/cache/save@v4
+        if: ${{ github.ref_type != 'tag' }}
         with:
           path: /tmp/container.cache
           key: container-${{ inputs.variant }}-${{ inputs.environment }}-node${{ inputs.node_version }}-${{ github.sha }}

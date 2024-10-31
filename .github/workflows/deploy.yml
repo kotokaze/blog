@@ -1,7 +1,7 @@
 name: Deploy
 on:
   push:
-    branches: ['master']
+    branches: ['*']
     tags: ['v*.*.*']
     paths-ignore:
       - '*.md'
@@ -32,7 +32,7 @@ jobs:
       node_version: ${{ vars.NODE_VERSION }}
       variant: ${{ vars.VARIANT }}
       environment: ${{ matrix.target }}
-      push: ${{ github.event_name != 'pull_request' }}
+      push: true
 
       registry: ${{ vars.REGISTRY }}
 
